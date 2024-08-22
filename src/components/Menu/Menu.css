@@ -1,0 +1,64 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--codex-background-secondary);
+  border-radius: var(--codex-border-radius);
+  transform: translatex(-224px);
+  transition: transform 0.25s;
+  position: fixed;
+  min-width: 200px;
+  z-index: 1;
+  view-transition-name: main-menu;
+  height: 100%;
+}
+
+.menu-container {
+  padding: 0.75rem;
+}
+
+.menu-backdrop {
+  display: none;
+}
+
+.menu[aria-expanded] {
+  transform: translatex(0);
+  min-width: 200px;
+}
+
+.menu-header {
+  margin-bottom: 0.75rem;
+}
+
+.menu-item,
+.menu-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.menu-item {
+  padding: 0.75rem;
+  color: var(--codex-color);
+  margin-bottom: 0.75rem;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: var(--codex-background-light);
+}
+
+.menu-title {
+  text-transform: uppercase;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  display: inline-block;
+  font-weight: 500;
+}
+
+@media (min-width: 1000px) {
+  .menu {
+    transform: translatex(0px);
+    position: inherit;
+  }
+}

@@ -1,0 +1,7 @@
+.logLevel {
+  flex-grow: 1;
+}
+
+.logLevel-select {
+  margin-bottom: 0.75rem;
+}

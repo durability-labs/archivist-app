@@ -1,0 +1,22 @@
+.storageRequestFileChooser-hr {
+  margin: 1.5rem 0;
+}
+
+.storageRequestFileChooser-input {
+  width: 100%;
+}
+
+.storageRequestFileChooser-separator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+}
+
+.storageRequestFileChooser-or {
+  font-size: 1.25rem;
+}
+
+.storageRequestFileChooser-dropdown .dropdown-input {
+  width: 100%;
+}

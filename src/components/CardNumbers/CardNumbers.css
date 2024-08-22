@@ -1,0 +1,31 @@
+.cardNumber {
+  border-radius: var(--codex-border-radius);
+  border: 1px solid var(--codex-border-color);
+  font-family: var(--codex-font-family);
+  padding: 1.5rem;
+  background-color: rgb(56 56 56);
+}
+
+.cardNumber-title {
+  display: inline-block;
+}
+
+.cardNumber-data {
+  font-size: 3rem;
+  color: var(--codex-color-primary);
+}
+
+.cardNumber-data:focus-visible {
+  outline: 1px solid var(--codex-border-color);
+  outline-offset: 0.25rem;
+}
+
+.cardNumber-dataContainer {
+  position: relative;
+}
+
+.cardNumber-dataIcon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

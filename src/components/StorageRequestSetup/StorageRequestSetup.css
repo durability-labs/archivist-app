@@ -1,0 +1,100 @@
+.storageRequest {
+  background-color: var(--codex-background);
+  background-color: var(--codex-background);
+  padding: 0.5rem 1rem;
+  border-radius: var(--codex-border-radius);
+  transition: transform 0.15s;
+  position: fixed;
+  max-width: 800px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  overflow-y: auto;
+  opacity: 0;
+}
+
+.storageRequest-open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.storageRequest-title {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.storageRequest-intro {
+  margin-bottom: 0.5rem;
+}
+
+.storageRequest-steps {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.storageRequest-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.storageRequest-stepText {
+  flex: 1;
+}
+
+.storageRequest-stepCompleted {
+  text-decoration: line-through;
+  mix-blend-mode: difference;
+}
+
+.storageRequest-stepDisabled {
+  background-color: var(--codex-border-color);
+  color: var(--codex-text-disabled);
+  border: none;
+  border-radius: var(--codex-border-radius);
+  padding: 0.25rem 0.75rem;
+  opacity: 0.7;
+}
+
+.storageRequest-step-action {
+  background-color: var(--codex-border-color);
+  color: var(--codex-text-disabled);
+  border: none;
+  border-radius: var(--codex-border-radius);
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  transition: opacity 0.35s;
+}
+
+.storageRequest-step-action:hover {
+  opacity: 0.8;
+}
+
+.storageRequest-title {
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.storageRequest .inputGroup-input {
+  width: 100%;
+}
+
+@media (max-width: 800px) {
+  .storageRequest {
+    margin: auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 801px) {
+  .storageRequest {
+    margin: auto;
+    width: 85%;
+  }
+}
