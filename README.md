@@ -1,30 +1,63 @@
-# React + TypeScript + Vite
+# Codex Marketplace UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project provide Marketplace UI for Codex.
 
-Currently, two official plugins are available:
+## Philosophy
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This CSS is written with semantic style. For more details check this [link](https://maintainablecss.com/chapters/semantics).
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Node 18+
 
-- Configure the top-level `parserOptions` property like this:
+## Install
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json", "./tsconfig.app.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
+Run the npm install command:
+
+```
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Run
+
+### Links
+
+In order to run the UI, you need link some internal dependencies because it is not published yet< >
+
+#### Codex SDK
+
+Clone the [Codex SDK](https://github.com/codex-storage/codex-js).
+
+Follow the instructions to install and build the SDK, then run this command in the SDK repository:
+
+```
+npm link
+```
+
+Now in the current repository, you'll we able to link your local SDK build by running:
+
+```
+npm link @codex/sdk-js
+```
+
+#### Codex Marketplace Components
+
+Clone the [Codex SDK](https://github.com/codex-storage/codex-marketplace-ui-components).
+
+Follow the instructions to install and build the SDK, then run this command in the SDK repository:
+
+```
+npm link
+```
+
+Now in the current repository, you'll we able to link your local SDK build by running:
+
+```
+npm link @codex/marketplace-ui-components
+```
+
+#### Codex SDK
+
+```
+npm run dev
+```
