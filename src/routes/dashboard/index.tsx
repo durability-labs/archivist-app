@@ -26,7 +26,6 @@ function About() {
               provider={() =>
                 CodexSdk.data().then((data) => data.upload.bind(CodexSdk))
               }
-              useWorker={false}
             />
           </Card>
         </ErrorBoundary>
