@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { CodexSdk } from "../../sdk/codex";
 import { Promises } from "../../utils/promises";
+import { NetworkIndicator } from "@codex/marketplace-ui-components";
 
 function useNodeNetwork() {
   const { data, isError } = useQuery({
@@ -13,6 +14,8 @@ function useNodeNetwork() {
     retry: false,
     refetchInterval: 5000,
   });
+
+  // TODO handle error
 
   return !isError && !!data;
 }
@@ -28,19 +31,5 @@ export function NodeIndicator() {
     });
   }, [queryClient, isCodexOnline]);
 
-  if (!isCodexOnline) {
-    return (
-      <div className="indicator">
-        <div className="indicator-point indicator-point-offline"></div>
-        <span>Codex node</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="indicator">
-      <div className="indicator-point indicator-point-online"></div>
-      <span>Codex node</span>
-    </div>
-  );
+  return <NetworkIndicator online={isCodexOnline} text="Codex node" />;
 }
