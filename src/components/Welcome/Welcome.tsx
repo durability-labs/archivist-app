@@ -9,7 +9,10 @@ export function Welcome() {
       <p className="welcome-title">Welcome to Codex Marketplace</p>
       <div className="welcome-body">
         <SimpleText variant="light">
-          You can start using Codex for testing purpose by uploading new files.
+          Begin your journey with Codex by uploading new files for testing.
+          Experience the power of our decentralized data storage platform and
+          explore its features. Your feedback is invaluable as we continue to
+          improve!
         </SimpleText>
       </div>
 

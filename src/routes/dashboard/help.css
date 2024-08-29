@@ -4,8 +4,12 @@
 }
 
 .help-title {
-  margin-bottom: 4rem;
-  margin-top: 4rem;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+}
+
+.help-text {
+  color: var(--codex-color-light);
 }
 
 .help-itemTitle {
@@ -17,7 +21,7 @@
 
 .help-itemIcon {
   color: var(--codex-color-disabled);
-  width: 2rem;
+  min-width: 1.5rem;
   height: auto;
 }
 
@@ -32,4 +36,9 @@
   gap: 1rem;
   display: flex;
   align-items: flex-start;
+}
+
+.help-link {
+  color: var(--codex-color-primary);
+  text-decoration: underline;
 }
