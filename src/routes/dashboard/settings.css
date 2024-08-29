@@ -1,5 +1,18 @@
 .settings {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  border-radius: var(--codex-border-radius);
+  border: 1px solid var(--codex-border-color);
+  background-color: var(--codex-background-secondary);
+  padding: 1rem 1.5rem;
+  margin: 1rem 1.5rem;
+}
+
+.settings-title {
+  font-weight: bold;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.settings-input {
+  margin-bottom: 0.75rem;
 }

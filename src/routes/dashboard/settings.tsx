@@ -1,15 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
 import "./settings.css";
+import { LogLevel } from "../../components/LogLevel/LogLevel";
+import { CodexUrlSettings } from "../../CodexUrllSettings/CodexUrlSettings";
 
 export const Route = createFileRoute("/dashboard/settings")({
   component: () => (
     <>
       <ErrorBoundary fallback={() => ""}>
-        <div className="container">
-          <p>Settings</p>
+        <div className="settings">
+          <ErrorBoundary fallback={() => ""}>
+            <LogLevel />
+          </ErrorBoundary>
+        </div>
 
-          {/* <div className="input-floating">
+        <div className="settings">
+          <ErrorBoundary fallback={() => ""}>
+            <CodexUrlSettings />
+          </ErrorBoundary>
+        </div>
+
+        {/* <div className="input-floating">
               <input
                 className="input input-floating-input"
                 id="input-floating"
@@ -33,7 +44,6 @@ export const Route = createFileRoute("/dashboard/settings")({
                 Floating
               </label>
             </div> */}
-        </div>
       </ErrorBoundary>
     </>
   ),

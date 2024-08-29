@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { CodexSdk } from "../../sdk/codex";
 import "./StorageRequestFileChooser.css";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -10,18 +9,14 @@ import {
   Upload,
   WebFileIcon,
 } from "@codex/marketplace-ui-components";
+import { useData } from "../../hooks/useData";
 
 type Props = {
-  onToggleNext: (enable: boolean) => void;
+  onChangeNextState: (value: "enable" | "disable") => void;
 };
 
-export function StorageRequestFileChooser({ onToggleNext }: Props) {
-  const { data } = useQuery({
-    queryFn: () => CodexSdk.data().then((data) => data.cids()),
-    queryKey: ["cids"],
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  });
+export function StorageRequestFileChooser({ onChangeNextState }: Props) {
+  const files = useData();
   const [cid, setCid] = useState("");
   const cache = useRef("");
 
@@ -30,48 +25,54 @@ export function StorageRequestFileChooser({ onToggleNext }: Props) {
       cache.current = val || "";
 
       setCid(val || "");
-      onToggleNext(!!val);
+      onChangeNextState(!val ? "disable" : "enable");
     });
 
     return () => {
       WebStorage.set("storage-request-step-1", cache.current || "");
     };
-  }, [onToggleNext]);
+  }, [onChangeNextState]);
 
-  if (data?.error) {
-    // TODO error
-    return "";
-  }
+  // if (data?.error) {
+  //   // TODO error
+  //   return "";
+  // }
 
   const onSelected = (o: DropdownOption) => {
-    onToggleNext(!!o.subtitle);
     setCid(o.subtitle || "");
+    onChangeNextState(!o.subtitle ? "disable" : "enable");
     cache.current = o.subtitle || "";
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onToggleNext(!!e.currentTarget.value);
     setCid(e.currentTarget.value);
+    onChangeNextState(!e.currentTarget.value ? "disable" : "enable");
     cache.current = e.currentTarget.value;
   };
 
-  const onSuccess = (data: string) => {
-    onToggleNext(true);
+  const onSuccess = (data: string, file: File) => {
+    WebStorage.set(data, {
+      type: file.type,
+      name: file.name,
+    });
+
+    onChangeNextState("enable");
+
     setCid(data);
     cache.current = data;
   };
 
   const onDelete = () => {
     setCid("");
-    onToggleNext(false);
+    onChangeNextState("disable");
   };
 
   const options =
-    data?.data.content.map((c) => {
+    files.map((f) => {
       return {
-        Icon: () => <WebFileIcon type={c.manifest.mimetype} size={24} />,
-        title: c.manifest.filename,
-        subtitle: c.cid,
+        Icon: () => <WebFileIcon type={f.mimetype} size={24} />,
+        title: f.name,
+        subtitle: f.cid,
       };
     }) || [];
 
@@ -84,6 +85,8 @@ export function StorageRequestFileChooser({ onToggleNext }: Props) {
       </label>
 
       <Dropdown
+        label=""
+        id="cid"
         placeholder="Select or type your CID"
         onChange={onChange}
         value={cid}
@@ -114,9 +117,7 @@ export function StorageRequestFileChooser({ onToggleNext }: Props) {
         onSuccess={onSuccess}
         editable={false}
         onDeleteItem={onDelete}
-        provider={() =>
-          CodexSdk.data().then((data) => data.upload.bind(CodexSdk))
-        }
+        provider={() => CodexSdk.data().then((data) => data.upload.bind(data))}
       />
     </>
   );

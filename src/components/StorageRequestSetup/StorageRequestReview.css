@@ -60,6 +60,39 @@
 
 .storageRequestReview-numbers {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem;
+}
+
+.storageRequestReview-range {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.85rem;
+}
+
+.storageRequestReview-alert .alert-message {
+  font-size: 0.9rem;
+}
+
+.storageRequestReview-range--disabled .range {
+  opacity: 0.5;
+}
+/* 
+.storageRequestReview-range--disabled .range::-webkit-slider-thumb {
+  background-color: var(--codex-background-light);
+} */
+
+@media (max-width: 800px) {
+  .storageRequestReview-numbers {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .storageRequestReview-legend {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 801px) {
+  .storageRequestReview-numbers {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

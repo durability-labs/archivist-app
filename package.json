@@ -22,15 +22,16 @@
     "React"
   ],
   "dependencies": {
+    "@codex/marketplace-ui-components": "@codex/marketplace-ui-components#master",
+    "@codex/sdk-js": "@codex/marketplace-ui#master",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-router": "^1.45.7",
     "classnames": "^2.5.1",
     "idb-keyval": "^6.2.1",
     "lucide-react": "^0.424.0",
+    "pretty-ms": "^9.1.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@codex/sdk-js": "@codex/marketplace-ui#master",
-    "@codex/marketplace-ui-components": "@codex/marketplace-ui-components#master"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.45.7",

@@ -3,17 +3,9 @@ import "./dashboard.css";
 import {
   MenuItem,
   MenuItemComponentProps,
-  NetworkIndicator,
   Page,
 } from "@codex/marketplace-ui-components";
-import {
-  Home,
-  Star,
-  ShoppingBag,
-  Server,
-  Settings,
-  HelpCircle,
-} from "lucide-react";
+import { Home, ShoppingBag, Server, Settings, HelpCircle } from "lucide-react";
 import { ICON_SIZE } from "../utils/constants";
 import { NodeIndicator } from "../components/NodeIndicator/NodeIndicator";
 import { HttpNetworkIndicator } from "../components/HttpNetworkIndicator/HttpNetworkIndicator";
@@ -33,15 +25,6 @@ const Layout = () => {
         <Link to="/dashboard" activeOptions={{ exact: true }} {...p}>
           <Home size={ICON_SIZE} />
           Dashboard
-        </Link>
-      ),
-    },
-    {
-      type: "menu-item",
-      Component: (p: MenuItemComponentProps) => (
-        <Link to="/dashboard/favorites" {...p}>
-          <Star size={ICON_SIZE} />
-          Favorites
         </Link>
       ),
     },
@@ -78,23 +61,23 @@ const Layout = () => {
       ),
     },
     {
+      type: "separator",
+    },
+    {
+      type: "menu-item",
+      Component: (p: MenuItemComponentProps) => (
+        <Link to="/dashboard/help" {...p}>
+          <HelpCircle size={"1.25rem"} /> Help
+        </Link>
+      ),
+    },
+    {
       type: "menu-item",
       Component: (p: MenuItemComponentProps) => (
         <Link to="/dashboard/settings" {...p}>
           <Settings size={ICON_SIZE} />
           Settings
         </Link>
-      ),
-    },
-    {
-      type: "separator",
-    },
-    {
-      type: "menu-item",
-      Component: (p: MenuItemComponentProps) => (
-        <a {...p}>
-          <HelpCircle size={"1.25rem"} /> Help
-        </a>
       ),
     },
   ] satisfies MenuItem[];

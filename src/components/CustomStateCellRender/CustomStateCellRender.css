@@ -1,0 +1,9 @@
+.cell-state--custom {
+  display: flex;
+}
+
+.cell-stateIcon {
+  position: relative;
+  top: 2px;
+  margin-right: 0.5rem;
+}

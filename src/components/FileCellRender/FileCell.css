@@ -1,0 +1,20 @@
+.fileCell {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.fileCell-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.fileCell-tooltip {
+  display: flex;
+  align-items: center;
+}
+
+.fileCell .tooltip:hover:after {
+  left: -33%;
+}

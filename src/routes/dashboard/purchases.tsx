@@ -3,17 +3,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CodexSdk } from "../../sdk/codex";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import {
-  BreakCellRender,
-  Button,
-  DefaultCellRender,
-  DurationCellRender,
-  StateCellRender,
-  Table,
-} from "@codex/marketplace-ui-components";
+import { Button, Cell, Table } from "@codex/marketplace-ui-components";
 import { StorageRequestStepper } from "../../components/StorageRequestSetup/StorageRequestStepper";
 import "./purchases.css";
 import { classnames } from "../../utils/classnames";
+import { FileCell } from "../../components/FileCellRender/FIleCell";
+import { CustomStateCellRender } from "../../components/CustomStateCellRender/CustomStateCellRender";
+import prettyMilliseconds from "pretty-ms";
 
 const Purchases = () => {
   const [open, setOpen] = useState(false);
@@ -28,41 +24,36 @@ const Purchases = () => {
   }
 
   if (data?.error) {
-    console.error(data.data);
     return <div>Error: {data.data.message}</div>;
     // TODO Manage error
   }
 
   const headers = [
-    "id",
-    "state",
+    "cid",
     "duration",
     "slots",
     "reward",
     "proof probability",
-    "error",
+    "state",
   ];
 
-  const cells = [
-    BreakCellRender,
-    StateCellRender({ cancelling: "success" }),
-    DurationCellRender,
-    DefaultCellRender,
-    DefaultCellRender,
-    DefaultCellRender,
-    DefaultCellRender,
-  ];
+  const sorted = [...(data?.data || [])].reverse();
+  const cells =
+    sorted.map((p, index) => {
+      const r = p.request;
+      const ask = p.request.ask;
+      const duration = parseInt(p.request.ask.duration, 10) * 1000;
+      const pf = parseInt(p.request.ask.proofProbability, 10) * 1000;
 
-  const purchases =
-    data?.data.map((p) => [
-      p.requestId.toString(),
-      p.state,
-      p.request.ask.duration.toString(),
-      p.request.ask.slots.toString(),
-      p.request.ask.reward.toString(),
-      p.request.ask.proofProbability.toString(),
-      p.error,
-    ]) || [];
+      return [
+        <FileCell requestId={r.id} purchaseCid={r.content.cid} index={index} />,
+        <Cell value={prettyMilliseconds(duration)} />,
+        <Cell value={ask.slots + " hosts"} />,
+        <Cell value={ask.reward + " tokens"} />,
+        <Cell value={"Every " + prettyMilliseconds(pf)} />,
+        <CustomStateCellRender state={p.state} message={p.error} />,
+      ];
+    }) || [];
 
   return (
     <div className="container">
@@ -83,7 +74,8 @@ const Purchases = () => {
         open={open}
         onClose={() => setOpen(false)}
       />
-      <Table headers={headers} data={purchases} cells={cells} />
+
+      {!open && <Table headers={headers} cells={cells} />}
     </div>
   );
 };

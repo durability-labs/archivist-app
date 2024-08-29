@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { ErrorBoundaryContext } from "../../contexts/ErrorBoundaryContext";
 import { CodexSdk } from "../../sdk/codex";
 import "./LogLevel.css";
-import { Button, Card, Select, Toast } from "@codex/marketplace-ui-components";
+import { Button, Select, Toast } from "@codex/marketplace-ui-components";
 import { CircleCheck } from "lucide-react";
 
 export function LogLevel() {
@@ -60,7 +60,7 @@ export function LogLevel() {
   );
 
   return (
-    <Card className="logLevel" title="Debug">
+    <>
       <Select
         className="logLevel-select"
         id="level"
@@ -73,6 +73,6 @@ export function LogLevel() {
         fetching={isPending}
         onClick={onClick}></Button>
       <Toast message={toast.message} time={toast.time} Icon={Check} />
-    </Card>
+    </>
   );
 }

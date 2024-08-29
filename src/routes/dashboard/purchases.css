@@ -1,11 +1,5 @@
 .purchases-modal {
-  z-index: -1;
-  position: fixed;
   margin: auto;
-}
-
-.purchases-modal-open {
-  z-index: 1;
 }
 
 .purchases-actions {

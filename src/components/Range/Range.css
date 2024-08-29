@@ -1,0 +1,11 @@
+.range {
+  width: 100%;
+  accent-color: var(--codex-color-primary);
+  height: 4px;
+  outline: none;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+}

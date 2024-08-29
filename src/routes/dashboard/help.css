@@ -1,0 +1,35 @@
+.help {
+  max-width: 600px;
+  margin: auto;
+}
+
+.help-title {
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+}
+
+.help-itemTitle {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.help-itemIcon {
+  color: var(--codex-color-disabled);
+  width: 2rem;
+  height: auto;
+}
+
+.help-itemBody {
+  font-size: 1.125rem;
+}
+
+.help-item {
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--codex-border-color);
+  gap: 1rem;
+  display: flex;
+  align-items: flex-start;
+}

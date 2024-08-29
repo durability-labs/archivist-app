@@ -2,17 +2,29 @@
   border-radius: var(--codex-border-radius);
   border: 1px solid var(--codex-border-color);
   font-family: var(--codex-font-family);
-  padding: 1.5rem;
+  padding: 0.5rem 1rem;
   background-color: rgb(56 56 56);
+  display: flex;
+  flex-direction: column;
+}
+
+.cardNumber--error {
+  border-color: rgb(var(--codex-color-error));
+}
+
+.cardNumber--error .cardNumber-tooltip {
+  color: rgb(var(--codex-color-error));
 }
 
 .cardNumber-title {
   display: inline-block;
+  font-size: 0.9rem;
 }
 
 .cardNumber-data {
-  font-size: 3rem;
+  font-size: 2rem;
   color: var(--codex-color-primary);
+  margin-bottom: 0.5rem;
 }
 
 .cardNumber-data:focus-visible {
@@ -22,10 +34,36 @@
 
 .cardNumber-dataContainer {
   position: relative;
+  flex: 1;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  position: relative;
+  top: 0px;
+  /* --codex-button-icon-background: var(--codex-color-primary); */
+  justify-content: space-between;
+  align-items: center;
 }
 
-.cardNumber-dataIcon {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+.cardNumber-dataContainer .buttonIcon {
+  position: relative;
+  top: 3px;
+}
+
+.cardNumber-tooltip {
+  color: var(--codex-color-disabled);
+  display: flex;
+}
+
+.cardNumber-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardNumber .input {
+  min-width: 0;
+  width: 100px;
+  height: 2.5rem;
 }

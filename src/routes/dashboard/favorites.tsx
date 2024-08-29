@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
-import { Manifests } from "../../components/Manifests/Manitests";
+import { Files } from "../../components/Files/Files";
 
 export const Route = createFileRoute("/dashboard/favorites")({
   component: () => (
     <>
       <ErrorBoundary fallback={() => ""}>
         <div className="container">
-          <Manifests />
+          <Files />
         </div>
       </ErrorBoundary>
     </>

@@ -88,7 +88,7 @@ const About = () => {
               <a
                 className="button"
                 target="_blank"
-                href={"http://localhost:8002/api/codex/v1/data/" + c.cid}>
+                href={"/api/codex/v1/data/" + c.cid}>
                 Download
               </a>
             </div>
