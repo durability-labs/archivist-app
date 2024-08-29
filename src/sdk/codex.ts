@@ -14,8 +14,6 @@ export class CodexSdk {
       .then((url) => {
         this._url = url || import.meta.env.VITE_CODEX_API_URL;
         this._client = new Codex(this._url);
-
-        console.info({ url: this._url });
       })
       .then(() => this._client);
   }

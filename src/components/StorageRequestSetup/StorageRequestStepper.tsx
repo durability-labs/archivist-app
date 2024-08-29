@@ -57,7 +57,6 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
         let requestId = data.data;
 
         if (!requestId.startsWith("0x")) {
-          console.debug("No prefix detected");
           requestId = "0x" + requestId;
         }
 

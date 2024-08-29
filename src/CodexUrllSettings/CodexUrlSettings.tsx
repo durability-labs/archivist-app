@@ -34,8 +34,6 @@ export function CodexUrlSettings() {
       stroke="var(--codex-background-light)"></CircleCheck>
   );
 
-  console.info({ url });
-
   return (
     <>
       <Input

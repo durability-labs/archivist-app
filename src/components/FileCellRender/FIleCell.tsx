@@ -25,7 +25,6 @@ export function FileCell({ requestId, purchaseCid }: Props) {
 
         FilesStorage.get<FileMetadata>(cid).then((data) => {
           if (data) {
-            console.info("data", data);
             setMetadata(data);
           }
         });
