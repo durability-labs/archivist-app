@@ -29,7 +29,9 @@ export function LogLevel() {
       queryClient.invalidateQueries({ queryKey: ["debug"] });
     },
     onError: (error) => {
-      Sentry.captureException(error);
+      if (import.meta.env.PROD) {
+        Sentry.captureException(error);
+      }
 
       setToast({
         message: "Error when trying to update: " + error,

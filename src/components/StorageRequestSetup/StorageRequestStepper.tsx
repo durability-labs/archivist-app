@@ -66,7 +66,9 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
       PurchaseStorage.set(requestId, cid);
     },
     onError: (error) => {
-      Sentry.captureException(error);
+      if (import.meta.env.PROD) {
+        Sentry.captureException(error);
+      }
 
       setToast({
         message: "Error when trying to update: " + error,
@@ -117,6 +119,7 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
       setProgress(false);
 
       if (s >= steps.current.length) {
+        console.info("delete");
         setStep(0);
         WebStorage.delete("storage-request-step");
         WebStorage.delete("storage-request-criteria");

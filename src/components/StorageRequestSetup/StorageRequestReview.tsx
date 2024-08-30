@@ -294,7 +294,9 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
         <CardNumbers
           title={"Proof probability"}
           data={data.proofProbability.toString()}
-          comment={errors.proofProbability || "Proof request frequency"}
+          comment={
+            errors.proofProbability || "Proof request frequency in seconds"
+          }
           onChange={onProofProbabilityChange}
           hasError={!!errors.proofProbability}></CardNumbers>
       </div>

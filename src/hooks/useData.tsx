@@ -10,7 +10,9 @@ export function useData() {
         const res = await data.cids();
 
         if (res.error) {
-          Sentry.captureException(res.data);
+          if (import.meta.env.PROD) {
+            Sentry.captureException(res.data);
+          }
           return [];
         }
 
