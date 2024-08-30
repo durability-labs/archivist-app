@@ -1,10 +1,15 @@
-import { CodexLogLevel } from "@codex/sdk-js";
+import { CodexLogLevel } from "@codex-storage/sdk-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { CodexSdk } from "../../sdk/codex";
 import "./LogLevel.css";
-import { Button, Select, Toast } from "@codex/marketplace-ui-components";
+import {
+  Button,
+  Select,
+  Toast,
+} from "@codex-storage/marketplace-ui-components";
 import { Promises } from "../../utils/promises";
+import * as Sentry from "@sentry/browser";
 
 export function LogLevel() {
   const queryClient = useQueryClient();
@@ -24,7 +29,8 @@ export function LogLevel() {
       queryClient.invalidateQueries({ queryKey: ["debug"] });
     },
     onError: (error) => {
-      // TODO report to sentry
+      Sentry.captureException(error);
+
       setToast({
         message: "Error when trying to update: " + error,
         time: Date.now(),

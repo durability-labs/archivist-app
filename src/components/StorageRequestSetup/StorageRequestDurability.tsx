@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { WebStorage } from "../../utils/web-storage";
 import { StorageDurabilityStepValue } from "./types";
-import { InputGroup } from "@codex/marketplace-ui-components";
+import { InputGroup } from "@codex-storage/marketplace-ui-components";
 
 type Props = {
   onToggleNext: (next: boolean) => void;

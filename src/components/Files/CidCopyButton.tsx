@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { COPY_DURATION, ICON_SIZE } from "../../utils/constants.ts";
 import { Copy } from "lucide-react";
-import { Button } from "@codex/marketplace-ui-components";
+import { Button } from "@codex-storage/marketplace-ui-components";
 
 type CopyButtonProps = {
   cid: string;

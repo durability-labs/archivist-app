@@ -1,4 +1,4 @@
-import { NetworkIndicator } from "@codex/marketplace-ui-components";
+import { NetworkIndicator } from "@codex-storage/marketplace-ui-components";
 import { useNetwork } from "../../network/useNetwork";
 
 export function HttpNetworkIndicator() {

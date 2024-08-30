@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import "./help.css";
 import { HelpCircle } from "lucide-react";
-import { SimpleText } from "@codex/marketplace-ui-components";
+import { SimpleText } from "@codex-storage/marketplace-ui-components";
 
 export const Route = createFileRoute("/dashboard/help")({
   component: () => (

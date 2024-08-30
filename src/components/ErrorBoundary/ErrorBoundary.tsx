@@ -1,7 +1,8 @@
-import { Placeholder } from "@codex/marketplace-ui-components";
+import { Placeholder } from "@codex-storage/marketplace-ui-components";
 import { CircleX } from "lucide-react";
 import React, { ErrorInfo, ReactNode } from "react";
 import "./ErrorBoundary.css";
+import * as Sentry from "@sentry/browser";
 
 type State = {
   hasError: boolean;
@@ -23,14 +24,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    // Example 'componentStack':
-    //   in ComponentThatThrows (created by App)
-    //   in ErrorBoundary (created by App)
-    //   in div (created by App)
-    //   in App
-    //logErrorToMyService(error, info.componentStack);
-    // TODO set Sentry here
-    console.error("Got error", error, info);
+    Sentry.captureException(error);
+    console.error(error, info);
   }
 
   render() {

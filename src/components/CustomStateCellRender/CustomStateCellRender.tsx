@@ -1,6 +1,6 @@
 import { CheckCircle, CircleDashed, ShieldAlert } from "lucide-react";
 import "./CustomStateCellRender.css";
-import { StateCell, Tooltip } from "@codex/marketplace-ui-components";
+import { StateCell, Tooltip } from "@codex-storage/marketplace-ui-components";
 
 // Import css
 StateCell;

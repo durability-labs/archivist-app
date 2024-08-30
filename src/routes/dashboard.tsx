@@ -4,7 +4,7 @@ import {
   MenuItem,
   MenuItemComponentProps,
   Page,
-} from "@codex/marketplace-ui-components";
+} from "@codex-storage/marketplace-ui-components";
 import { Home, ShoppingBag, Server, Settings, HelpCircle } from "lucide-react";
 import { ICON_SIZE } from "../utils/constants";
 import { NodeIndicator } from "../components/NodeIndicator/NodeIndicator";

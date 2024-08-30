@@ -1,5 +1,5 @@
-import { ButtonIcon, Button } from "@codex/marketplace-ui-components";
-import { CodexDataContent } from "@codex/sdk-js";
+import { ButtonIcon, Button } from "@codex-storage/marketplace-ui-components";
+import { CodexDataContent } from "@codex-storage/sdk-js";
 import { X, DownloadIcon } from "lucide-react";
 import { attributes } from "../../utils/attributes";
 import { PrettyBytes } from "../../utils/bytes";

@@ -8,7 +8,7 @@ import {
   DropdownOption,
   Upload,
   WebFileIcon,
-} from "@codex/marketplace-ui-components";
+} from "@codex-storage/marketplace-ui-components";
 import { useData } from "../../hooks/useData";
 
 type Props = {

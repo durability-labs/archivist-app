@@ -3,15 +3,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { WebStorage } from "../../utils/web-storage";
 import { STEPPER_DURATION } from "../../utils/constants";
 import { StorageRequestReview } from "./StorageRequestReview";
-import { CodexCreateStorageRequestInput } from "@codex/sdk-js";
+import { CodexCreateStorageRequestInput } from "@codex-storage/sdk-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CodexSdk } from "../../sdk/codex";
 import { StorageAvailabilityUnit } from "./types";
-import { Backdrop, Stepper, Toast } from "@codex/marketplace-ui-components";
+import {
+  Backdrop,
+  Stepper,
+  Toast,
+} from "@codex-storage/marketplace-ui-components";
 import { classnames } from "../../utils/classnames";
 import { StorageRequestDone } from "./StorageRequestDone";
 import { PurchaseStorage } from "../../utils/purchases-storage";
 import { Promises } from "../../utils/promises";
+import * as Sentry from "@sentry/browser";
 
 function calculateAvailability(value: number, unit: StorageAvailabilityUnit) {
   switch (unit) {
@@ -61,7 +66,8 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
       PurchaseStorage.set(requestId, cid);
     },
     onError: (error) => {
-      // TODO Sentry
+      Sentry.captureException(error);
+
       setToast({
         message: "Error when trying to update: " + error,
         time: Date.now(),

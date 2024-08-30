@@ -1,4 +1,4 @@
-import { Placeholder } from "@codex/marketplace-ui-components";
+import { Placeholder } from "@codex-storage/marketplace-ui-components";
 import { CircleCheck } from "lucide-react";
 import { useEffect } from "react";
 import "./StorageRequestDone.css";

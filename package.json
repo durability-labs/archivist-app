@@ -1,5 +1,5 @@
 {
-  "name": "@codex/marketplace-ui",
+  "name": "@codex-storage/marketplace-ui",
   "description": "Marketplace UI for Codex decentralized storage network.",
   "repository": {
     "type": "git",
@@ -22,8 +22,9 @@
     "React"
   ],
   "dependencies": {
-    "@codex/marketplace-ui-components": "@codex/marketplace-ui-components#master",
-    "@codex/sdk-js": "@codex/marketplace-ui#master",
+    "@codex-storage/marketplace-ui-components": "0.0.1",
+    "@codex-storage/sdk-js": "0.0.1",
+    "@sentry/react": "^8.27.0",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-router": "^1.45.7",
     "classnames": "^2.5.1",

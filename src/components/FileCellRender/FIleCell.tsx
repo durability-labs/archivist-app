@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Tooltip, WebFileIcon } from "@codex/marketplace-ui-components";
+import { Tooltip, WebFileIcon } from "@codex-storage/marketplace-ui-components";
 import "./FileCell.css";
 import { FileMetadata, FilesStorage } from "../../utils/file-storage";
 import { PurchaseStorage } from "../../utils/purchases-storage";

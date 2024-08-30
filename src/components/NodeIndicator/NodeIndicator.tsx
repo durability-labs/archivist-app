@@ -1,11 +1,14 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { CodexSdk } from "../../sdk/codex";
-import { NetworkIndicator, Toast } from "@codex/marketplace-ui-components";
+import {
+  NetworkIndicator,
+  Toast,
+} from "@codex-storage/marketplace-ui-components";
 
 export function NodeIndicator() {
   const queryClient = useQueryClient();
-  const [toast, setToast] = useState({
+  const [toast] = useState({
     time: 0,
     message: "",
   });
@@ -16,14 +19,12 @@ export function NodeIndicator() {
       CodexSdk.node()
         .then((node) => node.spr())
         .then((data) => {
-          if (data.error) {
-            setToast({
-              message: "Cannot connect to the Codex node.",
-              time: Date.now(),
-            });
-          }
-
-          // TODO sentry debug
+          // if (data.error) {
+          //   setToast({
+          //     message: "Cannot connect to the Codex node.",
+          //     time: Date.now(),
+          //   });
+          // }
 
           return data;
         }),

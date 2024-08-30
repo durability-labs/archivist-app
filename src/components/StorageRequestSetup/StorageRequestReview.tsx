@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { WebStorage } from "../../utils/web-storage";
 import "./StorageRequestReview.css";
-import { Alert } from "@codex/marketplace-ui-components";
+import { Alert } from "@codex-storage/marketplace-ui-components";
 import { CardNumbers } from "../CardNumbers/CardNumbers";
 import { Range } from "../Range/Range";
 import { FileWarning } from "lucide-react";

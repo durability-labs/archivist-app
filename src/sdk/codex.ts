@@ -1,4 +1,4 @@
-import { Codex } from "@codex/sdk-js";
+import { Codex } from "@codex-storage/sdk-js";
 import { WebStorage } from "../utils/web-storage";
 
 export class CodexSdk {

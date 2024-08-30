@@ -1,8 +1,13 @@
-import { SafeValue } from "@codex/sdk-js";
+import { SafeValue } from "@codex-storage/sdk-js";
+import * as Sentry from "@sentry/browser";
 
 export const Promises = {
   rejectOnError: <T>(safe: SafeValue<T>) => {
-    // TODO Sentry
-    return safe.error ? Promise.reject(safe.data) : Promise.resolve(safe.data);
+    if (safe.error) {
+      Sentry.captureException(safe.data);
+      return Promise.reject(safe.data);
+    }
+
+    return Promise.resolve(safe.data);
   },
 };

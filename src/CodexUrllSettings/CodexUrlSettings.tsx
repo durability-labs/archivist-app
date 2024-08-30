@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Button, Input, Toast } from "@codex/marketplace-ui-components";
+import { Button, Input, Toast } from "@codex-storage/marketplace-ui-components";
 import { CodexSdk } from "../sdk/codex";
 
 export function CodexUrlSettings() {

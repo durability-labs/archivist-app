@@ -1,7 +1,7 @@
-import { CodexDataContent } from "@codex/sdk-js";
+import { CodexDataContent } from "@codex-storage/sdk-js";
 import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { PrettyBytes } from "../../utils/bytes.ts";
-import { Button, WebFileIcon } from "@codex/marketplace-ui-components";
+import { Button, WebFileIcon } from "@codex-storage/marketplace-ui-components";
 
 function ProtectedIcon({ isProtected }: { isProtected: boolean }) {
   if (isProtected) {

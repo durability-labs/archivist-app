@@ -1,4 +1,4 @@
-import { EmptyPlaceholder } from "@codex/marketplace-ui-components";
+import { EmptyPlaceholder } from "@codex-storage/marketplace-ui-components";
 import { createFileRoute } from "@tanstack/react-router";
 import "./availabilities.css";
 

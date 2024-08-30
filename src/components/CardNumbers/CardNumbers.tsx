@@ -1,4 +1,4 @@
-import { ButtonIcon, Input, Tooltip } from "@codex/marketplace-ui-components";
+import { ButtonIcon, Input, Tooltip } from "@codex-storage/marketplace-ui-components";
 import "./CardNumbers.css";
 import { Check, Info, Pencil, ShieldAlert } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";

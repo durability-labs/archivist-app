@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { FilesStorage } from "../utils/file-storage";
 import { CodexSdk } from "../sdk/codex";
+import * as Sentry from "@sentry/browser";
 
 export function useData() {
   const { data = [] } = useQuery({
@@ -9,7 +10,7 @@ export function useData() {
         const res = await data.cids();
 
         if (res.error) {
-          // TODO Sentry
+          Sentry.captureException(res.data);
           return [];
         }
 

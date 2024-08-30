@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../assets/loader.svg";
 import { CodexSdk } from "../../sdk/codex";
-import { SpaceAllocation } from "@codex/marketplace-ui-components";
+import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
 
 export function NodeSpaceAllocation() {
   const { data: space, isPending } = useQuery({
@@ -15,7 +15,6 @@ export function NodeSpaceAllocation() {
   }
 
   if (space.error) {
-    // TODO Sentry
     return "";
   }
 

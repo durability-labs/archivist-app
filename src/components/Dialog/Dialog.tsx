@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef } from "react";
 import "./Dialog.css";
-import { Button } from "@codex/marketplace-ui-components";
+import { Button } from "@codex-storage/marketplace-ui-components";
 
 type Props = {
   open: boolean;

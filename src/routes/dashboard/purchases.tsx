@@ -3,7 +3,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CodexSdk } from "../../sdk/codex";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { Button, Cell, Spinner, Table } from "@codex/marketplace-ui-components";
+import {
+  Button,
+  Cell,
+  EmptyPlaceholder,
+  Spinner,
+  Table,
+} from "@codex-storage/marketplace-ui-components";
 import { StorageRequestStepper } from "../../components/StorageRequestSetup/StorageRequestStepper";
 import "./purchases.css";
 import { classnames } from "../../utils/classnames";
@@ -82,6 +88,13 @@ const Purchases = () => {
       />
 
       {!open && <Table headers={headers} cells={cells} />}
+
+      {/* {!cells.length && (
+        <EmptyPlaceholder
+          title="Nothing to show"
+          message="No data here yet. Start to upload files to see data here."
+        />
+      )} */}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { SimpleText } from "@codex/marketplace-ui-components";
+import { SimpleText } from "@codex-storage/marketplace-ui-components";
 import "./Welcome.css";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";

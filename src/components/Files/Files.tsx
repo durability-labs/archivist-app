@@ -8,7 +8,7 @@ import {
   ButtonIcon,
   EmptyPlaceholder,
   WebFileIcon,
-} from "@codex/marketplace-ui-components";
+} from "@codex-storage/marketplace-ui-components";
 import { FileDetails } from "./FileDetails.tsx";
 import { classnames } from "../../utils/classnames.ts";
 import { FavoriteStorage } from "../../utils/favorite-storage.tsx";

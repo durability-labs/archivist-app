@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../assets/loader.svg";
 import { CodexSdk } from "../../sdk/codex";
-import { Card, Spinner } from "@codex/marketplace-ui-components";
+import { Card, Spinner } from "@codex-storage/marketplace-ui-components";
 import { Promises } from "../../utils/promises";
 
 export function Debug() {
