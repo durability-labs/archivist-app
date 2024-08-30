@@ -6,7 +6,6 @@ import { useState } from "react";
 import {
   Button,
   Cell,
-  EmptyPlaceholder,
   Spinner,
   Table,
 } from "@codex-storage/marketplace-ui-components";
