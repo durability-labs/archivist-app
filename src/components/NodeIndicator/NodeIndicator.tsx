@@ -1,28 +1,37 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CodexSdk } from "../../sdk/codex";
-import { Promises } from "../../utils/promises";
-import { NetworkIndicator } from "@codex/marketplace-ui-components";
+import { NetworkIndicator, Toast } from "@codex/marketplace-ui-components";
 
-function useNodeNetwork() {
+export function NodeIndicator() {
+  const queryClient = useQueryClient();
+  const [toast, setToast] = useState({
+    time: 0,
+    message: "",
+  });
+
   const { data, isError } = useQuery({
     queryKey: ["spr"],
     queryFn: async () =>
       CodexSdk.node()
         .then((node) => node.spr())
-        .then(Promises.rejectOnError),
+        .then((data) => {
+          if (data.error) {
+            setToast({
+              message: "Cannot connect to the Codex node.",
+              time: Date.now(),
+            });
+          }
+
+          // TODO sentry debug
+
+          return data;
+        }),
     retry: false,
     refetchInterval: 5000,
   });
 
-  // TODO handle error
-
-  return !isError && !!data;
-}
-
-export function NodeIndicator() {
-  const queryClient = useQueryClient();
-  const isCodexOnline = useNodeNetwork();
+  const isCodexOnline = !isError && !!data;
 
   useEffect(() => {
     queryClient.invalidateQueries({
@@ -31,5 +40,10 @@ export function NodeIndicator() {
     });
   }, [queryClient, isCodexOnline]);
 
-  return <NetworkIndicator online={isCodexOnline} text="Codex node" />;
+  return (
+    <>
+      <Toast message={toast.message} time={toast.time} variant="success" />
+      <NetworkIndicator online={isCodexOnline} text="Codex node" />
+    </>
+  );
 }

@@ -7,20 +7,19 @@ import { CodexUrlSettings } from "../../CodexUrllSettings/CodexUrlSettings";
 export const Route = createFileRoute("/dashboard/settings")({
   component: () => (
     <>
-      <ErrorBoundary fallback={() => ""}>
-        <div className="settings">
-          <ErrorBoundary fallback={() => ""}>
-            <LogLevel />
-          </ErrorBoundary>
-        </div>
+      <div className="settings">
+        <ErrorBoundary card={true}>
+          <LogLevel />
+        </ErrorBoundary>
+      </div>
 
-        <div className="settings">
-          <ErrorBoundary fallback={() => ""}>
-            <CodexUrlSettings />
-          </ErrorBoundary>
-        </div>
+      <div className="settings">
+        <ErrorBoundary card={true}>
+          <CodexUrlSettings />
+        </ErrorBoundary>
+      </div>
 
-        {/* <div className="input-floating">
+      {/* <div className="input-floating">
               <input
                 className="input input-floating-input"
                 id="input-floating"
@@ -44,7 +43,6 @@ export const Route = createFileRoute("/dashboard/settings")({
                 Floating
               </label>
             </div> */}
-      </ErrorBoundary>
     </>
   ),
 });

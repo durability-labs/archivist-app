@@ -3,29 +3,35 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CodexSdk } from "../../sdk/codex";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { Button, Cell, Table } from "@codex/marketplace-ui-components";
+import { Button, Cell, Spinner, Table } from "@codex/marketplace-ui-components";
 import { StorageRequestStepper } from "../../components/StorageRequestSetup/StorageRequestStepper";
 import "./purchases.css";
 import { classnames } from "../../utils/classnames";
 import { FileCell } from "../../components/FileCellRender/FIleCell";
 import { CustomStateCellRender } from "../../components/CustomStateCellRender/CustomStateCellRender";
 import prettyMilliseconds from "pretty-ms";
+import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
+import { Promises } from "../../utils/promises";
 
 const Purchases = () => {
   const [open, setOpen] = useState(false);
   const { data, isPending } = useQuery({
     queryFn: () =>
-      CodexSdk.marketplace().then((marketplace) => marketplace.purchases()),
+      CodexSdk.marketplace()
+        .then((marketplace) => marketplace.purchases())
+        .then((s) => Promises.rejectOnError(s)),
     queryKey: ["purchases"],
+    refetchOnWindowFocus: false,
+    retry: false,
+    throwOnError: true,
   });
 
   if (isPending) {
-    return <div>Pending</div>;
-  }
-
-  if (data?.error) {
-    return <div>Error: {data.data.message}</div>;
-    // TODO Manage error
+    return (
+      <div className="purchases-loader">
+        <Spinner width="3rem" />
+      </div>
+    );
   }
 
   const headers = [
@@ -37,7 +43,7 @@ const Purchases = () => {
     "state",
   ];
 
-  const sorted = [...(data?.data || [])].reverse();
+  const sorted = [...(data || [])].reverse();
   const cells =
     sorted.map((p, index) => {
       const r = p.request;
@@ -81,5 +87,9 @@ const Purchases = () => {
 };
 
 export const Route = createFileRoute("/dashboard/purchases")({
-  component: Purchases,
+  component: () => (
+    <ErrorBoundary card={true}>
+      <Purchases />
+    </ErrorBoundary>
+  ),
 });

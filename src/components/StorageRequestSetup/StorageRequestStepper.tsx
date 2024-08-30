@@ -7,10 +7,11 @@ import { CodexCreateStorageRequestInput } from "@codex/sdk-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CodexSdk } from "../../sdk/codex";
 import { StorageAvailabilityUnit } from "./types";
-import { Backdrop, Stepper } from "@codex/marketplace-ui-components";
+import { Backdrop, Stepper, Toast } from "@codex/marketplace-ui-components";
 import { classnames } from "../../utils/classnames";
 import { StorageRequestDone } from "./StorageRequestDone";
 import { PurchaseStorage } from "../../utils/purchases-storage";
+import { Promises } from "../../utils/promises";
 
 function calculateAvailability(value: number, unit: StorageAvailabilityUnit) {
   switch (unit) {
@@ -39,29 +40,32 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
   const steps = useRef(["File", "Criteria", "Success"]);
   const [isNextDisable, setIsNextDisable] = useState(true);
   const queryClient = useQueryClient();
+  const [toast, setToast] = useState({
+    time: 0,
+    message: "",
+  });
 
-  const { mutateAsync, isPending, isError, error } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ["debug"],
     mutationFn: (input: CodexCreateStorageRequestInput) =>
-      CodexSdk.marketplace().then((marketplace) =>
-        marketplace.createStorageRequest(input)
-      ),
-    onSuccess: async (data, { cid }) => {
-      if (data.error) {
-        // TODO report error
-        console.error(data);
-      } else {
-        // setStep((s) => (s = 1));
-        queryClient.invalidateQueries({ queryKey: ["purchases"] });
+      CodexSdk.marketplace()
+        .then((marketplace) => marketplace.createStorageRequest(input))
+        .then((s) => Promises.rejectOnError(s)),
+    onSuccess: async (requestId, { cid }) => {
+      queryClient.invalidateQueries({ queryKey: ["purchases"] });
 
-        let requestId = data.data;
-
-        if (!requestId.startsWith("0x")) {
-          requestId = "0x" + requestId;
-        }
-
-        PurchaseStorage.set(requestId, cid);
+      if (!requestId.startsWith("0x")) {
+        requestId = "0x" + requestId;
       }
+
+      PurchaseStorage.set(requestId, cid);
+    },
+    onError: (error) => {
+      // TODO Sentry
+      setToast({
+        message: "Error when trying to update: " + error,
+        time: Date.now(),
+      });
     },
   });
 
@@ -79,12 +83,6 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
     (s: "enable" | "disable") => setIsNextDisable(s === "disable"),
     []
   );
-
-  if (isError) {
-    // TODO Report error
-    console.error(error);
-    return "";
-  }
 
   const components = [
     StorageRequestFileChooser,
@@ -189,6 +187,8 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
           progress={progress || isPending}
           isNextDisable={progress || isNextDisable}></Stepper>
       </div>
+
+      <Toast message={toast.message} time={toast.time} variant="error" />
     </>
   );
 }

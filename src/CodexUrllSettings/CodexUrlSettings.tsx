@@ -1,7 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Button, Input, Toast } from "@codex/marketplace-ui-components";
-import { CircleCheck } from "lucide-react";
 import { CodexSdk } from "../sdk/codex";
 
 export function CodexUrlSettings() {
@@ -27,13 +26,6 @@ export function CodexUrlSettings() {
     });
   };
 
-  const Check = () => (
-    <CircleCheck
-      size="1.25rem"
-      fill="var(--codex-color-primary)"
-      stroke="var(--codex-background-light)"></CircleCheck>
-  );
-
   return (
     <>
       <Input
@@ -43,7 +35,7 @@ export function CodexUrlSettings() {
         value={url}
         className="settings-input"></Input>
       <Button variant="primary" label="Save changes" onClick={onClick}></Button>
-      <Toast message={toast.message} time={toast.time} Icon={Check} />
+      <Toast message={toast.message} time={toast.time} variant="success" />
     </>
   );
 }

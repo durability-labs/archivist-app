@@ -33,11 +33,6 @@ export function StorageRequestFileChooser({ onChangeNextState }: Props) {
     };
   }, [onChangeNextState]);
 
-  // if (data?.error) {
-  //   // TODO error
-  //   return "";
-  // }
-
   const onSelected = (o: DropdownOption) => {
     setCid(o.subtitle || "");
     onChangeNextState(!o.subtitle ? "disable" : "enable");

@@ -1,0 +1,7 @@
+.storageRequestDone {
+  margin: auto;
+}
+
+.storageRequestDone-icon {
+  color: var(--codex-color-primary);
+}

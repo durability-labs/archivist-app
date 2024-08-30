@@ -9,7 +9,7 @@ export function useData() {
         const res = await data.cids();
 
         if (res.error) {
-          // TODO error
+          // TODO Sentry
           return [];
         }
 

@@ -15,7 +15,7 @@ export function NodeSpaceAllocation() {
   }
 
   if (space.error) {
-    // TODO error
+    // TODO Sentry
     return "";
   }
 

@@ -22,7 +22,7 @@ function About() {
   return (
     <>
       <div className="dashboard">
-        <ErrorBoundary fallback={() => ""}>
+        <ErrorBoundary card={true}>
           <Card title="Upload a file">
             <Upload
               multiple
@@ -34,13 +34,13 @@ function About() {
           </Card>
         </ErrorBoundary>
 
-        <ErrorBoundary fallback={() => ""}>
+        <ErrorBoundary card={true}>
           <Welcome />
         </ErrorBoundary>
       </div>
 
       <div className="container-fluid">
-        <ErrorBoundary fallback={() => ""}>
+        <ErrorBoundary card={true}>
           <Files />
         </ErrorBoundary>
       </div>

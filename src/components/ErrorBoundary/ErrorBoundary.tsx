@@ -1,18 +1,14 @@
+import { Placeholder } from "@codex/marketplace-ui-components";
+import { CircleX } from "lucide-react";
 import React, { ErrorInfo, ReactNode } from "react";
-import { ErrorBoundaryContext } from "../../contexts/ErrorBoundaryContext";
+import "./ErrorBoundary.css";
 
 type State = {
   hasError: boolean;
 };
 
 type Props = {
-  fallback: ({
-    children,
-    error,
-  }: {
-    children: ReactNode;
-    error: string;
-  }) => ReactNode;
+  card: boolean;
   children: ReactNode;
 };
 
@@ -37,34 +33,21 @@ export class ErrorBoundary extends React.Component<Props, State> {
     console.error("Got error", error, info);
   }
 
-  private catch(error: Error) {
-    //logErrorToMyService(error);
-    console.error(error);
-    this.setState({ hasError: true });
-  }
-
   render() {
     if (this.state.hasError) {
-      const Fallback = this.props.fallback;
-
       return (
-        <Fallback
-          error={
-            "Something went wrong, please try to load the component again."
-          }>
-          <button
-            onClick={() => this.setState({ hasError: false })}
-            className="button">
-            Retry
-          </button>
-        </Fallback>
+        <div className="errorBoundary">
+          <Placeholder
+            Icon={<CircleX size={"4em"}></CircleX>}
+            title="Something went wrong"
+            message="Something went wrong, please try to load the component again."
+            onRetry={() => this.setState({ hasError: false })}></Placeholder>
+        </div>
       );
     }
 
-    return (
-      <ErrorBoundaryContext.Provider value={(error) => this.catch(error)}>
-        {this.props.children}
-      </ErrorBoundaryContext.Provider>
-    );
+    console.info("couc");
+
+    return this.props.children;
   }
 }

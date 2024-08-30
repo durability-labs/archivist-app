@@ -1,35 +1,42 @@
 import { CodexLogLevel } from "@codex/sdk-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext, useState } from "react";
-import { ErrorBoundaryContext } from "../../contexts/ErrorBoundaryContext";
+import { useState } from "react";
 import { CodexSdk } from "../../sdk/codex";
 import "./LogLevel.css";
 import { Button, Select, Toast } from "@codex/marketplace-ui-components";
-import { CircleCheck } from "lucide-react";
+import { Promises } from "../../utils/promises";
 
 export function LogLevel() {
   const queryClient = useQueryClient();
   const [level, setLevel] = useState<CodexLogLevel>("DEBUG");
-  const report = useContext(ErrorBoundaryContext);
-  const { mutateAsync, isPending, isError, error } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ["debug"],
     mutationFn: (level: CodexLogLevel) =>
-      CodexSdk.debug().then((debug) => debug.setLogLevel(level)),
+      CodexSdk.debug()
+        .then((debug) => debug.setLogLevel(level))
+        .then((s) => Promises.rejectOnError(s)),
     onSuccess: () => {
       setToast({
         message: "The log level has been updated successfully.",
         time: Date.now(),
+        variant: "success",
       });
       queryClient.invalidateQueries({ queryKey: ["debug"] });
     },
+    onError: (error) => {
+      // TODO report to sentry
+      setToast({
+        message: "Error when trying to update: " + error,
+        time: Date.now(),
+        variant: "error",
+      });
+    },
   });
-  const [toast, setToast] = useState({ time: 0, message: "" });
-
-  if (isError) {
-    // TODO remove this
-    report(new Error(error.message));
-    return "";
-  }
+  const [toast, setToast] = useState({
+    time: 0,
+    message: "",
+    variant: "success",
+  });
 
   function onChange(e: React.FormEvent<HTMLSelectElement>) {
     const value = e.currentTarget.value;
@@ -52,13 +59,6 @@ export function LogLevel() {
     ["FATAL", "FATAL"],
   ] satisfies [string, string][];
 
-  const Check = () => (
-    <CircleCheck
-      size="1.25rem"
-      fill="var(--codex-color-primary)"
-      stroke="var(--codex-background-light)"></CircleCheck>
-  );
-
   return (
     <>
       <Select
@@ -72,7 +72,7 @@ export function LogLevel() {
         label="Save changes"
         fetching={isPending}
         onClick={onClick}></Button>
-      <Toast message={toast.message} time={toast.time} Icon={Check} />
+      <Toast message={toast.message} time={toast.time} variant="success" />
     </>
   );
 }
