@@ -46,8 +46,6 @@ export class ErrorBoundary extends React.Component<Props, State> {
       );
     }
 
-    console.info("couc");
-
     return this.props.children;
   }
 }

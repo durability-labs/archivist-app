@@ -1,34 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../assets/loader.svg";
 import { CodexSdk } from "../../sdk/codex";
-import { Card } from "@codex/marketplace-ui-components";
+import { Card, Spinner } from "@codex/marketplace-ui-components";
+import { Promises } from "../../utils/promises";
 
 export function Debug() {
   const { data, isPending } = useQuery({
-    queryFn: () => CodexSdk.debug().then((debug) => debug.info()),
+    queryFn: () =>
+      CodexSdk.debug()
+        .then((debug) => debug.info())
+        .then((s) => Promises.rejectOnError(s)),
     queryKey: ["debug"],
   });
 
   if (isPending) {
     return (
-      <Card title="Debug">
-        <img src={Loader} width={24} height={24} alt="Loader" />
-      </Card>
-    );
-  }
-
-  if (data?.error) {
-    // TODO display error
-    return (
-      <Card title="Debug">
-        <p>{data?.data.message || ""}</p>
-      </Card>
+      <div className="settings-debug-loader">
+        <Spinner width="3rem" />
+      </div>
     );
   }
 
   return (
-    <Card title="Debug">
+    <>
+      <h3>Debug</h3>
       <pre>{JSON.stringify(data, null, 2)}</pre>
-    </Card>
+    </>
   );
 }
