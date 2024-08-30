@@ -5,7 +5,7 @@ import { Files } from "../../components/Files/Files";
 export const Route = createFileRoute("/dashboard/favorites")({
   component: () => (
     <>
-      <ErrorBoundary fallback={() => ""}>
+      <ErrorBoundary card={true}>
         <div className="container">
           <Files />
         </div>

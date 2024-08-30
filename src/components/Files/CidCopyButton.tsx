@@ -20,7 +20,7 @@ export function CidCopyButton({ cid }: CopyButtonProps) {
 
     setCopied(true);
 
-    timeout.current = setTimeout(() => {
+    timeout.current = window.setTimeout(() => {
       setCopied(false);
     }, COPY_DURATION);
   };
