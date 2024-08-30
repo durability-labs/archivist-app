@@ -9,7 +9,7 @@ import { routeTree } from "./routeTree.gen";
 import { Failure } from "@codex-storage/marketplace-ui-components";
 import * as Sentry from "@sentry/react";
 
-if (process.env.NODE_ENV === "production") {
+if (import.meta.env.PROD) {
   Sentry.init({
     dsn: "https://22d77c59a27b8d5efc07132188b505b9@o4507855852011520.ingest.de.sentry.io/4507866758512720",
     integrations: [
