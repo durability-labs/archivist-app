@@ -1,13 +1,16 @@
-import { ButtonIcon, Button } from "@codex-storage/marketplace-ui-components";
+import {
+  ButtonIcon,
+  Button,
+  Sheets,
+} from "@codex-storage/marketplace-ui-components";
 import { CodexDataContent } from "@codex-storage/sdk-js";
-import { X, DownloadIcon } from "lucide-react";
-import { attributes } from "../../utils/attributes";
 import { PrettyBytes } from "../../utils/bytes";
 import { ICON_SIZE } from "../../utils/constants";
 import { Dates } from "../../utils/dates";
 import { CidCopyButton } from "./CidCopyButton";
 import "./FileDetails.css";
 import { FileMetadata } from "../../utils/file-storage";
+import { DownloadIcon, X } from "lucide-react";
 
 type Props = {
   details: (CodexDataContent & FileMetadata) | undefined;
@@ -16,7 +19,6 @@ type Props = {
 };
 
 export function FileDetails({ onClose, details, expanded }: Props) {
-  const attr = attributes({ "aria-expanded": expanded });
   const url = import.meta.env.VITE_CODEX_API_URL + "/api/codex/v1/data/";
 
   const Icon = () => <X size={ICON_SIZE} onClick={onClose} />;
@@ -24,13 +26,8 @@ export function FileDetails({ onClose, details, expanded }: Props) {
   const onDownload = () => window.open(url + details?.cid, "_target");
 
   return (
-    <>
-      <div
-        className="files-backdrop backdrop"
-        onClick={onClose}
-        {...attr}></div>
-
-      <div className="fileDetails" {...attr}>
+    <Sheets open={expanded} onClose={onClose}>
+      <>
         {details && (
           <>
             <div className="fileDetails-header">
@@ -86,7 +83,7 @@ export function FileDetails({ onClose, details, expanded }: Props) {
             </div>
           </>
         )}
-      </div>
-    </>
+      </>
+    </Sheets>
   );
 }

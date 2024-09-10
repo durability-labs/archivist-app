@@ -4,6 +4,7 @@ import { CodexSdk } from "../../sdk/codex";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import {
+  BreakCell,
   Button,
   Cell,
   Spinner,
@@ -17,6 +18,7 @@ import { CustomStateCellRender } from "../../components/CustomStateCellRender/Cu
 import prettyMilliseconds from "pretty-ms";
 import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
 import { Promises } from "../../utils/promises";
+import { TruncateCell } from "../../components/TruncateCell/TruncateCell";
 
 const Purchases = () => {
   const [open, setOpen] = useState(false);
@@ -40,7 +42,8 @@ const Purchases = () => {
   }
 
   const headers = [
-    "cid",
+    "file",
+    "request id",
     "duration",
     "slots",
     "reward",
@@ -58,10 +61,11 @@ const Purchases = () => {
 
       return [
         <FileCell requestId={r.id} purchaseCid={r.content.cid} index={index} />,
-        <Cell value={prettyMilliseconds(duration)} />,
-        <Cell value={ask.slots + " hosts"} />,
-        <Cell value={ask.reward + " tokens"} />,
-        <Cell value={"Every " + prettyMilliseconds(pf)} />,
+        <TruncateCell value={r.id} />,
+        <Cell value={prettyMilliseconds(duration, { verbose: true })} />,
+        <Cell value={ask.slots.toString()} />,
+        <Cell value={ask.reward + " CDX"} />,
+        <Cell value={prettyMilliseconds(pf, { verbose: true })} />,
         <CustomStateCellRender state={p.state} message={p.error} />,
       ];
     }) || [];

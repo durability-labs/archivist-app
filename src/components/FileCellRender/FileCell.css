@@ -3,6 +3,10 @@
   gap: 0.75rem;
 }
 
+.fileCell-cid {
+  white-space: nowrap;
+}
+
 .fileCell-subtitle {
   display: flex;
   align-items: center;

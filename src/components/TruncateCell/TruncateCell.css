@@ -1,0 +1,7 @@
+.truncateCell {
+  position: relative;
+}
+
+.truncateCell .tooltip:hover:after {
+  left: -33%;
+}
