@@ -22,7 +22,7 @@
     "React"
   ],
   "dependencies": {
-    "@codex-storage/marketplace-ui-components": "0.0.1",
+    "@codex-storage/marketplace-ui-components": "0.0.2",
     "@codex-storage/sdk-js": "0.0.1",
     "@sentry/react": "^8.27.0",
     "@tanstack/react-query": "^5.51.15",
