@@ -4,7 +4,6 @@ import { CodexSdk } from "../../sdk/codex";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import {
-  BreakCell,
   Button,
   Cell,
   Spinner,
@@ -13,7 +12,7 @@ import {
 import { StorageRequestStepper } from "../../components/StorageRequestSetup/StorageRequestStepper";
 import "./purchases.css";
 import { classnames } from "../../utils/classnames";
-import { FileCell } from "../../components/FileCellRender/FIleCell";
+import { FileCell } from "../../components/FileCellRender/FileCell";
 import { CustomStateCellRender } from "../../components/CustomStateCellRender/CustomStateCellRender";
 import prettyMilliseconds from "pretty-ms";
 import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
@@ -26,7 +25,11 @@ const Purchases = () => {
     queryFn: () =>
       CodexSdk.marketplace()
         .then((marketplace) => marketplace.purchases())
-        .then((s) => Promises.rejectOnError(s)),
+        .then((s) => Promises.rejectOnError(s))
+        .then((data) => {
+          // TODO add temporary data
+          return data;
+        }),
     queryKey: ["purchases"],
     refetchOnWindowFocus: false,
     retry: false,
