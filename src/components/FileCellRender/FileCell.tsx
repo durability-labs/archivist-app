@@ -15,7 +15,7 @@ export function FileCell({ requestId, purchaseCid }: Props) {
   const [metadata, setMetadata] = useState<FileMetadata>({
     name: "N/A.jpg",
     mimetype: "N/A",
-    uploadedAt: new Date(0, 0, 0, 0, 0, 0),
+    uploadedAt: new Date(0, 0, 0, 0, 0, 0).toJSON(),
   });
 
   useEffect(() => {

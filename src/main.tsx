@@ -56,13 +56,13 @@ const rootElement = document.getElementById("root")!;
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
 
-  await CodexSdk.load();
-
-  root.render(
-    <StrictMode>
-      <App>
-        <RouterProvider router={router} />
-      </App>
-    </StrictMode>
-  );
+  CodexSdk.load().then(() => {
+    root.render(
+      <StrictMode>
+        <App>
+          <RouterProvider router={router} />
+        </App>
+      </StrictMode>
+    );
+  });
 }
