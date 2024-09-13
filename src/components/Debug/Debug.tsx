@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { CodexSdk } from "../../sdk/codex";
-import { Spinner } from "@codex-storage/marketplace-ui-components";
+import { Placeholder, Spinner } from "@codex-storage/marketplace-ui-components";
 import { Promises } from "../../utils/promises";
+import { CircleX } from "lucide-react";
 
 export function Debug() {
-  const { data, isPending } = useQuery({
-    queryFn: () =>
-      CodexSdk.debug()
-        .then((debug) => debug.info())
-        .then((s) => Promises.rejectOnError(s)),
+  const { data, isPending, isError, error } = useQuery({
+    queryFn: () => CodexSdk.debug.info().then((s) => Promises.rejectOnError(s)),
     queryKey: ["debug"],
   });
 
@@ -17,6 +15,15 @@ export function Debug() {
       <div className="settings-debug-loader">
         <Spinner width="3rem" />
       </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Placeholder
+        Icon={<CircleX size={"4em"}></CircleX>}
+        title="Something went wrong"
+        message={error.message}></Placeholder>
     );
   }
 

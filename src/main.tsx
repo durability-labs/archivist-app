@@ -8,6 +8,7 @@ import App from "./App.tsx";
 import { routeTree } from "./routeTree.gen";
 import { Failure } from "@codex-storage/marketplace-ui-components";
 import * as Sentry from "@sentry/react";
+import { CodexSdk } from "./sdk/codex.ts";
 
 if (import.meta.env.PROD) {
   Sentry.init({
@@ -54,6 +55,9 @@ const rootElement = document.getElementById("root")!;
 
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
+
+  await CodexSdk.load();
+
   root.render(
     <StrictMode>
       <App>

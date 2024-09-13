@@ -17,9 +17,7 @@ export function LogLevel() {
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["debug"],
     mutationFn: (level: CodexLogLevel) =>
-      CodexSdk.debug()
-        .then((debug) => debug.setLogLevel(level))
-        .then((s) => Promises.rejectOnError(s)),
+      CodexSdk.debug.setLogLevel(level).then((s) => Promises.rejectOnError(s)),
     onSuccess: () => {
       setToast({
         message: "The log level has been updated successfully.",
@@ -34,7 +32,7 @@ export function LogLevel() {
       }
 
       setToast({
-        message: "Error when trying to update: " + error,
+        message: "Error when trying to update: " + error.message,
         time: Date.now(),
         variant: "error",
       });
@@ -43,7 +41,7 @@ export function LogLevel() {
   const [toast, setToast] = useState({
     time: 0,
     message: "",
-    variant: "success",
+    variant: "success" as "success" | "error" | "default",
   });
 
   function onChange(e: React.FormEvent<HTMLSelectElement>) {
@@ -80,7 +78,11 @@ export function LogLevel() {
         label="Save changes"
         fetching={isPending}
         onClick={onClick}></Button>
-      <Toast message={toast.message} time={toast.time} variant="success" />
+      <Toast
+        message={toast.message}
+        time={toast.time}
+        variant={toast.variant}
+      />
     </>
   );
 }

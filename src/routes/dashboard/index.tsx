@@ -14,7 +14,7 @@ const onSuccess = (cid: string, file: File) => {
   FilesStorage.set(cid, {
     name: file.name,
     mimetype: file.type,
-    uploadedAt: new Date(),
+    uploadedAt: new Date().toJSON(),
   });
 };
 
@@ -24,13 +24,7 @@ function About() {
       <div className="dashboard">
         <ErrorBoundary card={true}>
           <Card title="Upload a file">
-            <Upload
-              multiple
-              provider={() =>
-                CodexSdk.data().then((data) => data.upload.bind(data))
-              }
-              onSuccess={onSuccess}
-            />
+            <Upload multiple codexData={CodexSdk.data} onSuccess={onSuccess} />
           </Card>
         </ErrorBoundary>
 

@@ -4,7 +4,7 @@ const store = createStore("files", "files");
 
 export type FileMetadata = {
   mimetype: string;
-  uploadedAt: Date;
+  uploadedAt: string;
   name: string;
 };
 
@@ -12,10 +12,6 @@ export const FilesStorage = {
   list() {
     return entries<string, FileMetadata>(store);
   },
-
-  //   delete(key: string) {
-  //     return del(key, store);
-  //   },
 
   async get<T>(cid: string) {
     return get<T>(cid, store);

@@ -101,15 +101,15 @@ export function Files() {
             <div className="files-file" key={c.cid}>
               <div className="files-fileContent">
                 <div className="files-fileIcon">
-                  <WebFileIcon type={c.mimetype} />
+                  <WebFileIcon type={c.manifest.mimetype} />
                 </div>
                 <div className="files-fileData">
                   <div>
-                    <b>{c.name}</b>
+                    <b>{c.manifest.filename}</b>
                     <div>
                       <small className="files-fileMeta">
                         {PrettyBytes(c.manifest.datasetSize)} -{" "}
-                        {Dates.format(c.uploadedAt).toString()} - ...
+                        {Dates.format(c.manifest.uploadedAt).toString()} - ...
                         {c.cid.slice(-5)}
                       </small>
                     </div>

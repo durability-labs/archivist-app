@@ -53,8 +53,8 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
   const { mutateAsync } = useMutation({
     mutationKey: ["debug"],
     mutationFn: (input: CodexCreateStorageRequestInput) =>
-      CodexSdk.marketplace()
-        .then((marketplace) => marketplace.createStorageRequest(input))
+      CodexSdk.marketplace
+        .createStorageRequest(input)
         .then((s) => Promises.rejectOnError(s)),
     onSuccess: async (requestId, { cid }) => {
       queryClient.invalidateQueries({ queryKey: ["purchases"] });

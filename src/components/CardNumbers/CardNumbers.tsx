@@ -75,7 +75,6 @@ export function CardNumbers({
   );
 
   useEffect(() => {
-    console.info("received update //", data);
     updateText(data);
     setIsDirty(false);
   }, [data, updateText]);

@@ -5,7 +5,7 @@ import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
 
 export function NodeSpaceAllocation() {
   const { data: space, isPending } = useQuery({
-    queryFn: () => CodexSdk.data().then((data) => data.space()),
+    queryFn: () => CodexSdk.data.space(),
     queryKey: ["space"],
     refetchOnMount: true,
   });
