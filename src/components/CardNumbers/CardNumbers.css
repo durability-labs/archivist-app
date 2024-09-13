@@ -8,11 +8,24 @@
   flex-direction: column;
 }
 
+.cardNumber-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .cardNumber--error {
   border-color: rgb(var(--codex-color-error));
 }
 
-.cardNumber--error .cardNumber-tooltip {
+.cardNumber-errorText,
+.cardNumber-helperText {
+  height: 2rem;
+  display: inline-block;
+  margin-top: 0.25rem;
+  padding: 0 0.5rem;
+}
+
+.cardNumber-errorText {
   color: rgb(var(--codex-color-error));
 }
 
@@ -64,6 +77,11 @@
 
 .cardNumber .input {
   min-width: 0;
-  width: 100px;
+  width: 65px;
   height: 2.5rem;
+}
+
+.cardNumber .inputGroup-select {
+  height: 2.5rem;
+  padding: 0.25rem 1rem;
 }

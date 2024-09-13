@@ -29,7 +29,7 @@ function calculateAvailability(value: number, unit: StorageAvailabilityUnit) {
     case "months":
       return 30 * 24 * 60 * 60 * value;
     case "years":
-      return 365 * 30 * 60 * 60 * value;
+      return 365 * 24 * 60 * 60 * value;
   }
 }
 
@@ -50,7 +50,7 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
     message: "",
   });
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationKey: ["debug"],
     mutationFn: (input: CodexCreateStorageRequestInput) =>
       CodexSdk.marketplace()
@@ -94,9 +94,6 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
 
   const components = [
     StorageRequestFileChooser,
-    // StorageRequestAvailability,
-    // StorageRequestDurability,
-    // StorageRequestPrice,
     StorageRequestReview,
     StorageRequestDone,
   ];
@@ -111,19 +108,26 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
 
     if (state === "before") {
       setProgress(true);
+      setStep(s);
       return;
     }
 
     if (s >= steps.current.length) {
+      // TODO remove this
+      // Just a workaround because the request could take some time
+      // but the current client is doing the job in the main thread.
+      // So we are just waiting that the request is done for now.
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       setIsNextDisable(true);
-      setProgress(false);
 
       if (s >= steps.current.length) {
-        console.info("delete");
         setStep(0);
         WebStorage.delete("storage-request-step");
         WebStorage.delete("storage-request-criteria");
       }
+
+      setProgress(false);
 
       onClose();
 
@@ -134,7 +138,6 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
 
     setIsNextDisable(true);
     setProgress(false);
-    setStep(s);
 
     if (s == 2) {
       setIsNextDisable(true);
@@ -172,12 +175,14 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
         tolerance,
         reward,
       });
+
+      // TODO next step
     } else {
       setIsNextDisable(false);
     }
   };
 
-  const Body = components[step] || components[0];
+  const Body = progress ? () => <span /> : components[step] || components[0];
 
   return (
     <>
@@ -193,7 +198,7 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
           Body={<Body onChangeNextState={onChangeNextState} />}
           step={step}
           onChangeStep={onChangeStep}
-          progress={progress || isPending}
+          progress={progress}
           isNextDisable={progress || isNextDisable}></Stepper>
       </div>
 

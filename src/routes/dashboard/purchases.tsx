@@ -68,7 +68,7 @@ const Purchases = () => {
         <Cell value={prettyMilliseconds(duration, { verbose: true })} />,
         <Cell value={ask.slots.toString()} />,
         <Cell value={ask.reward + " CDX"} />,
-        <Cell value={prettyMilliseconds(pf, { verbose: true })} />,
+        <Cell value={(pf / 1000).toString()} />,
         <CustomStateCellRender state={p.state} message={p.error} />,
       ];
     }) || [];
@@ -93,7 +93,7 @@ const Purchases = () => {
         onClose={() => setOpen(false)}
       />
 
-      {!open && <Table headers={headers} cells={cells} />}
+      <Table headers={headers} cells={cells} />
 
       {/* {!cells.length && (
         <EmptyPlaceholder
