@@ -17,10 +17,12 @@ export const CustomStateCellRender = ({ state, message }: Props) => {
     started: CircleDashed,
     finished: CheckCircle,
     cancelled: ShieldAlert,
+    errored: ShieldAlert,
   };
 
   const states = {
     cancelled: "error",
+    errored: "error",
     pending: "warning",
     started: "loading",
     submitted: "loading",
