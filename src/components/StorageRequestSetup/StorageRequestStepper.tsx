@@ -6,7 +6,7 @@ import { StorageRequestReview } from "./StorageRequestReview";
 import { CodexCreateStorageRequestInput } from "@codex-storage/sdk-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CodexSdk } from "../../sdk/codex";
-import { StorageAvailabilityUnit } from "./types";
+import { StorageAvailabilityUnit, StorageRequestCriteria } from "./types";
 import {
   Backdrop,
   Stepper,
@@ -138,9 +138,7 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
     if (nextStep == SUCCESS_STEP) {
       const [cid, criteria] = await Promise.all([
         WebStorage.get<string>("storage-request-step-1"),
-        // TODO define criteria interface
-        // eslint-disable-next-line
-        WebStorage.get<any>("storage-request-criteria"),
+        WebStorage.get<StorageRequestCriteria>("storage-request-criteria"),
       ]);
 
       if (!cid || !criteria) {

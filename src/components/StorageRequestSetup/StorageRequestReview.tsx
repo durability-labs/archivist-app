@@ -5,27 +5,10 @@ import { Alert } from "@codex-storage/marketplace-ui-components";
 import { CardNumbers } from "../CardNumbers/CardNumbers";
 import { FileWarning } from "lucide-react";
 import { classnames } from "../../utils/classnames";
+import { AvailabilityUnit, StorageRequestCriteria } from "./types";
 
 type Props = {
   onChangeNextState: (value: "enable" | "disable") => void;
-};
-
-export type AvailabilityUnit =
-  | "days"
-  | "months"
-  | "years"
-  | "minutes"
-  | "hours";
-
-type Data = {
-  availability: number;
-  availabilityUnit: AvailabilityUnit;
-  tolerance: number;
-  proofProbability: number;
-  nodes: number;
-  reward: number;
-  collateral: number;
-  expiration: number;
 };
 
 type Durability = {
@@ -55,7 +38,7 @@ const units = ["days", "minutes", "hours", "days", "months", "years"];
 export function StorageRequestReview({ onChangeNextState }: Props) {
   const [cid, setCid] = useState("");
   const [durability, setDurability] = useState<number>(1);
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<StorageRequestCriteria>({
     availabilityUnit: "days",
     availability: 1,
     tolerance: 1,
@@ -68,7 +51,7 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
 
   useEffect(() => {
     Promise.all([
-      WebStorage.get<Data>("storage-request-criteria"),
+      WebStorage.get<StorageRequestCriteria>("storage-request-criteria"),
       WebStorage.get<string>("storage-request-step-1"),
     ]).then(([d, cid]) => {
       if (d) {
@@ -102,7 +85,7 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
     });
   }, [onChangeNextState]);
 
-  const updateData = (p: Partial<Data>) => {
+  const updateData = (p: Partial<StorageRequestCriteria>) => {
     setData((d) => {
       const newData = { ...d, ...p };
 
