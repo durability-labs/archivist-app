@@ -1,5 +1,5 @@
 .cell-state--custom {
-  display: flex;
+  display: inline-flex;
 }
 
 .cell-stateIcon {

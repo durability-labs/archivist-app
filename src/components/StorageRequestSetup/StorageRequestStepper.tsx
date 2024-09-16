@@ -39,6 +39,9 @@ type Props = {
   className?: string;
 };
 
+const UPLOAD_STEP = 0;
+const SUCCESS_STEP = 2;
+
 export function StorageRequestStepper({ className, open, onClose }: Props) {
   const [progress, setProgress] = useState(true);
   const [step, setStep] = useState(0);
@@ -64,12 +67,17 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
       }
 
       PurchaseStorage.set(requestId, cid);
+      WebStorage.set("storage-request-step", SUCCESS_STEP);
+
+      setProgress(false);
+      setStep(SUCCESS_STEP);
     },
     onError: (error) => {
       if (import.meta.env.PROD) {
         Sentry.captureException(error);
       }
 
+      setProgress(false);
       setToast({
         message: "Error when trying to update: " + error,
         time: Date.now(),
@@ -98,51 +106,36 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
     StorageRequestDone,
   ];
 
-  const onChangeStep = async (s: number, state: "before" | "end") => {
-    if (s === -1) {
+  const onChangeStep = async (nextStep: number, state: "before" | "end") => {
+    if (nextStep < UPLOAD_STEP) {
       setStep(0);
       setIsNextDisable(true);
+      setProgress(false);
       onClose();
       return;
     }
 
     if (state === "before") {
+      setIsNextDisable(true);
       setProgress(true);
-      setStep(s);
+      setStep(nextStep);
       return;
     }
 
-    if (s >= steps.current.length) {
-      // TODO remove this
-      // Just a workaround because the request could take some time
-      // but the current client is doing the job in the main thread.
-      // So we are just waiting that the request is done for now.
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+    if (nextStep > SUCCESS_STEP) {
+      WebStorage.delete("storage-request-step");
+      WebStorage.delete("storage-request-criteria");
 
       setIsNextDisable(true);
-
-      if (s >= steps.current.length) {
-        setStep(0);
-        WebStorage.delete("storage-request-step");
-        WebStorage.delete("storage-request-criteria");
-      }
-
       setProgress(false);
+      setStep(0);
 
       onClose();
 
       return;
     }
 
-    WebStorage.set("storage-request-step", s);
-
-    setIsNextDisable(true);
-    setProgress(false);
-
-    if (s == 2) {
-      setIsNextDisable(true);
-      setProgress(false);
-
+    if (nextStep == SUCCESS_STEP) {
       const [cid, criteria] = await Promise.all([
         WebStorage.get<string>("storage-request-step-1"),
         // TODO define criteria interface
@@ -175,10 +168,13 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
         tolerance,
         reward,
       });
-
-      // TODO next step
+      // TODO When the thread bug will be fixed,
+      // move to the next step without waiting the end of the request
+      // and add a line into the table
     } else {
-      setIsNextDisable(false);
+      WebStorage.set("storage-request-step", nextStep);
+
+      setProgress(false);
     }
   };
 
