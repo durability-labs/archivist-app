@@ -153,19 +153,123 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexRoute,
-  DashboardRoute: DashboardRoute.addChildren({
-    DashboardAboutRoute,
-    DashboardAvailabilitiesRoute,
-    DashboardFavoritesRoute,
-    DashboardHelpRoute,
-    DashboardPurchasesRoute,
-    DashboardRequestsRoute,
-    DashboardSettingsRoute,
-    DashboardIndexRoute,
-  }),
-})
+interface DashboardRouteChildren {
+  DashboardAboutRoute: typeof DashboardAboutRoute
+  DashboardAvailabilitiesRoute: typeof DashboardAvailabilitiesRoute
+  DashboardFavoritesRoute: typeof DashboardFavoritesRoute
+  DashboardHelpRoute: typeof DashboardHelpRoute
+  DashboardPurchasesRoute: typeof DashboardPurchasesRoute
+  DashboardRequestsRoute: typeof DashboardRequestsRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAboutRoute: DashboardAboutRoute,
+  DashboardAvailabilitiesRoute: DashboardAvailabilitiesRoute,
+  DashboardFavoritesRoute: DashboardFavoritesRoute,
+  DashboardHelpRoute: DashboardHelpRoute,
+  DashboardPurchasesRoute: DashboardPurchasesRoute,
+  DashboardRequestsRoute: DashboardRequestsRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/about': typeof DashboardAboutRoute
+  '/dashboard/availabilities': typeof DashboardAvailabilitiesRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/help': typeof DashboardHelpRoute
+  '/dashboard/purchases': typeof DashboardPurchasesRoute
+  '/dashboard/requests': typeof DashboardRequestsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/dashboard/about': typeof DashboardAboutRoute
+  '/dashboard/availabilities': typeof DashboardAvailabilitiesRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/help': typeof DashboardHelpRoute
+  '/dashboard/purchases': typeof DashboardPurchasesRoute
+  '/dashboard/requests': typeof DashboardRequestsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard': typeof DashboardIndexRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/about': typeof DashboardAboutRoute
+  '/dashboard/availabilities': typeof DashboardAvailabilitiesRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/help': typeof DashboardHelpRoute
+  '/dashboard/purchases': typeof DashboardPurchasesRoute
+  '/dashboard/requests': typeof DashboardRequestsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/dashboard/about'
+    | '/dashboard/availabilities'
+    | '/dashboard/favorites'
+    | '/dashboard/help'
+    | '/dashboard/purchases'
+    | '/dashboard/requests'
+    | '/dashboard/settings'
+    | '/dashboard/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/dashboard/about'
+    | '/dashboard/availabilities'
+    | '/dashboard/favorites'
+    | '/dashboard/help'
+    | '/dashboard/purchases'
+    | '/dashboard/requests'
+    | '/dashboard/settings'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/dashboard/about'
+    | '/dashboard/availabilities'
+    | '/dashboard/favorites'
+    | '/dashboard/help'
+    | '/dashboard/purchases'
+    | '/dashboard/requests'
+    | '/dashboard/settings'
+    | '/dashboard/'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 

@@ -8,9 +8,9 @@ import {
   ButtonIcon,
   EmptyPlaceholder,
   WebFileIcon,
+  Tabs,
 } from "@codex-storage/marketplace-ui-components";
 import { FileDetails } from "./FileDetails.tsx";
-import { classnames } from "../../utils/classnames.ts";
 import { FavoriteStorage } from "../../utils/favorite-storage.tsx";
 import { useData } from "../../hooks/useData.tsx";
 
@@ -33,7 +33,7 @@ export function Files() {
   const cid = useRef<string | null>("");
   const [expanded, setExpanded] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [selected, setSelected] = useState<"all" | "favorites">("all");
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     FavoriteStorage.list().then((cids) => setFavorites(cids));
@@ -47,8 +47,7 @@ export function Files() {
     }, SIDE_DURATION);
   };
 
-  const onSelected = () =>
-    setSelected(selected === "all" ? "favorites" : "all");
+  const onTabChange = (i: number) => setIndex(i);
 
   const onDetails = (id: string) => {
     cid.current = id;
@@ -67,7 +66,7 @@ export function Files() {
 
   const items = [];
 
-  if (selected === "favorites") {
+  if (index === 1) {
     items.push(...files.filter((f) => favorites.includes(f.cid)));
   } else {
     items.push(...files);
@@ -81,27 +80,19 @@ export function Files() {
     <div className="files">
       <div className="files-header">
         <div className="files-title">Files</div>
-        <div className="files-headerTabs">
-          <div
-            className={classnames(
-              ["files-headerTab"],
-              ["files-headerTab--active", selected === "all"]
-            )}
-            onClick={onSelected}>
-            <FilesIcon size={"1rem"}></FilesIcon>
-            <span>All files</span>
-          </div>
-
-          <div
-            className={classnames(
-              ["files-headerTab"],
-              ["files-headerTab--active", selected === "favorites"]
-            )}
-            onClick={onSelected}>
-            <Star size={"1rem"}></Star>
-            <span>Favorites</span>
-          </div>
-        </div>
+        <Tabs
+          onTabChange={onTabChange}
+          tabIndex={index}
+          tabs={[
+            {
+              label: "All files",
+              Icon: () => <FilesIcon size={"1rem"}></FilesIcon>,
+            },
+            {
+              label: "Favorites",
+              Icon: () => <Star size={"1rem"}></Star>,
+            },
+          ]}></Tabs>
       </div>
 
       <div className="files-fileBody">
@@ -110,15 +101,15 @@ export function Files() {
             <div className="files-file" key={c.cid}>
               <div className="files-fileContent">
                 <div className="files-fileIcon">
-                  <WebFileIcon type={c.mimetype} />
+                  <WebFileIcon type={c.manifest.mimetype} />
                 </div>
                 <div className="files-fileData">
                   <div>
-                    <b>{c.name}</b>
+                    <b>{c.manifest.filename}</b>
                     <div>
                       <small className="files-fileMeta">
                         {PrettyBytes(c.manifest.datasetSize)} -{" "}
-                        {Dates.format(c.uploadedAt).toString()} - ...
+                        {Dates.format(c.manifest.uploadedAt).toString()} - ...
                         {c.cid.slice(-5)}
                       </small>
                     </div>

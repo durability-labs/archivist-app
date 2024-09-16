@@ -7,5 +7,14 @@ export default defineConfig({
   plugins: [TanStackRouterVite(), react()],
   build: {
     sourcemap: true,
+    rollupOptions: {
+      onwarn(warning, defaultHandler) {
+        if (warning.code === "SOURCEMAP_ERROR") {
+          return;
+        }
+
+        defaultHandler(warning);
+      },
+    },
   },
 });

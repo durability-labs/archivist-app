@@ -5,6 +5,9 @@ import {
   NetworkIndicator,
   Toast,
 } from "@codex-storage/marketplace-ui-components";
+import { Promises } from "../../utils/promises";
+
+const report = false;
 
 export function NodeIndicator() {
   const queryClient = useQueryClient();
@@ -16,18 +19,7 @@ export function NodeIndicator() {
   const { data, isError } = useQuery({
     queryKey: ["spr"],
     queryFn: async () =>
-      CodexSdk.node()
-        .then((node) => node.spr())
-        .then((data) => {
-          // if (data.error) {
-          //   setToast({
-          //     message: "Cannot connect to the Codex node.",
-          //     time: Date.now(),
-          //   });
-          // }
-
-          return data;
-        }),
+      CodexSdk.node.spr().then((data) => Promises.rejectOnError(data, report)),
     retry: false,
     refetchInterval: 5000,
   });

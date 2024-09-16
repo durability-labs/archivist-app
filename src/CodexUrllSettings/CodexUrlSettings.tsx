@@ -1,16 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Input, Toast } from "@codex-storage/marketplace-ui-components";
 import { CodexSdk } from "../sdk/codex";
 
 export function CodexUrlSettings() {
   const queryClient = useQueryClient();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(CodexSdk.url);
   const [toast, setToast] = useState({ time: 0, message: "" });
-
-  useEffect(() => {
-    CodexSdk.url().then((u) => setUrl(u));
-  }, []);
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;

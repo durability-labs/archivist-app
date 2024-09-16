@@ -1,22 +1,23 @@
-import { ButtonIcon, Button } from "@codex-storage/marketplace-ui-components";
+import {
+  ButtonIcon,
+  Button,
+  Sheets,
+} from "@codex-storage/marketplace-ui-components";
 import { CodexDataContent } from "@codex-storage/sdk-js";
-import { X, DownloadIcon } from "lucide-react";
-import { attributes } from "../../utils/attributes";
 import { PrettyBytes } from "../../utils/bytes";
 import { ICON_SIZE } from "../../utils/constants";
 import { Dates } from "../../utils/dates";
 import { CidCopyButton } from "./CidCopyButton";
 import "./FileDetails.css";
-import { FileMetadata } from "../../utils/file-storage";
+import { DownloadIcon, X } from "lucide-react";
 
 type Props = {
-  details: (CodexDataContent & FileMetadata) | undefined;
+  details: CodexDataContent | undefined;
   onClose: () => void;
   expanded: boolean;
 };
 
 export function FileDetails({ onClose, details, expanded }: Props) {
-  const attr = attributes({ "aria-expanded": expanded });
   const url = import.meta.env.VITE_CODEX_API_URL + "/api/codex/v1/data/";
 
   const Icon = () => <X size={ICON_SIZE} onClick={onClose} />;
@@ -24,13 +25,8 @@ export function FileDetails({ onClose, details, expanded }: Props) {
   const onDownload = () => window.open(url + details?.cid, "_target");
 
   return (
-    <>
-      <div
-        className="files-backdrop backdrop"
-        onClick={onClose}
-        {...attr}></div>
-
-      <div className="fileDetails" {...attr}>
+    <Sheets open={expanded} onClose={onClose}>
+      <>
         {details && (
           <>
             <div className="fileDetails-header">
@@ -46,19 +42,23 @@ export function FileDetails({ onClose, details, expanded }: Props) {
 
               <div className="fileDetails-grid">
                 <p className="text-secondary">File name:</p>
-                <p className="fileDetails-gridColumn">{details.name}</p>
+                <p className="fileDetails-gridColumn">
+                  {details.manifest.filename}
+                </p>
               </div>
 
               <div className="fileDetails-grid">
                 <p className="text-secondary">Date:</p>
                 <p className="fileDetails-gridColumn">
-                  {Dates.format(details.uploadedAt).toString()}
+                  {Dates.format(details.manifest.uploadedAt).toString()}
                 </p>
               </div>
 
               <div className="fileDetails-grid">
                 <p className="text-secondary">Mimetype:</p>
-                <p className="fileDetails-gridColumn">{details.mimetype}</p>
+                <p className="fileDetails-gridColumn">
+                  {details.manifest.mimetype}
+                </p>
               </div>
 
               <div className="fileDetails-grid">
@@ -86,7 +86,7 @@ export function FileDetails({ onClose, details, expanded }: Props) {
             </div>
           </>
         )}
-      </div>
-    </>
+      </>
+    </Sheets>
   );
 }

@@ -29,7 +29,7 @@ function calculateAvailability(value: number, unit: StorageAvailabilityUnit) {
     case "months":
       return 30 * 24 * 60 * 60 * value;
     case "years":
-      return 365 * 30 * 60 * 60 * value;
+      return 365 * 24 * 60 * 60 * value;
   }
 }
 
@@ -38,6 +38,9 @@ type Props = {
   onClose: () => void;
   className?: string;
 };
+
+const UPLOAD_STEP = 0;
+const SUCCESS_STEP = 2;
 
 export function StorageRequestStepper({ className, open, onClose }: Props) {
   const [progress, setProgress] = useState(true);
@@ -50,11 +53,11 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
     message: "",
   });
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationKey: ["debug"],
     mutationFn: (input: CodexCreateStorageRequestInput) =>
-      CodexSdk.marketplace()
-        .then((marketplace) => marketplace.createStorageRequest(input))
+      CodexSdk.marketplace
+        .createStorageRequest(input)
         .then((s) => Promises.rejectOnError(s)),
     onSuccess: async (requestId, { cid }) => {
       queryClient.invalidateQueries({ queryKey: ["purchases"] });
@@ -64,12 +67,17 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
       }
 
       PurchaseStorage.set(requestId, cid);
+      WebStorage.set("storage-request-step", SUCCESS_STEP);
+
+      setProgress(false);
+      setStep(SUCCESS_STEP);
     },
     onError: (error) => {
       if (import.meta.env.PROD) {
         Sentry.captureException(error);
       }
 
+      setProgress(false);
       setToast({
         message: "Error when trying to update: " + error,
         time: Date.now(),
@@ -94,52 +102,40 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
 
   const components = [
     StorageRequestFileChooser,
-    // StorageRequestAvailability,
-    // StorageRequestDurability,
-    // StorageRequestPrice,
     StorageRequestReview,
     StorageRequestDone,
   ];
 
-  const onChangeStep = async (s: number, state: "before" | "end") => {
-    if (s === -1) {
+  const onChangeStep = async (nextStep: number, state: "before" | "end") => {
+    if (nextStep < UPLOAD_STEP) {
       setStep(0);
       setIsNextDisable(true);
+      setProgress(false);
       onClose();
       return;
     }
 
     if (state === "before") {
+      setIsNextDisable(true);
       setProgress(true);
+      setStep(nextStep);
       return;
     }
 
-    if (s >= steps.current.length) {
+    if (nextStep > SUCCESS_STEP) {
+      WebStorage.delete("storage-request-step");
+      WebStorage.delete("storage-request-criteria");
+
       setIsNextDisable(true);
       setProgress(false);
-
-      if (s >= steps.current.length) {
-        console.info("delete");
-        setStep(0);
-        WebStorage.delete("storage-request-step");
-        WebStorage.delete("storage-request-criteria");
-      }
+      setStep(0);
 
       onClose();
 
       return;
     }
 
-    WebStorage.set("storage-request-step", s);
-
-    setIsNextDisable(true);
-    setProgress(false);
-    setStep(s);
-
-    if (s == 2) {
-      setIsNextDisable(true);
-      setProgress(false);
-
+    if (nextStep == SUCCESS_STEP) {
       const [cid, criteria] = await Promise.all([
         WebStorage.get<string>("storage-request-step-1"),
         // TODO define criteria interface
@@ -172,12 +168,17 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
         tolerance,
         reward,
       });
+      // TODO When the thread bug will be fixed,
+      // move to the next step without waiting the end of the request
+      // and add a line into the table
     } else {
-      setIsNextDisable(false);
+      WebStorage.set("storage-request-step", nextStep);
+
+      setProgress(false);
     }
   };
 
-  const Body = components[step] || components[0];
+  const Body = progress ? () => <span /> : components[step] || components[0];
 
   return (
     <>
@@ -193,7 +194,7 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
           Body={<Body onChangeNextState={onChangeNextState} />}
           step={step}
           onChangeStep={onChangeStep}
-          progress={progress || isPending}
+          progress={progress}
           isNextDisable={progress || isNextDisable}></Stepper>
       </div>
 

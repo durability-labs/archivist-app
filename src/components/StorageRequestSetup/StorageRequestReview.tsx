@@ -1,14 +1,10 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { WebStorage } from "../../utils/web-storage";
 import "./StorageRequestReview.css";
 import { Alert } from "@codex-storage/marketplace-ui-components";
 import { CardNumbers } from "../CardNumbers/CardNumbers";
-import { Range } from "../Range/Range";
 import { FileWarning } from "lucide-react";
 import { classnames } from "../../utils/classnames";
-
-const plurals = (type: "node" | "token" | "second" | "minute", value: number) =>
-  `${value} ${type}` + (value > 1 ? "s" : "");
 
 type Props = {
   onChangeNextState: (value: "enable" | "disable") => void;
@@ -39,31 +35,9 @@ type Durability = {
 };
 
 const durabilities = [
-  { nodes: 2, tolerance: 0, proofProbability: 1 },
   { nodes: 3, tolerance: 1, proofProbability: 2 },
   { nodes: 4, tolerance: 2, proofProbability: 3 },
-  { nodes: 5, tolerance: 3, proofProbability: 4 },
-  { nodes: 6, tolerance: 4, proofProbability: 5 },
-];
-
-type Price = {
-  reward: number;
-  collateral: number;
-};
-
-const prices = [
-  {
-    reward: 5,
-    collateral: 5,
-  },
-  {
-    reward: 10,
-    collateral: 10,
-  },
-  {
-    reward: 50,
-    collateral: 20,
-  },
+  { nodes: 5, tolerance: 2, proofProbability: 4 },
 ];
 
 const findDurabilityIndex = (d: Durability) => {
@@ -76,24 +50,11 @@ const findDurabilityIndex = (d: Durability) => {
   return durabilities.findIndex((d) => JSON.stringify(d) === s);
 };
 
-const findPriceIndex = (d: Price) => {
-  const s = JSON.stringify({
-    reward: d.reward,
-    collateral: d.collateral,
-  });
-
-  return prices.findIndex((p) => JSON.stringify(p) === s);
-};
+const units = ["days", "minutes", "hours", "days", "months", "years"];
 
 export function StorageRequestReview({ onChangeNextState }: Props) {
   const [cid, setCid] = useState("");
-  const [errors, setErrors] = useState({
-    nodes: "",
-    tolerance: "",
-    proofProbability: "",
-  });
   const [durability, setDurability] = useState<number>(1);
-  const [price, setPrice] = useState<number>(1);
   const [data, setData] = useState<Data>({
     availabilityUnit: "days",
     availability: 1,
@@ -120,13 +81,6 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
         });
 
         setDurability(index + 1);
-
-        const pindex = findPriceIndex({
-          reward: d.reward,
-          collateral: d.collateral,
-        });
-
-        setPrice(pindex + 1);
       } else {
         WebStorage.set("storage-request-criteria", {
           availabilityUnit: "days",
@@ -158,43 +112,85 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
     });
   };
 
-  const onDurabilityRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const l = parseInt(e.currentTarget.value, 10);
+  const onDurabilityChange = (d: number) => {
+    const durability = durabilities[d - 1];
 
-    const durability = durabilities[l - 1];
-
-    updateData(durability);
-    setDurability(l);
-    setErrors({ nodes: "", tolerance: "", proofProbability: "" });
+    if (durability) {
+      updateData(durability);
+      setDurability(d);
+    } else {
+      setDurability(0);
+    }
   };
 
-  const onPriceRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const l = parseInt(e.currentTarget.value, 10);
-
-    const price = prices[l - 1];
-
-    updateData(price);
-    setPrice(l);
-  };
-
-  const isUnvalidConstrainst = (nodes: number, tolerance: number) => {
+  const isInvalidConstrainst = (nodes: number, tolerance: number) => {
     const ecK = nodes - tolerance;
     const ecM = tolerance;
 
     return ecK <= 1 || ecK < ecM;
   };
 
-  const onNodesChange = (nodes: number) => {
-    setErrors((e) => ({ ...e, tolerance: "" }));
+  const isInvalidNodes = (nodes: string) => {
+    const error = isInvalidNumber(nodes);
 
-    if (isUnvalidConstrainst(nodes, data.tolerance)) {
-      setErrors((e) => ({
-        ...e,
-        nodes:
-          "The data does not match Codex contrainst. Try with other values.",
-      }));
-      return;
+    if (error) {
+      return error;
     }
+
+    const n = Number(nodes);
+
+    if (isInvalidConstrainst(n, data.tolerance)) {
+      return "The data does not match Codex contrainst";
+    }
+
+    return "";
+  };
+
+  const isInvalidTolerance = (tolerance: string) => {
+    const error = isInvalidNumber(tolerance);
+
+    if (error) {
+      return error;
+    }
+
+    const n = Number(tolerance);
+
+    if (n > data.nodes) {
+      return "The tolerance cannot be greater than the nodes.";
+    }
+
+    if (isInvalidConstrainst(data.nodes, n)) {
+      return "The data does not match Codex contrainst.";
+    }
+
+    return "";
+  };
+
+  const isInvalidAvailability = (data: string) => {
+    const [value, unit = "days"] = data.split(" ");
+
+    const error = isInvalidNumber(value);
+
+    if (error) {
+      return error;
+    }
+
+    // if (!unit.endsWith("s")) {
+    //   unit += "s";
+    // }
+
+    if (!units.includes(unit)) {
+      return "Invalid unit must one of: minutes, hours, days, months, years";
+    }
+
+    return "";
+  };
+
+  const isInvalidNumber = (value: string) =>
+    isNaN(Number(value)) ? "The value is not a number" : "";
+
+  const onNodesChange = (value: string) => {
+    const nodes = Number(value);
 
     updateData({ nodes });
 
@@ -207,25 +203,8 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
     setDurability(index + 1);
   };
 
-  const onToleranceChange = (tolerance: number) => {
-    setErrors((e) => ({ ...e, tolerance: "" }));
-
-    if (tolerance > data.nodes) {
-      setErrors((e) => ({
-        ...e,
-        tolerance: "The tolerance cannot be greater than the nodes.",
-      }));
-      return;
-    }
-
-    if (isUnvalidConstrainst(data.nodes, tolerance)) {
-      setErrors((e) => ({
-        ...e,
-        tolerance:
-          "The data does not match Codex contrainst. Try with other values.",
-      }));
-      return;
-    }
+  const onToleranceChange = (value: string) => {
+    const tolerance = Number(value);
 
     updateData({ tolerance });
 
@@ -238,7 +217,9 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
     setDurability(index + 1);
   };
 
-  const onProofProbabilityChange = (proofProbability: number) => {
+  const onProofProbabilityChange = (value: string) => {
+    const proofProbability = Number(value);
+
     updateData({ proofProbability });
 
     const index = findDurabilityIndex({
@@ -250,58 +231,134 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
     setDurability(index + 1);
   };
 
-  const onAvailabilityChange = (availability: number) =>
-    updateData({ availability });
+  const onAvailabilityChange = (value: string) => {
+    const [availability, availabilityUnit = "days"] = value.split(" ");
 
-  const onRewardChange = (reward: number) => {
+    // if (!availabilityUnit.endsWith("s")) {
+    //   availabilityUnit += "s";
+    // }
+
+    updateData({
+      availability: Number(availability),
+      availabilityUnit: availabilityUnit as AvailabilityUnit,
+    });
+  };
+
+  const onRewardChange = (value: string) => {
+    const reward = Number(value);
+
     updateData({ reward });
-
-    const index = findPriceIndex({
-      reward,
-      collateral: data.collateral,
-    });
-
-    setPrice(index + 1);
   };
 
-  const onCollateralChange = (collateral: number) => {
+  const onExpirationChange = (value: string) => {
+    const expiration = Number(value);
+
+    updateData({ expiration });
+  };
+
+  const onCollateralChange = (value: string) => {
+    const collateral = Number(value);
+
     updateData({ collateral });
-
-    const index = findPriceIndex({
-      collateral,
-      reward: data.reward,
-    });
-
-    setPrice(index + 1);
   };
+
+  // const pluralizeUnit = () => {
+  //   if (data.availability > 1 && !data.availabilityUnit.endsWith("s")) {
+  //     return data.availability + " " +data.availabilityUnit + "s";
+  //   }
+
+  //   if (data.availability <= 1 && data.availabilityUnit.endsWith("s")) {
+  //     return data.availabilityUnit.slice(0, -1);
+  //   }
+
+  //   return data.availabilityUnit;
+  // };
+
+  const availability = `${data.availability} ${data.availabilityUnit}`;
 
   return (
     <div>
-      <span className="storageRequest-title">Choose your criteria</span>
+      <span className="storageRequest-title">Durability</span>
       <div className="storageRequestReview-numbers">
         <CardNumbers
           title={"Nodes"}
           data={data.nodes.toString()}
-          comment={errors.nodes || "Storage nodes required"}
           onChange={onNodesChange}
-          hasError={!!errors.nodes}></CardNumbers>
+          onValidation={isInvalidNodes}
+          helper="Number of storage nodes"></CardNumbers>
         <CardNumbers
           title={"Tolerance"}
           data={data.tolerance.toString()}
-          comment={errors.tolerance || "Failure nodes tolerated"}
           onChange={onToleranceChange}
-          hasError={!!errors.tolerance}></CardNumbers>
+          onValidation={isInvalidTolerance}
+          helper="Failure node tolerated"></CardNumbers>
         <CardNumbers
           title={"Proof probability"}
           data={data.proofProbability.toString()}
-          comment={
-            errors.proofProbability || "Proof request frequency in seconds"
-          }
           onChange={onProofProbabilityChange}
-          hasError={!!errors.proofProbability}></CardNumbers>
+          helper="Proof request frequency in seconds"></CardNumbers>
       </div>
 
-      <Range
+      <div className="storageRequestReview-presets">
+        <div className="storageRequestReview-presets-title">
+          <b>Define your durability profile</b>
+          <p>
+            Select the appropriate level of data storage reliability ensuring
+            your information is protected and accessible.
+          </p>
+        </div>
+        <div className="storageRequestReview-presets-blocs">
+          <div
+            onClick={() => onDurabilityChange(0)}
+            className={classnames(
+              ["storageRequestReview-presets-bloc"],
+              [
+                "storageRequestReview-presets--selected",
+                durability <= 0 || durability > 3,
+              ]
+            )}>
+            <div className="storageRequestReview-presets-blocIcon">
+              <img src="/shape-1.png" width={48} />
+            </div>
+            <p>Custom</p>
+          </div>
+          <div
+            onClick={() => onDurabilityChange(1)}
+            className={classnames(
+              ["storageRequestReview-presets-bloc"],
+              ["storageRequestReview-presets--selected", durability === 1]
+            )}>
+            <div className="storageRequestReview-presets-blocIcon">
+              <img src="/shape-2.png" width={48} />
+            </div>
+            <p>Low</p>
+          </div>
+          <div
+            onClick={() => onDurabilityChange(2)}
+            className={classnames(
+              ["storageRequestReview-presets-bloc"],
+              ["storageRequestReview-presets--selected", durability === 2]
+            )}>
+            <div className="storageRequestReview-presets-blocIcon">
+              <img src="/shape-3.png" width={48} />
+            </div>
+            <p>Medium</p>
+          </div>
+          <div
+            onClick={() => onDurabilityChange(3)}
+            className={classnames(
+              ["storageRequestReview-presets-bloc"],
+              ["storageRequestReview-presets--selected", durability === 3]
+            )}>
+            <div className="storageRequestReview-presets-blocIcon">
+              <img src="/shape-4.png" width={48} />
+            </div>
+            <p>High</p>
+          </div>
+        </div>
+      </div>
+
+      {/* <Range
         onChange={onDurabilityRangeChange}
         className={classnames(
           ["storageRequestReview-range"],
@@ -311,79 +368,61 @@ export function StorageRequestReview({ onChangeNextState }: Props) {
         max={5}
         label=""
         value={durability}
-      />
+      /> */}
+
+      <span className="storageRequest-title">Commitment</span>
 
       <div className="storageRequestReview-numbers">
         <CardNumbers
           title={"Contract duration"}
-          data={data.availability.toString()}
-          comment={"Contract duration in " + data.availabilityUnit}
-          onChange={onAvailabilityChange}></CardNumbers>
-
+          data={availability}
+          onChange={onAvailabilityChange}
+          onValidation={isInvalidAvailability}
+          repositionCaret={false}
+          helper="Full period of the contract"></CardNumbers>
+        <CardNumbers
+          title={"Collateral"}
+          data={data.collateral.toString()}
+          onChange={onCollateralChange}
+          onValidation={isInvalidNumber}
+          helper="Reward tokens for hosts"></CardNumbers>
         <CardNumbers
           title={"Reward"}
           data={data.reward.toString()}
-          comment={"Reward tokens"}
-          onChange={onRewardChange}></CardNumbers>
-
-        <CardNumbers
-          title={"Collateral"}
-          data={data.reward.toString()}
-          comment={"Penality tokens"}
-          onChange={onCollateralChange}></CardNumbers>
+          onChange={onRewardChange}
+          onValidation={isInvalidNumber}
+          helper="Penality tokens"></CardNumbers>
+        <div className="storageRequest-price"></div>
+        {/* <Range
+          className={classnames(
+            ["storageRequestReview-range"],
+            ["storageRequestReview-range--disabled", price === 0]
+          )}
+          labels={["Low", "Average", "Attractive"]}
+          max={100}
+          label=""
+          onChange={onPriceRangeChange}
+        /> */}
       </div>
-      <Range
-        className={classnames(
-          ["storageRequestReview-range"],
-          ["storageRequestReview-range--disabled", price === 0]
-        )}
-        labels={["Low", "Average", "Attractive"]}
-        max={3}
-        label=""
-        onChange={onPriceRangeChange}
-      />
 
-      <Alert
-        Icon={<FileWarning />}
-        title="Warning"
-        variant="warning"
-        className="storageRequestReview-alert">
-        This request with CID
-        <b> {cid}</b> will expire in
-        <b> {plurals("minute", data.expiration)} </b>
-        after the start. <br />
-        If no suitable hosts are found matching your storage requirements, you
-        will incur a charge of X tokens.
-      </Alert>
       <hr className="storageRequestReview-hr" />
-      <p className="text-center">
-        <b className=" storageRequestReview-title">
-          Price comparaison with the market
-        </b>
-      </p>
-      <div className="storageRequestReview-legend">
-        <div className="storageRequestReview-legendItem">
-          <span className="storageRequestReview-legendItemColor storageRequestReview-legendItemColor-cheap"></span>
-          <span>Cheap</span>
-        </div>
 
-        <div className="storageRequestReview-legendItem">
-          <span className="storageRequestReview-legendItemColor storageRequestReview-legendItemColor-average"></span>
-          <span>Average</span>
-        </div>
-
-        <div className="storageRequestReview-legendItem">
-          <span className="storageRequestReview-legendItemColor storageRequestReview-legendItemColor-good"></span>
-          <span>Good</span>
-        </div>
-
-        <div className="storageRequestReview-legendItem">
-          <span className="storageRequestReview-legendItemColor storageRequestReview-legendItemColor-excellent"></span>
-          <span>Excellent</span>
-        </div>
-      </div>
-      <div className="storageRequestReview-bar">
-        <div className="storageRequestReview-barIndicator"></div>
+      <div className="storageRequestReview-alert">
+        <CardNumbers
+          title={"Expiration"}
+          data={data.expiration.toString()}
+          onChange={onExpirationChange}
+          className="storageRequestReview-expiration"
+          onValidation={isInvalidNumber}
+          helper="Request expiration in seconds"></CardNumbers>
+        <Alert
+          Icon={<FileWarning />}
+          title="Warning"
+          variant="warning"
+          className="storageRequestReview-alert">
+          If no suitable hosts are found for the CID {cid} matching your storage
+          requirements, you will incur a charge a small amount of tokens.
+        </Alert>
       </div>
     </div>
   );

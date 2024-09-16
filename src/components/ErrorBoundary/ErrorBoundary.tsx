@@ -1,6 +1,6 @@
 import { Placeholder } from "@codex-storage/marketplace-ui-components";
 import { CircleX } from "lucide-react";
-import React, { ErrorInfo, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import "./ErrorBoundary.css";
 import * as Sentry from "@sentry/browser";
 
@@ -23,11 +23,10 @@ export class ErrorBoundary extends React.Component<Props, State> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
+  componentDidCatch(error: Error) {
     if (import.meta.env.PROD) {
       Sentry.captureException(error);
     }
-    console.error(error, info);
   }
 
   render() {

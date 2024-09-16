@@ -65,8 +65,8 @@ export function StorageRequestFileChooser({ onChangeNextState }: Props) {
   const options =
     files.map((f) => {
       return {
-        Icon: () => <WebFileIcon type={f.mimetype} size={24} />,
-        title: f.name,
+        Icon: () => <WebFileIcon type={f.manifest.mimetype} size={24} />,
+        title: f.manifest.filename,
         subtitle: f.cid,
       };
     }) || [];
@@ -112,7 +112,7 @@ export function StorageRequestFileChooser({ onChangeNextState }: Props) {
         onSuccess={onSuccess}
         editable={false}
         onDeleteItem={onDelete}
-        provider={() => CodexSdk.data().then((data) => data.upload.bind(data))}
+        codexData={CodexSdk.data}
       />
     </>
   );

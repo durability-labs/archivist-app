@@ -15,7 +15,7 @@ export function FileCell({ requestId, purchaseCid }: Props) {
   const [metadata, setMetadata] = useState<FileMetadata>({
     name: "N/A.jpg",
     mimetype: "N/A",
-    uploadedAt: new Date(0, 0, 0, 0, 0, 0),
+    uploadedAt: new Date(0, 0, 0, 0, 0, 0).toJSON(),
   });
 
   useEffect(() => {
@@ -32,23 +32,29 @@ export function FileCell({ requestId, purchaseCid }: Props) {
     });
   }, [requestId]);
 
-  let name = metadata.name;
+  let name = metadata.name.slice(0, 10);
 
-  if (name.length > 10) {
-    const [filename, ext] = metadata.name.split(".");
-    name = filename.slice(0, 10) + "..." + ext;
+  if (metadata.name.length > 10) {
+    // const [filename, ext] = metadata.name.split(".");
+    // name = filename.slice(0, 10) + "..." + ext;
+    name += "...";
   }
 
-  const cidTruncated = cid.slice(0, 5) + ".".repeat(5) + cid.slice(-5);
+  // const cidTruncated = cid.slice(0, 5) + ".".repeat(5) + cid.slice(-5);
+  const cidTruncated = cid.slice(0, 10) + "...";
 
   return (
     <>
       <div className="fileCell">
         <WebFileIcon type={metadata.mimetype} />
         <div>
-          <span className="fileCell-title">{name}</span>
+          <span className="fileCell-title">
+            <Tooltip message={metadata.name}>{name}</Tooltip>
+          </span>
           <span className="fileCell-subtitle">
-            <Tooltip message={cid}>{cidTruncated}</Tooltip>
+            <Tooltip message={cid}>
+              <span className="fileCell-cid">{cidTruncated}</span>
+            </Tooltip>
           </span>
         </div>
       </div>

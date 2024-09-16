@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import "./Range.css";
 
 type Props = {
@@ -14,12 +14,17 @@ type Props = {
 export function Range({
   label,
   max,
-  labels,
   onChange,
   defaultValue,
   value,
   className = "",
 }: Props) {
+  const [val, setVal] = useState(value);
+
+  const onInput = (e: FormEvent<HTMLInputElement>) => {
+    setVal(parseInt(e.currentTarget.value, 10));
+  };
+
   return (
     <div className={className}>
       {label}
@@ -27,19 +32,20 @@ export function Range({
         type="range"
         max={max}
         min={1}
-        step="1"
-        className="range"
+        className="range glow"
         onChange={onChange}
         defaultValue={defaultValue}
         value={value}
+        style={{ "--val": val } as React.CSSProperties}
+        onInput={onInput}
       />
-      <div className="range-labels">
+      {/* <div className="range-labels">
         {labels.map((l) => (
           <div className="range-label" key={l}>
             {l}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }

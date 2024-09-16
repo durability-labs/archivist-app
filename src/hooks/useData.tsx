@@ -2,12 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { FilesStorage } from "../utils/file-storage";
 import { CodexSdk } from "../sdk/codex";
 import * as Sentry from "@sentry/browser";
+import { CodexDataContent } from "@codex-storage/sdk-js";
 
 export function useData() {
   const { data = [] } = useQuery({
-    queryFn: () =>
-      CodexSdk.data().then(async (data) => {
-        const res = await data.cids();
+    queryFn: (): Promise<CodexDataContent[]> => {
+      // TODO refactor
+      return Promise.resolve().then(async () => {
+        const res = await CodexSdk.data.cids();
 
         if (res.error) {
           if (import.meta.env.PROD) {
@@ -19,31 +21,42 @@ export function useData() {
         const metadata = await FilesStorage.list();
 
         return res.data.content.map((content, index) => {
+          if (content.manifest.filename) {
+            return content;
+          }
+
           const value = metadata.find(([cid]) => content.cid === cid);
 
           if (!value) {
             return {
-              ...content,
-              mimetype: "N/A",
-              uploadedAt: new Date(0, 0, 0, 0, 0, 0),
-              name: "N/A" + index,
+              cid: content.cid,
+              manifest: {
+                ...content.manifest,
+                mimetype: "N/A",
+                uploadedAt: new Date(0, 0, 0, 0, 0, 0).toJSON(),
+                filename: "N/A" + index,
+              },
             };
           }
 
           const {
             mimetype = "",
             name = "",
-            uploadedAt = new Date(0, 0, 0, 0, 0, 0),
+            uploadedAt = new Date(0, 0, 0, 0, 0, 0).toJSON(),
           } = value[1];
 
           return {
-            ...content,
-            mimetype,
-            name,
-            uploadedAt,
+            cid: content.cid,
+            manifest: {
+              ...content.manifest,
+              mimetype,
+              filename: name,
+              uploadedAt: uploadedAt,
+            },
           };
         });
-      }),
+      });
+    },
     queryKey: ["cids"],
     refetchOnWindowFocus: false,
   });

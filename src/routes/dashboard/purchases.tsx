@@ -12,19 +12,24 @@ import {
 import { StorageRequestStepper } from "../../components/StorageRequestSetup/StorageRequestStepper";
 import "./purchases.css";
 import { classnames } from "../../utils/classnames";
-import { FileCell } from "../../components/FileCellRender/FIleCell";
+import { FileCell } from "../../components/FileCellRender/FileCell";
 import { CustomStateCellRender } from "../../components/CustomStateCellRender/CustomStateCellRender";
 import prettyMilliseconds from "pretty-ms";
 import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
 import { Promises } from "../../utils/promises";
+import { TruncateCell } from "../../components/TruncateCell/TruncateCell";
 
 const Purchases = () => {
   const [open, setOpen] = useState(false);
   const { data, isPending } = useQuery({
     queryFn: () =>
-      CodexSdk.marketplace()
-        .then((marketplace) => marketplace.purchases())
-        .then((s) => Promises.rejectOnError(s)),
+      CodexSdk.marketplace
+        .purchases()
+        .then((s) => Promises.rejectOnError(s))
+        .then((data) => {
+          // TODO add temporary data
+          return data;
+        }),
     queryKey: ["purchases"],
     refetchOnWindowFocus: false,
     retry: false,
@@ -40,7 +45,8 @@ const Purchases = () => {
   }
 
   const headers = [
-    "cid",
+    "file",
+    "request id",
     "duration",
     "slots",
     "reward",
@@ -58,10 +64,11 @@ const Purchases = () => {
 
       return [
         <FileCell requestId={r.id} purchaseCid={r.content.cid} index={index} />,
-        <Cell value={prettyMilliseconds(duration)} />,
-        <Cell value={ask.slots + " hosts"} />,
-        <Cell value={ask.reward + " tokens"} />,
-        <Cell value={"Every " + prettyMilliseconds(pf)} />,
+        <TruncateCell value={r.id} />,
+        <Cell value={prettyMilliseconds(duration, { verbose: true })} />,
+        <Cell value={ask.slots.toString()} />,
+        <Cell value={ask.reward + " CDX"} />,
+        <Cell value={(pf / 1000).toString()} />,
         <CustomStateCellRender state={p.state} message={p.error} />,
       ];
     }) || [];
@@ -86,7 +93,7 @@ const Purchases = () => {
         onClose={() => setOpen(false)}
       />
 
-      {!open && <Table headers={headers} cells={cells} />}
+      <Table headers={headers} cells={cells} />
 
       {/* {!cells.length && (
         <EmptyPlaceholder
