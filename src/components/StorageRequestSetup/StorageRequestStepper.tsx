@@ -182,7 +182,7 @@ export function StorageRequestStepper({ className, open, onClose }: Props) {
 
   return (
     <>
-      <Backdrop open={open} onClose={onClose} />
+      <Backdrop open={open} onClose={onClose} removeScroll={true} />
       <div
         className={classnames(
           ["storageRequest"],
