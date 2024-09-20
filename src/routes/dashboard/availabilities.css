@@ -1,6 +1,15 @@
 .availabilities {
+  height: 100%;
+}
+
+.availabilities-actions {
+  padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100%;
+  justify-content: flex-end;
+}
+
+.availabilities-loader {
+  margin: auto;
+  display: block;
 }

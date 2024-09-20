@@ -10,14 +10,14 @@ export const CodexSdk = {
   },
 
   load() {
-    return WebStorage.get<string>("codex-node-url").then((url) => {
-      url = url || import.meta.env.VITE_CODEX_API_URL;
+    return WebStorage.get<string>("codex-node-url").then((u) => {
+      url = u || import.meta.env.VITE_CODEX_API_URL;
       client = new Codex(url);
     });
   },
 
-  updateURL(url: string) {
-    url = url;
+  updateURL(u: string) {
+    url = u;
     client = new Codex(url);
 
     return WebStorage.set("codex-node-url", url);
