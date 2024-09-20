@@ -29,17 +29,14 @@ export function NodeSpaceAllocation() {
       data={[
         {
           title: "Maximum storage space used by the node",
-          percent: 60,
           size: quotaMaxBytes,
         },
         {
           title: "Amount of storage space currently in use",
-          percent: (quotaUsedBytes / quotaMaxBytes) * 100,
           size: quotaUsedBytes,
         },
         {
           title: "Amount of storage space reserved",
-          percent: (quotaReservedBytes / quotaMaxBytes) * 100,
           size: quotaReservedBytes,
         },
       ]}></SpaceAllocation>

@@ -23,8 +23,8 @@
     "React"
   ],
   "dependencies": {
-    "@codex-storage/marketplace-ui-components": "0.0.4",
-    "@codex-storage/sdk-js": "0.0.3",
+    "@codex-storage/marketplace-ui-components": "0.0.5",
+    "@codex-storage/sdk-js": "0.0.4",
     "@sentry/react": "^8.27.0",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-router": "^1.45.7",
@@ -47,7 +47,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "prettier": "^3.3.3",
-    "typescript": "^5.2.2",
+    "typescript": "^5.5.2",
     "vite": "^5.3.4"
   },
   "engines": {
