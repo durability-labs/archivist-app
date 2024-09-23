@@ -1,38 +1,20 @@
-import { Spinner, Cell, Table } from "@codex-storage/marketplace-ui-components";
-import { useQuery } from "@tanstack/react-query";
-import prettyMilliseconds from "pretty-ms";
-import { CodexSdk } from "../../sdk/codex";
-import { Promises } from "../../utils/promises";
+import { Cell, Table } from "@codex-storage/marketplace-ui-components";
 import { TruncateCell } from "../TruncateCell/TruncateCell";
 import { PrettyBytes } from "../../utils/bytes";
 import { AvailabilityActionsCell } from "./AvailabilityActionsCell";
 import { CodexAvailability } from "@codex-storage/sdk-js/async";
+import { Times } from "../../utils/times";
 
 type Props = {
   // onEdit: () => void;
+  availabilities: CodexAvailability[];
   onReservationsShow: (availability: CodexAvailability) => void;
 };
 
-export function AvailabilitiesTable({ onReservationsShow }: Props) {
-  const { data, isPending } = useQuery({
-    queryFn: () =>
-      CodexSdk.marketplace
-        .availabilities()
-        .then((s) => Promises.rejectOnError(s)),
-    queryKey: ["availabilities"],
-    refetchOnWindowFocus: false,
-    retry: false,
-    throwOnError: true,
-  });
-
-  if (isPending) {
-    return (
-      <div className="purchases-loader">
-        <Spinner width="3rem" />
-      </div>
-    );
-  }
-
+export function AvailabilitiesTable({
+  availabilities,
+  onReservationsShow,
+}: Props) {
   const headers = [
     "id",
     "total size",
@@ -42,13 +24,12 @@ export function AvailabilitiesTable({ onReservationsShow }: Props) {
     "actions",
   ];
 
-  const sorted = [...(data || [])].reverse();
   const cells =
-    sorted.map((a) => {
+    availabilities.map((a) => {
       return [
         <TruncateCell value={a.id} />,
         <Cell value={PrettyBytes(a.totalSize)} />,
-        <Cell value={prettyMilliseconds(a.duration)} />,
+        <Cell value={Times.pretty(a.duration)} />,
         <Cell value={a.minPrice.toString()} />,
         <Cell value={a.maxCollateral.toString()} />,
         <AvailabilityActionsCell

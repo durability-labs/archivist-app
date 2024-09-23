@@ -13,3 +13,72 @@
   margin: auto;
   display: block;
 }
+
+.availabilities-space .nodeSpaceAllocation-legendRow,
+.availabilities-space .nodeSpaceAllocation-barItem {
+  transition: opacity 0.35s;
+  opacity: 0.8;
+}
+
+.table-container:has(.table-tbodyTr:first-child:hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-quota-0,
+.table-container:has(.table-tbodyTr:first-child:hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-legendRow:first-child {
+  opacity: 1;
+}
+
+.table-container:has(.table-tbodyTr:nth-child(2):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-quota-1,
+.table-container:has(.table-tbodyTr:nth-child(2):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-legendRow:nth-child(2) {
+  opacity: 1;
+}
+
+.table-container:has(.table-tbodyTr:nth-child(3):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-quota-2,
+.table-container:has(.table-tbodyTr:nth-child(3):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-legendRow:nth-child(3) {
+  opacity: 1;
+}
+
+.table-container:has(.table-tbodyTr:nth-child(4):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-quota-3,
+.table-container:has(.table-tbodyTr:nth-child(4):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-legendRow:nth-child(4) {
+  opacity: 1;
+}
+
+.table-container:has(.table-tbodyTr:nth-child(5):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-quota-4,
+.table-container:has(.table-tbodyTr:nth-child(5):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-legendRow:nth-child(5) {
+  opacity: 1;
+}
+
+.table-container:has(.table-tbodyTr:nth-child(6):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-quota-5,
+.table-container:has(.table-tbodyTr:nth-child(6):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-legendRow:nth-child(6) {
+  opacity: 1;
+}
+
+.table-container:has(.table-tbodyTr:nth-child(7):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-quota-6,
+.table-container:has(.table-tbodyTr:nth-child(7):hover)
+  + .availabilities-space
+  .nodeSpaceAllocation-legendRow:nth-child(7) {
+  opacity: 1;
+}
