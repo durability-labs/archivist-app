@@ -1,24 +1,22 @@
 import {
   Input,
   InputGroup,
-  SpaceAllocation,
   StepperAction,
   StepperState,
 } from "@codex-storage/marketplace-ui-components";
-import { ChangeEvent, Dispatch, useState } from "react";
+import { ChangeEvent, Dispatch, useCallback, useEffect, useState } from "react";
 import "./AvailabilityForm.css";
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { UIAvailability } from "./types";
 import { GB, TB } from "../../utils/constants";
 import { classnames } from "../../utils/classnames";
-import { AvailabilityConfirm } from "./AvailabilityConfirmation";
 import { AvailabilitySpaceAllocation } from "./AvailabilitySpaceAllocation";
 
 type Props = {
   dispatch: Dispatch<StepperAction>;
   state: StepperState;
   space: CodexNodeSpace;
-  onAvailabilityChange: (data: Partial<UIAvailability>, valid: boolean) => void;
+  onAvailabilityChange: (data: Partial<UIAvailability>) => void;
   availability: UIAvailability;
 };
 
@@ -30,6 +28,22 @@ export function AvailabilityForm({
 }: Props) {
   const [totalSizeError, setTotalSizeError] = useState("");
 
+  const isAvailabilityInvalid = useCallback(
+    (value: number) => {
+      const unit = availability.totalSizeUnit === "gb" ? GB : TB;
+      return value * unit > space.quotaMaxBytes - space.quotaReservedBytes;
+    },
+    [space]
+  );
+
+  useEffect(() => {
+    if (isAvailabilityInvalid(availability.totalSize)) {
+      setTotalSizeError(
+        "You cannot allocate more space than the remaining space."
+      );
+    }
+  }, [availability]);
+
   const onTotalSizeUnitChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget;
     const valid = element.value === "tb" || element.value === "gb";
@@ -39,75 +53,63 @@ export function AvailabilityForm({
       isNextEnable: false,
     });
 
-    onAvailabilityChange(
-      {
-        totalSize: 0,
-        totalSizeUnit: element.value as "tb" | "gb",
-      },
-      valid
-    );
+    onAvailabilityChange({
+      totalSize: 0,
+      totalSizeUnit: element.value as "tb" | "gb",
+    });
   };
 
   const onDurationUnitChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget;
-    const valid =
-      element.value === "hours" ||
-      element.value === "days" ||
-      element.value === "months";
 
-    onAvailabilityChange(
-      {
-        duration: 1,
-        durationUnit: element.value as "hours" | "days" | "months",
-      },
-      valid
-    );
+    onAvailabilityChange({
+      duration: 1,
+      durationUnit: element.value as "hours" | "days" | "months",
+    });
   };
 
   const onAvailablityChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
-    const valid = element.checkValidity();
-    const val = parseFloat(element.value);
-    const unit = availability.totalSizeUnit === "gb" ? GB : TB;
+    const v = element.value;
+    const value = parseFloat(v);
+    const valid = element.checkValidity() && !isAvailabilityInvalid(value);
 
-    if (val * unit > space.quotaMaxBytes - space.quotaReservedBytes) {
+    onAvailabilityChange({
+      [element.name]: v,
+    });
+
+    if (valid) {
+      setTotalSizeError("");
+      dispatch({
+        type: "toggle-next",
+        isNextEnable: true,
+      });
+    } else {
       setTotalSizeError(
-        "You cannot allocate more space than the remaining space."
+        element.validationMessage ||
+          "You cannot allocate more space than the remaining space."
       );
       dispatch({
         type: "toggle-next",
         isNextEnable: false,
       });
-      return;
     }
-
-    onAvailabilityChange(
-      {
-        [element.name]: parseFloat(element.value),
-      },
-      valid
-    );
-    setTotalSizeError(valid ? "" : element.validationMessage);
-    dispatch({
-      type: "toggle-next",
-      isNextEnable: valid && parseFloat(e.target.value) > 0,
-    });
   };
 
   const onInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
     const valid = element.checkValidity();
 
-    onAvailabilityChange(
-      {
-        [element.name]: parseFloat(element.value),
-      },
-      valid
-    );
+    onAvailabilityChange({
+      [element.name]: parseFloat(element.value),
+    });
   };
 
   const unit = availability.totalSizeUnit === "gb" ? GB : TB;
-  const max = space.quotaMaxBytes / unit - space.quotaReservedBytes / unit;
+  const max = (
+    space.quotaMaxBytes / unit -
+    space.quotaReservedBytes / unit
+  ).toFixed(2);
 
   return (
     <>
