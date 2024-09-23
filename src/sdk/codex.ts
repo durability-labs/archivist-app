@@ -1,8 +1,8 @@
 import { Codex } from "@codex-storage/sdk-js";
 import { WebStorage } from "../utils/web-storage";
 
-let client: Codex;
-let url: string;
+let client: Codex = new Codex(import.meta.env.VITE_CODEX_API_URL);
+let url: string = import.meta.env.VITE_CODEX_API_URL;
 
 export const CodexSdk = {
   url() {
@@ -10,19 +10,20 @@ export const CodexSdk = {
   },
 
   load() {
-    return WebStorage.get<string>("codex-node-url").then((url) => {
-      url = url || import.meta.env.VITE_CODEX_API_URL;
+    return WebStorage.get<string>("codex-node-url").then((u) => {
+      url = u || import.meta.env.VITE_CODEX_API_URL;
       client = new Codex(url);
     });
   },
 
-  updateURL(url: string) {
-    url = url;
+  updateURL(u: string) {
+    url = u;
     client = new Codex(url);
 
     return WebStorage.set("codex-node-url", url);
   },
 
+  // TODO Change this
   get debug() {
     return client.debug;
   },
