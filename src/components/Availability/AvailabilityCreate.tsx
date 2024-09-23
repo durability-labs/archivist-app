@@ -51,7 +51,6 @@ export function AvailabilityCreate({ space }: Props) {
         setAvailability(a);
       }
 
-      // TODO validationb
       dispatch({
         type: "toggle-next",
         isNextEnable: true,
@@ -71,18 +70,24 @@ export function AvailabilityCreate({ space }: Props) {
         step,
         type: "next",
       });
+
+      if (step === components.length) {
+        setAvailability({
+          totalSize: 1,
+          duration: 1,
+          minPrice: 0,
+          maxCollateral: 0,
+          totalSizeUnit: "gb",
+          durationUnit: "days",
+        });
+      }
     }
   };
 
-  const onAvailabilityChange = (
-    data: Partial<UIAvailability>,
-    valid: boolean
-  ) => {
+  const onAvailabilityChange = (data: Partial<UIAvailability>) => {
     const val = { ...availability, ...data };
 
-    if (valid) {
-      WebStorage.set("availability", val);
-    }
+    WebStorage.set("availability", val);
 
     setAvailability(val);
   };

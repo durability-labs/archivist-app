@@ -54,6 +54,7 @@ export function useAvailabilityMutation(
       queryClient.invalidateQueries({ queryKey: ["space"] });
 
       WebStorage.delete("availability");
+      WebStorage.delete("availability-step");
 
       dispatch({
         type: "next",
