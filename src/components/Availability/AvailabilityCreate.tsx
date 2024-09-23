@@ -38,7 +38,9 @@ export function AvailabilityCreate({ space }: Props) {
   const components = [
     AvailabilityForm,
     AvailabilityConfirm,
-    error ? () => <AvailabilityError error={error} /> : AvailabilitySuccess,
+    error
+      ? () => <AvailabilityError dispatch={dispatch} error={error} />
+      : AvailabilitySuccess,
   ];
 
   useEffect(() => {
