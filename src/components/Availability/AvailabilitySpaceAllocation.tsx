@@ -15,7 +15,10 @@ export function AvailabilitySpaceAllocation({ availability, space }: Props) {
   const size = availability.totalSize * unit;
   const isUpdating = !!availability.id;
   const allocated = isUpdating ? quotaReservedBytes - size : quotaReservedBytes;
-  const remaining = quotaMaxBytes - allocated - size;
+  const remaining =
+    size > quotaMaxBytes - allocated
+      ? quotaMaxBytes - allocated
+      : quotaMaxBytes - allocated - size;
 
   const spaceData = [
     {
@@ -28,7 +31,7 @@ export function AvailabilitySpaceAllocation({ availability, space }: Props) {
     },
     {
       title: "Remaining space",
-      size: remaining < 0 ? 0 : remaining,
+      size: remaining,
     },
   ];
 
