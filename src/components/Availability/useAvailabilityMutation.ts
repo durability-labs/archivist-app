@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CodexSdk } from "../../proxy";
 import { GB, TB } from "../../utils/constants";
 import { Promises } from "../../utils/promises";
 import { WebStorage } from "../../utils/web-storage";
@@ -12,16 +11,14 @@ import {
 import * as Sentry from "@sentry/browser";
 import { SafeValue } from "@codex-storage/sdk-js/async";
 import { Times } from "../../utils/times";
+import { CodexSdk } from "../../sdk/codex";
 
 export function useAvailabilityMutation(
   dispatch: Dispatch<StepperAction>,
   state: StepperState
 ) {
   const queryClient = useQueryClient();
-  const [toast, setToast] = useState({
-    time: 0,
-    message: "",
-  });
+  const [error, setError] = useState<Error | null>(null);
 
   const { mutateAsync } = useMutation({
     mutationKey: ["debug"],
@@ -66,12 +63,15 @@ export function useAvailabilityMutation(
         Sentry.captureException(error);
       }
 
-      setToast({
-        message: "Error when trying to update: " + error.message,
-        time: Date.now(),
+      setError(error);
+
+      dispatch({
+        type: "next",
+        step: state.step,
+        isBackEnable: true,
       });
     },
   });
 
-  return { mutateAsync, toast };
+  return { mutateAsync, error };
 }

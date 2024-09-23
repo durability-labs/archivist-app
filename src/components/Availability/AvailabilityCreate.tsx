@@ -1,6 +1,5 @@
 import {
   Stepper,
-  Toast,
   useStepperReducer,
   Button,
   Modal,
@@ -14,18 +13,18 @@ import { WebStorage } from "../../utils/web-storage";
 import { UIAvailability } from "./types";
 import { STEPPER_DURATION } from "../../utils/constants";
 import { useAvailabilityMutation } from "./useAvailabilityMutation";
-import { AvailabilityDone } from "./AvailabilityDone";
+import { AvailabilitySuccess } from "./AvailabilitySuccess";
+import { AvailabilityError } from "./AvailabilityError";
 
 type Props = {
   space: CodexNodeSpace;
 };
 
 const CONFIRM_STATE = 2;
+const STEPS = 3;
 
 export function AvailabilityCreate({ space }: Props) {
-  const components = [AvailabilityForm, AvailabilityConfirm, AvailabilityDone];
   const steps = useRef(["Availability", "Confirmation", "Success"]);
-  const { state, dispatch } = useStepperReducer(components.length);
   const [availability, setAvailability] = useState<UIAvailability>({
     totalSize: 1,
     duration: 1,
@@ -34,6 +33,13 @@ export function AvailabilityCreate({ space }: Props) {
     totalSizeUnit: "gb",
     durationUnit: "days",
   });
+  const { state, dispatch } = useStepperReducer(STEPS);
+  const { mutateAsync, error } = useAvailabilityMutation(dispatch, state);
+  const components = [
+    AvailabilityForm,
+    AvailabilityConfirm,
+    error ? () => <AvailabilityError error={error} /> : AvailabilitySuccess,
+  ];
 
   useEffect(() => {
     Promise.all([
@@ -57,8 +63,6 @@ export function AvailabilityCreate({ space }: Props) {
       });
     });
   }, [dispatch]);
-
-  const { mutateAsync, toast } = useAvailabilityMutation(dispatch, state);
 
   const onNextStep = async (step: number) => {
     WebStorage.set("availability-step", step);
@@ -130,8 +134,6 @@ export function AvailabilityCreate({ space }: Props) {
           />
         </Stepper>
       </Modal>
-
-      <Toast message={toast.message} time={toast.time} variant="error" />
     </>
   );
 }

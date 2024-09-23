@@ -33,7 +33,7 @@ export function AvailabilityForm({
       const unit = availability.totalSizeUnit === "gb" ? GB : TB;
       return value * unit > space.quotaMaxBytes - space.quotaReservedBytes;
     },
-    [space]
+    [space, availability]
   );
 
   useEffect(() => {
@@ -41,12 +41,13 @@ export function AvailabilityForm({
       setTotalSizeError(
         "You cannot allocate more space than the remaining space."
       );
+    } else {
+      setTotalSizeError("");
     }
-  }, [availability]);
+  }, [availability, isAvailabilityInvalid]);
 
   const onTotalSizeUnitChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget;
-    const valid = element.value === "tb" || element.value === "gb";
 
     dispatch({
       type: "toggle-next",
@@ -98,7 +99,6 @@ export function AvailabilityForm({
 
   const onInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
-    const valid = element.checkValidity();
 
     onAvailabilityChange({
       [element.name]: parseFloat(element.value),
