@@ -1,12 +1,8 @@
-import {
-  SpaceAllocation,
-  StepperAction,
-} from "@codex-storage/marketplace-ui-components";
+import { StepperAction } from "@codex-storage/marketplace-ui-components";
 import { Dispatch, useEffect } from "react";
 import "./AvailabilityForm.css";
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { UIAvailability } from "./types";
-import { GB, TB } from "../../utils/constants";
 import "./AvailabilityConfirm.css";
 import { Info } from "lucide-react";
 import { AvailabilitySpaceAllocation } from "./AvailabilitySpaceAllocation";
@@ -29,28 +25,6 @@ export function AvailabilityConfirm({
       dispatch({ type: "toggle-next", isNextEnable: true });
     }
   }, [dispatch, enableNext]);
-
-  const unit = availability.totalSizeUnit === "gb" ? GB : TB;
-  const { quotaMaxBytes, quotaReservedBytes } = space;
-  const size = availability.totalSize * unit;
-  const isUpdating = !!availability.id;
-  const allocated = isUpdating ? quotaReservedBytes - size : quotaReservedBytes;
-  const remaining = quotaMaxBytes - allocated - size;
-
-  const spaceData = [
-    {
-      title: "Space allocated",
-      size: allocated,
-    },
-    {
-      title: "New space allocation",
-      size: size,
-    },
-    {
-      title: "Remaining space",
-      size: remaining < 0 ? 0 : remaining,
-    },
-  ];
 
   return (
     <>
