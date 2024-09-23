@@ -1,8 +1,8 @@
 import { Codex } from "@codex-storage/sdk-js";
 import { WebStorage } from "../utils/web-storage";
 
-let client: Codex;
-let url: string;
+let client: Codex = new Codex(import.meta.env.VITE_CODEX_API_URL);
+let url: string = import.meta.env.VITE_CODEX_API_URL;
 
 export const CodexSdk = {
   url() {
