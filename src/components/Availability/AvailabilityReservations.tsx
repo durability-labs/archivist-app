@@ -6,10 +6,11 @@ import {
 } from "@codex-storage/marketplace-ui-components";
 import { classnames } from "../../utils/classnames";
 import "./AvailabilityReservations.css";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CodexSdk } from "../../sdk/codex";
 import { Promises } from "../../utils/promises";
 import { CodexAvailability } from "@codex-storage/sdk-js";
+import { useEffect } from "react";
 
 type Props = {
   availability: CodexAvailability | null;
@@ -22,6 +23,8 @@ export function AvailabilityReservations({
   onClose,
   open,
 }: Props) {
+  const queryClient = useQueryClient();
+
   const { data } = useQuery({
     queryFn: () => {
       if (availability) {
@@ -34,6 +37,10 @@ export function AvailabilityReservations({
     },
     queryKey: ["reservations"],
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["reservations"] });
+  }, [availability]);
 
   // TODO manage error
 

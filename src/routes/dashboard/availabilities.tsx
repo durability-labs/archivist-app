@@ -54,11 +54,13 @@ export const Route = createFileRoute("/dashboard/availabilities")({
               <Spinner width="3rem" />
             </div>
           ) : (
-            <AvailabilitiesTable
-              // onEdit={onOpen}
-              availabilities={availabilities}
-              onReservationsShow={onReservationsShow}
-            />
+            <div className="availabilities-table">
+              <AvailabilitiesTable
+                // onEdit={onOpen}
+                availabilities={availabilities}
+                onReservationsShow={onReservationsShow}
+              />
+            </div>
           )}
 
           <div className="availabilities-space">

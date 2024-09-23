@@ -14,6 +14,19 @@
   display: block;
 }
 
+.availabilities-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.availabilities-table {
+  order: 2;
+}
+
+.availabilities-space {
+  order: 1;
+}
+
 .availabilities-space .nodeSpaceAllocation-legendRow,
 .availabilities-space .nodeSpaceAllocation-barItem {
   transition: opacity 0.35s;
