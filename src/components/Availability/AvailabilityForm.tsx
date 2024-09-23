@@ -1,6 +1,7 @@
 import {
   Input,
   InputGroup,
+  SpaceAllocation,
   StepperAction,
   StepperState,
 } from "@codex-storage/marketplace-ui-components";
@@ -11,6 +12,7 @@ import { UIAvailability } from "./types";
 import { GB, TB } from "../../utils/constants";
 import { classnames } from "../../utils/classnames";
 import { AvailabilityConfirm } from "./AvailabilityConfirmation";
+import { AvailabilitySpaceAllocation } from "./AvailabilitySpaceAllocation";
 
 type Props = {
   dispatch: Dispatch<StepperAction>;
@@ -109,12 +111,7 @@ export function AvailabilityForm({
 
   return (
     <>
-      <AvailabilityConfirm
-        availability={availability}
-        dispatch={dispatch}
-        space={space}
-        enableNext={false}
-      />
+      <AvailabilitySpaceAllocation availability={availability} space={space} />
 
       <InputGroup
         id="totalSize"

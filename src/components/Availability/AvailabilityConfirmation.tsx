@@ -8,6 +8,8 @@ import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { UIAvailability } from "./types";
 import { GB, TB } from "../../utils/constants";
 import "./AvailabilityConfirm.css";
+import { Info } from "lucide-react";
+import { AvailabilitySpaceAllocation } from "./AvailabilitySpaceAllocation";
 
 type Props = {
   dispatch: Dispatch<StepperAction>;
@@ -52,9 +54,24 @@ export function AvailabilityConfirm({
 
   return (
     <>
-      <b className="availabilitConfirm-title">Node space allocation</b>
+      <AvailabilitySpaceAllocation availability={availability} space={space} />
 
-      <SpaceAllocation data={spaceData} />
+      <div className="availabilitConfirm-bottom">
+        <div className="availabilitConfirm-iconContainer">
+          <Info className="availabilitConfirm-icon" />
+        </div>
+
+        <div>
+          <b className="availabilitConfirm-subtitle">
+            Confirm your new availability
+          </b>
+
+          <p className="availabilitConfirm-message">
+            By clicking 'Next', you will establish a new availability based on
+            the space allocation specified above. Do you want to confirm ?
+          </p>
+        </div>
+      </div>
     </>
   );
 }
