@@ -23,12 +23,11 @@
     "React"
   ],
   "dependencies": {
-    "@codex-storage/marketplace-ui-components": "0.0.4",
-    "@codex-storage/sdk-js": "0.0.3",
+    "@codex-storage/marketplace-ui-components": "0.0.5",
+    "@codex-storage/sdk-js": "0.0.4",
     "@sentry/react": "^8.27.0",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-router": "^1.45.7",
-    "classnames": "^2.5.1",
     "idb-keyval": "^6.2.1",
     "lucide-react": "^0.424.0",
     "pretty-ms": "^9.1.0",
