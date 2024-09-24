@@ -65,10 +65,17 @@ export function useAvailabilityMutation(
 
       setError(error);
 
+      WebStorage.set("availability-step", state.step - 1);
+
       dispatch({
         type: "next",
         step: state.step,
         isBackEnable: true,
+      });
+
+      dispatch({
+        type: "toggle-next",
+        isNextEnable: false,
       });
     },
   });
