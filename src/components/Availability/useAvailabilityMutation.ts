@@ -31,7 +31,7 @@ export function useAvailabilityMutation(
     }: UIAvailability) => {
       const unit = totalSizeUnit === "gb" ? GB : TB;
       const marketplace = CodexSdk.marketplace;
-      const time = Times.toMs(duration, durationUnit);
+      const time = Times.toSeconds(duration, durationUnit);
 
       const fn: (
         input: Omit<UIAvailability, "totalSizeUnit" | "durationUnit">

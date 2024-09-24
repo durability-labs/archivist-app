@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
 import "./settings.css";
 import { LogLevel } from "../../components/LogLevel/LogLevel";
-import { CodexUrlSettings } from "../../CodexUrllSettings/CodexUrlSettings";
 import { Debug } from "../../components/Debug/Debug";
+import { CodexUrlSettings } from "../../components/CodexUrllSettings/CodexUrlSettings";
 
 export const Route = createFileRoute("/dashboard/settings")({
   component: () => (
