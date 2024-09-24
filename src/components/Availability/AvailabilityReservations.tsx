@@ -2,6 +2,7 @@ import {
   Backdrop,
   Button,
   EmptyPlaceholder,
+  Placeholder,
   SpaceAllocation,
 } from "@codex-storage/marketplace-ui-components";
 import { classnames } from "../../utils/classnames";
@@ -11,9 +12,10 @@ import { CodexSdk } from "../../sdk/codex";
 import { Promises } from "../../utils/promises";
 import { CodexAvailability } from "@codex-storage/sdk-js";
 import { useEffect } from "react";
+import { ErrorIcon } from "../ErrorIcon/ErrorIcon";
 
 type Props = {
-  availability: CodexAvailability | null;
+  availability: CodexAvailability;
   open: boolean;
   onClose: () => unknown;
 };
@@ -25,63 +27,34 @@ export function AvailabilityReservations({
 }: Props) {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
-    queryFn: () => {
-      if (availability) {
-        return CodexSdk.marketplace
-          .reservations(availability?.id)
-          .then((s) => Promises.rejectOnError(s));
-      }
-
-      return Promise.resolve([]);
-    },
-    queryKey: ["reservations"],
-  });
-
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["reservations"] });
   }, [availability]);
 
-  // TODO manage error
+  const { data = [], error } = useQuery({
+    queryFn: async () => {
+      const s = await CodexSdk.marketplace.reservations(availability.id);
+      return await Promises.rejectOnError(s);
+    },
+    queryKey: ["reservations"],
+  });
 
-  if (!availability) {
+  if (error) {
     return (
       <>
         <Backdrop open={open} onClose={onClose} removeScroll={true} />
 
-        <span></span>
-      </>
-    );
-  }
-
-  if (!data?.length) {
-    return (
-      <>
-        <Backdrop open={open} onClose={onClose} removeScroll={true} />
-
-        <div
-          className={classnames(
-            ["reservations"],
-            ["reservations--open", open]
-          )}>
-          <b className="reservations-title">Availability reservations</b>
-
-          <EmptyPlaceholder
-            title="No reservation"
-            message="You don't have any reservation yet."></EmptyPlaceholder>
-
-          <div className="reservations-buttons">
-            <Button label={"Close"} variant="outline" onClick={onClose} />
-          </div>
-        </div>
+        <Placeholder
+          Icon={<ErrorIcon />}
+          title="Error"
+          subtitle="Error when retrieving reservations."
+          message={error.message}></Placeholder>
       </>
     );
   }
 
   const totalSize = availability.totalSize;
-
   const totalUsed = data.reduce((acc, val) => acc + parseInt(val.size, 10), 0);
-
   const spaceData = [
     ...data.map((val) => ({
       title: val.id,
@@ -92,6 +65,7 @@ export function AvailabilityReservations({
       size: totalSize - totalUsed,
     },
   ];
+  const isEmpty = !!data.length;
 
   return (
     <>
@@ -101,7 +75,13 @@ export function AvailabilityReservations({
         className={classnames(["reservations"], ["reservations--open", open])}>
         <b className="reservations-title">Availability reservations</b>
 
-        <SpaceAllocation data={spaceData} />
+        {isEmpty ? (
+          <EmptyPlaceholder
+            title="No reservation"
+            message="You don't have any reservation yet."></EmptyPlaceholder>
+        ) : (
+          <SpaceAllocation data={spaceData} />
+        )}
 
         <div className="reservations-buttons">
           <Button label={"Close"} variant="outline" onClick={onClose} />

@@ -42,7 +42,7 @@ export function Availabilities() {
       queryFn: () =>
         CodexSdk.data.space().then((s) => Promises.rejectOnError(s)),
       queryKey: ["space"],
-      // TODO comment error
+      // TODO comment staleTime
       staleTime: 24 * 60 * 60 * 1000,
     });
 
@@ -60,10 +60,12 @@ export function Availabilities() {
 
     return (
       <div className="container">
-        <AvailabilityReservations
-          availability={availabilitySelected}
-          onClose={onReservationsClose}
-          open={!!availabilitySelected}></AvailabilityReservations>
+        {availabilitySelected && (
+          <AvailabilityReservations
+            availability={availabilitySelected}
+            onClose={onReservationsClose}
+            open={!!availabilitySelected}></AvailabilityReservations>
+        )}
 
         <div className="availabilities-content">
           {isPending ? (
