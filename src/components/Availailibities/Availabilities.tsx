@@ -1,4 +1,5 @@
 import {
+  Placeholder,
   SpaceAllocation,
   Spinner,
 } from "@codex-storage/marketplace-ui-components";
@@ -13,10 +14,19 @@ import { AvailabilitiesTable } from "../Availability/AvailabilitiesTable";
 import { AvailabilityReservations } from "../Availability/AvailabilityReservations";
 import "./Availabilities.css";
 
+const defaultSpace = {
+  quotaMaxBytes: 0,
+  quotaReservedBytes: 0,
+  quotaUsedBytes: 0,
+  totalBlocks: 0,
+};
+
 export function Availabilities() {
   {
     const [availabilitySelected, setAvailabilitySelected] =
       useState<CodexAvailability | null>(null);
+
+    // Error will be catched in ErrorBounday
     const { data: availabilities = [], isPending } = useQuery({
       queryFn: () =>
         CodexSdk.marketplace
@@ -29,16 +39,8 @@ export function Availabilities() {
       throwOnError: true,
     });
 
-    const {
-      data: space = {
-        quotaMaxBytes: 0,
-        quotaReservedBytes: 0,
-        quotaUsedBytes: 0,
-        totalBlocks: 0,
-      },
-      isError,
-      error,
-    } = useQuery({
+    // Error will be catched in ErrorBounday
+    const { data: space = defaultSpace } = useQuery({
       queryFn: () =>
         CodexSdk.data.space().then((s) => Promises.rejectOnError(s)),
       queryKey: ["space"],

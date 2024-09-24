@@ -2,8 +2,10 @@ import {
   Backdrop,
   Button,
   EmptyPlaceholder,
+  Modal,
   Placeholder,
   SpaceAllocation,
+  Spinner,
 } from "@codex-storage/marketplace-ui-components";
 import { classnames } from "../../utils/classnames";
 import "./AvailabilityReservations.css";
@@ -13,6 +15,7 @@ import { Promises } from "../../utils/promises";
 import { CodexAvailability } from "@codex-storage/sdk-js";
 import { useEffect } from "react";
 import { ErrorIcon } from "../ErrorIcon/ErrorIcon";
+import { ErrorPlaceholder } from "../ErrorPlaceholder/ErrorPlaceholder";
 
 type Props = {
   availability: CodexAvailability;
@@ -28,28 +31,41 @@ export function AvailabilityReservations({
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["reservations"] });
+    if (availability) {
+      queryClient.invalidateQueries({ queryKey: ["reservations"] });
+    }
   }, [availability]);
 
-  const { data = [], error } = useQuery({
-    queryFn: async () => {
-      const s = await CodexSdk.marketplace.reservations(availability.id);
-      return await Promises.rejectOnError(s);
+  const {
+    data = [],
+    isPending,
+    error,
+  } = useQuery({
+    queryFn: () => {
+      return CodexSdk.marketplace
+        .reservations(availability?.id)
+        .then((s) => Promises.rejectOnError(s));
     },
     queryKey: ["reservations"],
+    retry: 0,
+    staleTime: 0,
   });
+
+  if (isPending) {
+    return (
+      <Modal onClose={onClose} open={open}>
+        <Spinner />
+      </Modal>
+    );
+  }
 
   if (error) {
     return (
-      <>
-        <Backdrop open={open} onClose={onClose} removeScroll={true} />
-
-        <Placeholder
-          Icon={<ErrorIcon />}
-          title="Error"
+      <Modal onClose={onClose} open={open}>
+        <ErrorPlaceholder
           subtitle="Error when retrieving reservations."
-          message={error.message}></Placeholder>
-      </>
+          error={error}></ErrorPlaceholder>
+      </Modal>
     );
   }
 
@@ -68,9 +84,7 @@ export function AvailabilityReservations({
   const isEmpty = !!data.length;
 
   return (
-    <>
-      <Backdrop open={open} onClose={onClose} removeScroll={true} />
-
+    <Modal open={open} onClose={onClose}>
       <div
         className={classnames(["reservations"], ["reservations--open", open])}>
         <b className="reservations-title">Availability reservations</b>
@@ -87,6 +101,6 @@ export function AvailabilityReservations({
           <Button label={"Close"} variant="outline" onClick={onClose} />
         </div>
       </div>
-    </>
+    </Modal>
   );
 }

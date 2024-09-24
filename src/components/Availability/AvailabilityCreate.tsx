@@ -14,7 +14,7 @@ import { UIAvailability } from "./types";
 import { STEPPER_DURATION } from "../../utils/constants";
 import { useAvailabilityMutation } from "./useAvailabilityMutation";
 import { AvailabilitySuccess } from "./AvailabilitySuccess";
-import { AvailabilityError } from "./AvailabilityError";
+import { ErrorPlaceholder } from "../ErrorPlaceholder/ErrorPlaceholder";
 
 type Props = {
   space: CodexNodeSpace;
@@ -39,7 +39,12 @@ export function AvailabilityCreate({ space }: Props) {
     AvailabilityForm,
     AvailabilityConfirm,
     error
-      ? () => <AvailabilityError dispatch={dispatch} error={error} />
+      ? () => (
+          <ErrorPlaceholder
+            subtitle="Error when trying to create availability."
+            error={error}
+          />
+        )
       : AvailabilitySuccess,
   ];
 
