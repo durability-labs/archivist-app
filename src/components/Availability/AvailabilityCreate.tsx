@@ -68,6 +68,11 @@ export function AvailabilityCreate({ space }: Props) {
       setAvailability(defaultAvailabilityData);
 
       dispatch({
+        step: 0,
+        type: "next",
+      });
+
+      dispatch({
         type: "close",
       });
 

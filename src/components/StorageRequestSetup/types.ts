@@ -1,3 +1,9 @@
+import {
+  StepperAction,
+  StepperState,
+} from "@codex-storage/marketplace-ui-components";
+import { Dispatch } from "react";
+
 export type StorageDurabilityStepValue = {
   tolerance: number;
   proofProbability: number;
@@ -29,7 +35,8 @@ export type AvailabilityUnit =
   | "minutes"
   | "hours";
 
-export type StorageRequestCriteria = {
+export type StorageRequest = {
+  cid: string;
   availability: number;
   availabilityUnit: AvailabilityUnit;
   tolerance: number;
@@ -38,4 +45,12 @@ export type StorageRequestCriteria = {
   reward: number;
   collateral: number;
   expiration: number;
+};
+
+export type StorageRequestComponentProps = {
+  dispatch: Dispatch<StepperAction>;
+  state: StepperState;
+  onStorageRequestChange: (data: Partial<StorageRequest>) => void;
+  storageRequest: StorageRequest;
+  error: Error | null;
 };

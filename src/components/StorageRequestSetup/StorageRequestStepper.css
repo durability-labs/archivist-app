@@ -1,0 +1,5 @@
+@media (min-width: 801px) {
+  .storageRequest-stepper {
+    min-width: 700px;
+  }
+}

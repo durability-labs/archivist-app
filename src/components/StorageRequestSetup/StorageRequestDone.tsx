@@ -1,16 +1,22 @@
 import { Placeholder } from "@codex-storage/marketplace-ui-components";
 import { CircleCheck } from "lucide-react";
-import { useEffect } from "react";
 import "./StorageRequestDone.css";
+import { StorageRequestComponentProps } from "./types";
+import { useEffect } from "react";
 
-type Props = {
-  onChangeNextState: (value: "enable" | "disable") => void;
-};
-
-export function StorageRequestDone({ onChangeNextState }: Props) {
+// TODO rename
+export function StorageRequestDone({ dispatch }: StorageRequestComponentProps) {
   useEffect(() => {
-    onChangeNextState("enable");
-  }, [onChangeNextState]);
+    dispatch({
+      type: "toggle-next",
+      isNextEnable: true,
+    });
+
+    dispatch({
+      type: "toggle-back",
+      isBackEnable: false,
+    });
+  }, [dispatch]);
 
   return (
     <Placeholder

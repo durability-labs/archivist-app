@@ -1,17 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { CodexSdk } from "../../sdk/codex";
-import { Plus } from "lucide-react";
-import { useState } from "react";
-import {
-  Button,
-  Cell,
-  Spinner,
-  Table,
-} from "@codex-storage/marketplace-ui-components";
+import { Cell, Spinner, Table } from "@codex-storage/marketplace-ui-components";
 import { StorageRequestStepper } from "../../components/StorageRequestSetup/StorageRequestStepper";
 import "./purchases.css";
-import { classnames } from "../../utils/classnames";
 import { FileCell } from "../../components/FileCellRender/FileCell";
 import { CustomStateCellRender } from "../../components/CustomStateCellRender/CustomStateCellRender";
 import prettyMilliseconds from "pretty-ms";
@@ -20,7 +12,6 @@ import { Promises } from "../../utils/promises";
 import { TruncateCell } from "../../components/TruncateCell/TruncateCell";
 
 const Purchases = () => {
-  const [open, setOpen] = useState(false);
   const { data, isPending } = useQuery({
     queryFn: () =>
       CodexSdk.marketplace.purchases().then((s) => Promises.rejectOnError(s)),
@@ -67,37 +58,20 @@ const Purchases = () => {
       ];
     }) || [];
 
+  // TODO make name uniforms
+
   return (
     <div className="container">
       <div className="purchases-actions">
-        <Button
-          label="Storage Request"
-          Icon={Plus}
-          onClick={() => setOpen(true)}
-          variant="primary"
-        />
+        <StorageRequestStepper />
       </div>
 
-      <StorageRequestStepper
-        className={classnames(
-          ["purchases-modal"],
-          ["purchases-modal-open", open]
-        )}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
-
       <Table headers={headers} cells={cells} />
-
-      {/* {!cells.length && (
-        <EmptyPlaceholder
-          title="Nothing to show"
-          message="No data here yet. Start to upload files to see data here."
-        />
-      )} */}
     </div>
   );
 };
+
+// TODO make uniforms for availabilities
 
 export const Route = createFileRoute("/dashboard/purchases")({
   component: () => (
