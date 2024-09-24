@@ -1,24 +1,19 @@
 import {
-  Backdrop,
-  Button,
   EmptyPlaceholder,
   Modal,
-  Placeholder,
   SpaceAllocation,
   Spinner,
 } from "@codex-storage/marketplace-ui-components";
-import { classnames } from "../../utils/classnames";
 import "./AvailabilityReservations.css";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CodexSdk } from "../../sdk/codex";
 import { Promises } from "../../utils/promises";
 import { CodexAvailability } from "@codex-storage/sdk-js";
 import { useEffect } from "react";
-import { ErrorIcon } from "../ErrorIcon/ErrorIcon";
 import { ErrorPlaceholder } from "../ErrorPlaceholder/ErrorPlaceholder";
 
 type Props = {
-  availability: CodexAvailability;
+  availability: CodexAvailability | null;
   open: boolean;
   onClose: () => unknown;
 };
@@ -41,15 +36,26 @@ export function AvailabilityReservations({
     isPending,
     error,
   } = useQuery({
-    queryFn: () => {
-      return CodexSdk.marketplace
-        .reservations(availability?.id)
-        .then((s) => Promises.rejectOnError(s));
-    },
+    queryFn: () =>
+      CodexSdk.marketplace
+        .reservations(availability!.id)
+        .then((s) => Promises.rejectOnError(s)),
     queryKey: ["reservations"],
     retry: 0,
     staleTime: 0,
+    initialData: [],
+    enabled: !!availability,
   });
+
+  if (!availability) {
+    return (
+      <Modal onClose={onClose} open={open}>
+        <ErrorPlaceholder
+          subtitle="The availability does not exist"
+          error={error}></ErrorPlaceholder>
+      </Modal>
+    );
+  }
 
   if (isPending) {
     return (
@@ -85,22 +91,13 @@ export function AvailabilityReservations({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <div
-        className={classnames(["reservations"], ["reservations--open", open])}>
-        <b className="reservations-title">Availability reservations</b>
-
-        {isEmpty ? (
-          <EmptyPlaceholder
-            title="No reservation"
-            message="You don't have any reservation yet."></EmptyPlaceholder>
-        ) : (
-          <SpaceAllocation data={spaceData} />
-        )}
-
-        <div className="reservations-buttons">
-          <Button label={"Close"} variant="outline" onClick={onClose} />
-        </div>
-      </div>
+      {isEmpty ? (
+        <EmptyPlaceholder
+          title="No reservation"
+          message="You don't have any reservation yet."></EmptyPlaceholder>
+      ) : (
+        <SpaceAllocation data={spaceData} />
+      )}
     </Modal>
   );
 }

@@ -4,17 +4,18 @@ import { PrettyBytes } from "../../utils/bytes";
 import { AvailabilityActionsCell } from "./AvailabilityActionsCell";
 import { CodexAvailability } from "@codex-storage/sdk-js/async";
 import { Times } from "../../utils/times";
+import { useState } from "react";
+import { AvailabilityReservations } from "./AvailabilityReservations";
 
 type Props = {
   // onEdit: () => void;
   availabilities: CodexAvailability[];
-  onReservationsShow: (availability: CodexAvailability) => void;
 };
 
-export function AvailabilitiesTable({
-  availabilities,
-  onReservationsShow,
-}: Props) {
+export function AvailabilitiesTable({ availabilities }: Props) {
+  const [availability, setAvailability] = useState<CodexAvailability | null>(
+    null
+  );
   const headers = [
     "id",
     "total size",
@@ -23,6 +24,10 @@ export function AvailabilitiesTable({
     "max collateral",
     "actions",
   ];
+
+  const onReservationsShow = (a: CodexAvailability) => setAvailability(a);
+
+  const onReservationsClose = () => setAvailability(null);
 
   const cells =
     availabilities.map((a) => {
@@ -39,5 +44,13 @@ export function AvailabilitiesTable({
       ];
     }) || [];
 
-  return <Table headers={headers} cells={cells} />;
+  return (
+    <>
+      <Table headers={headers} cells={cells} />
+      <AvailabilityReservations
+        availability={availability}
+        onClose={onReservationsClose}
+        open={!!availability}></AvailabilityReservations>
+    </>
+  );
 }

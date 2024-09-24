@@ -23,9 +23,6 @@ const defaultSpace = {
 
 export function Availabilities() {
   {
-    const [availabilitySelected, setAvailabilitySelected] =
-      useState<CodexAvailability | null>(null);
-
     // Error will be catched in ErrorBounday
     const { data: availabilities = [], isPending } = useQuery({
       queryFn: () =>
@@ -48,11 +45,6 @@ export function Availabilities() {
       staleTime: 24 * 60 * 60 * 1000,
     });
 
-    const onReservationsShow = (a: CodexAvailability) =>
-      setAvailabilitySelected(a);
-
-    const onReservationsClose = () => setAvailabilitySelected(null);
-
     const allocation = availabilities
       .map((a) => ({
         title: Strings.shortId(a.id),
@@ -62,13 +54,6 @@ export function Availabilities() {
 
     return (
       <div className="container">
-        {availabilitySelected && (
-          <AvailabilityReservations
-            availability={availabilitySelected}
-            onClose={onReservationsClose}
-            open={!!availabilitySelected}></AvailabilityReservations>
-        )}
-
         <div className="availabilities-content">
           {isPending ? (
             <div className="purchases-loader">
@@ -79,7 +64,6 @@ export function Availabilities() {
               <AvailabilitiesTable
                 // onEdit={onOpen}
                 availabilities={availabilities}
-                onReservationsShow={onReservationsShow}
               />
             </div>
           )}
