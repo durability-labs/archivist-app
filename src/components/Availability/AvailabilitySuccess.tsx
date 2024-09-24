@@ -1,19 +1,18 @@
-import {
-  Placeholder,
-  StepperAction,
-} from "@codex-storage/marketplace-ui-components";
-import { Dispatch, useEffect } from "react";
+import { Placeholder } from "@codex-storage/marketplace-ui-components";
 import { SuccessIcon } from "../SuccessIcon/SuccessIcon";
+import { AvailabilityComponentProps } from "./types";
+import { useEffect } from "react";
 
-type Props = {
-  dispatch: Dispatch<StepperAction>;
-};
-
-export function AvailabilitySuccess({ dispatch }: Props) {
+export function AvailabilitySuccess({ dispatch }: AvailabilityComponentProps) {
   useEffect(() => {
     dispatch({
-      isNextEnable: true,
       type: "toggle-next",
+      isNextEnable: true,
+    });
+
+    dispatch({
+      type: "toggle-back",
+      isBackEnable: false,
     });
   }, [dispatch]);
 

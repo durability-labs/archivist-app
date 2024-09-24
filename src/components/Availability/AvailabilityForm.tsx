@@ -1,58 +1,34 @@
-import {
-  Input,
-  InputGroup,
-  StepperAction,
-  StepperState,
-} from "@codex-storage/marketplace-ui-components";
-import { ChangeEvent, Dispatch, useCallback, useEffect, useState } from "react";
+import { Input, InputGroup } from "@codex-storage/marketplace-ui-components";
+import { ChangeEvent, useEffect } from "react";
 import "./AvailabilityForm.css";
-import { CodexNodeSpace } from "@codex-storage/sdk-js";
-import { UIAvailability } from "./types";
-import { GB, TB } from "../../utils/constants";
+import { AvailabilityComponentProps } from "./types";
 import { classnames } from "../../utils/classnames";
 import { AvailabilitySpaceAllocation } from "./AvailabilitySpaceAllocation";
-
-type Props = {
-  dispatch: Dispatch<StepperAction>;
-  state: StepperState;
-  space: CodexNodeSpace;
-  onAvailabilityChange: (data: Partial<UIAvailability>) => void;
-  availability: UIAvailability;
-};
+import { availabilityMax, isAvailabilityValid } from "./availability.domain";
 
 export function AvailabilityForm({
   dispatch,
   onAvailabilityChange,
   availability,
   space,
-}: Props) {
-  const [totalSizeError, setTotalSizeError] = useState("");
-
-  const isAvailabilityInvalid = useCallback(
-    (value: number) => {
-      const unit = availability.totalSizeUnit === "gb" ? GB : TB;
-      return value * unit > space.quotaMaxBytes - space.quotaReservedBytes;
-    },
-    [space, availability]
-  );
-
+}: AvailabilityComponentProps) {
   useEffect(() => {
-    if (isAvailabilityInvalid(availability.totalSize)) {
-      setTotalSizeError(
-        "You cannot allocate more space than the remaining space."
-      );
-    } else {
-      setTotalSizeError("");
-    }
-  }, [availability, isAvailabilityInvalid]);
-
-  const onTotalSizeUnitChange = async (e: ChangeEvent<HTMLSelectElement>) => {
-    const element = e.currentTarget;
+    const max = availabilityMax(space, availability.totalSizeUnit);
+    const isValid = isAvailabilityValid(availability.totalSize, max);
 
     dispatch({
       type: "toggle-next",
-      isNextEnable: false,
+      isNextEnable: isValid,
     });
+
+    dispatch({
+      type: "toggle-back",
+      isBackEnable: true,
+    });
+  }, [space, availability]);
+
+  const onTotalSizeUnitChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const element = e.currentTarget;
 
     onAvailabilityChange({
       totalSize: 0,
@@ -72,29 +48,11 @@ export function AvailabilityForm({
   const onAvailablityChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
     const v = element.value;
-    const value = parseFloat(v);
-    const valid = element.checkValidity() && !isAvailabilityInvalid(value);
+    const valid = element.checkValidity();
 
     onAvailabilityChange({
       [element.name]: v,
     });
-
-    if (valid) {
-      setTotalSizeError("");
-      dispatch({
-        type: "toggle-next",
-        isNextEnable: true,
-      });
-    } else {
-      setTotalSizeError(
-        element.validationMessage ||
-          "You cannot allocate more space than the remaining space."
-      );
-      dispatch({
-        type: "toggle-next",
-        isNextEnable: false,
-      });
-    }
   };
 
   const onInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -105,11 +63,11 @@ export function AvailabilityForm({
     });
   };
 
-  const unit = availability.totalSizeUnit === "gb" ? GB : TB;
-  const max = (
-    space.quotaMaxBytes / unit -
-    space.quotaReservedBytes / unit
-  ).toFixed(2);
+  const max = availabilityMax(space, availability.totalSizeUnit);
+  const isValid = isAvailabilityValid(availability.totalSize, max);
+  const helper = isValid
+    ? "Total size of availability's storage in bytes"
+    : "The total size cannot exceed the space available.";
 
   return (
     <>
@@ -120,16 +78,14 @@ export function AvailabilityForm({
         name="totalSize"
         type="number"
         label="Total size"
-        helper={
-          totalSizeError || "Total size of availability's storage in bytes"
-        }
+        helper={helper}
         className={classnames(
           ["availabilityForm-item"],
-          ["availabilityForm-item--error", !!totalSizeError]
+          ["availabilityForm-item--error", !isValid]
         )}
         inputClassName="availabilityForm-itemInput"
         min={0.01}
-        max={max}
+        max={max.toFixed(2)}
         onChange={onAvailablityChange}
         onGroupChange={onTotalSizeUnitChange}
         value={availability.totalSize.toString()}

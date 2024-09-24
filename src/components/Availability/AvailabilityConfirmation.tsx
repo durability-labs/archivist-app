@@ -1,30 +1,26 @@
-import { StepperAction } from "@codex-storage/marketplace-ui-components";
-import { Dispatch, useEffect } from "react";
 import "./AvailabilityForm.css";
-import { CodexNodeSpace } from "@codex-storage/sdk-js";
-import { UIAvailability } from "./types";
+import { AvailabilityComponentProps } from "./types";
 import "./AvailabilityConfirm.css";
 import { Info } from "lucide-react";
 import { AvailabilitySpaceAllocation } from "./AvailabilitySpaceAllocation";
-
-type Props = {
-  dispatch: Dispatch<StepperAction>;
-  space: CodexNodeSpace;
-  availability: UIAvailability;
-  enableNext?: boolean;
-};
+import { useEffect } from "react";
 
 export function AvailabilityConfirm({
-  availability,
   dispatch,
+  availability,
   space,
-  enableNext = true,
-}: Props) {
+}: AvailabilityComponentProps) {
   useEffect(() => {
-    if (enableNext) {
-      dispatch({ type: "toggle-next", isNextEnable: true });
-    }
-  }, [dispatch, enableNext]);
+    dispatch({
+      type: "toggle-next",
+      isNextEnable: true,
+    });
+
+    dispatch({
+      type: "toggle-back",
+      isBackEnable: true,
+    });
+  }, [dispatch]);
 
   return (
     <>

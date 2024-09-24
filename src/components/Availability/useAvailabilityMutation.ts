@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GB, TB } from "../../utils/constants";
 import { Promises } from "../../utils/promises";
 import { WebStorage } from "../../utils/web-storage";
-import { UIAvailability } from "./types";
+import { AvailabilityState } from "./types";
 import { Dispatch, useState } from "react";
 import {
   StepperAction,
@@ -28,13 +28,13 @@ export function useAvailabilityMutation(
       duration,
       durationUnit = "days",
       ...input
-    }: UIAvailability) => {
+    }: AvailabilityState) => {
       const unit = totalSizeUnit === "gb" ? GB : TB;
       const marketplace = CodexSdk.marketplace;
       const time = Times.toSeconds(duration, durationUnit);
 
       const fn: (
-        input: Omit<UIAvailability, "totalSizeUnit" | "durationUnit">
+        input: Omit<AvailabilityState, "totalSizeUnit" | "durationUnit">
       ) => Promise<SafeValue<unknown>> = input.id
         ? (input) =>
             marketplace.updateAvailability({ ...input, id: input.id || "" })
@@ -70,12 +70,6 @@ export function useAvailabilityMutation(
       dispatch({
         type: "next",
         step: state.step,
-        isBackEnable: true,
-      });
-
-      dispatch({
-        type: "toggle-next",
-        isNextEnable: false,
       });
     },
   });

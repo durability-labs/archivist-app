@@ -1,16 +1,17 @@
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
-import { UIAvailability } from "./types";
+import { AvailabilityState } from "./types";
 import { GB, TB } from "../../utils/constants";
 import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
 import "./AvailabilitySpaceAllocation.css";
+import { availabilityUnit } from "./availability.domain";
 
 type Props = {
   space: CodexNodeSpace;
-  availability: UIAvailability;
+  availability: AvailabilityState;
 };
 
 export function AvailabilitySpaceAllocation({ availability, space }: Props) {
-  const unit = availability.totalSizeUnit === "gb" ? GB : TB;
+  const unit = availabilityUnit(availability.totalSizeUnit);
   const { quotaMaxBytes, quotaReservedBytes } = space;
   const size = availability.totalSize * unit;
   const isUpdating = !!availability.id;

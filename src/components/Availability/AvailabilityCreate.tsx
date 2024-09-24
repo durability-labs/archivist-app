@@ -10,48 +10,39 @@ import { Plus } from "lucide-react";
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { AvailabilityConfirm } from "./AvailabilityConfirmation";
 import { WebStorage } from "../../utils/web-storage";
-import { UIAvailability } from "./types";
+import { AvailabilityState } from "./types";
 import { STEPPER_DURATION } from "../../utils/constants";
 import { useAvailabilityMutation } from "./useAvailabilityMutation";
 import { AvailabilitySuccess } from "./AvailabilitySuccess";
-import { ErrorPlaceholder } from "../ErrorPlaceholder/ErrorPlaceholder";
+import { AvailabilityError } from "./AvailabilityError";
 
 type Props = {
   space: CodexNodeSpace;
 };
 
 const CONFIRM_STATE = 2;
-const STEPS = 3;
+
+const defaultAvailabilityData: AvailabilityState = {
+  totalSize: 1,
+  duration: 1,
+  minPrice: 0,
+  maxCollateral: 0,
+  totalSizeUnit: "gb",
+  durationUnit: "days",
+};
 
 export function AvailabilityCreate({ space }: Props) {
   const steps = useRef(["Availability", "Confirmation", "Success"]);
-  const [availability, setAvailability] = useState<UIAvailability>({
-    totalSize: 1,
-    duration: 1,
-    minPrice: 0,
-    maxCollateral: 0,
-    totalSizeUnit: "gb",
-    durationUnit: "days",
-  });
-  const { state, dispatch } = useStepperReducer(STEPS);
+  const [availability, setAvailability] = useState<AvailabilityState>(
+    defaultAvailabilityData
+  );
+  const { state, dispatch } = useStepperReducer();
   const { mutateAsync, error } = useAvailabilityMutation(dispatch, state);
-  const components = [
-    AvailabilityForm,
-    AvailabilityConfirm,
-    error
-      ? () => (
-          <ErrorPlaceholder
-            subtitle="Error when trying to create availability."
-            error={error}
-          />
-        )
-      : AvailabilitySuccess,
-  ];
 
   useEffect(() => {
     Promise.all([
       WebStorage.get<number>("availability-step"),
-      WebStorage.get<UIAvailability>("availability"),
+      WebStorage.get<AvailabilityState>("availability"),
     ]).then(([s, a]) => {
       if (s) {
         dispatch({
@@ -63,15 +54,26 @@ export function AvailabilityCreate({ space }: Props) {
       if (a) {
         setAvailability(a);
       }
-
-      dispatch({
-        type: "toggle-next",
-        isNextEnable: true,
-      });
     });
   }, [dispatch]);
 
+  const components = [
+    AvailabilityForm,
+    AvailabilityConfirm,
+    error ? AvailabilityError : AvailabilitySuccess,
+  ];
+
   const onNextStep = async (step: number) => {
+    if (step === components.length) {
+      setAvailability(defaultAvailabilityData);
+
+      dispatch({
+        type: "close",
+      });
+
+      return;
+    }
+
     WebStorage.set("availability-step", step);
 
     if (step == CONFIRM_STATE) {
@@ -81,21 +83,10 @@ export function AvailabilityCreate({ space }: Props) {
         step,
         type: "next",
       });
-
-      if (step === components.length) {
-        setAvailability({
-          totalSize: 1,
-          duration: 1,
-          minPrice: 0,
-          maxCollateral: 0,
-          totalSizeUnit: "gb",
-          durationUnit: "days",
-        });
-      }
     }
   };
 
-  const onAvailabilityChange = (data: Partial<UIAvailability>) => {
+  const onAvailabilityChange = (data: Partial<AvailabilityState>) => {
     const val = { ...availability, ...data };
 
     WebStorage.set("availability", val);
@@ -138,6 +129,7 @@ export function AvailabilityCreate({ space }: Props) {
             onAvailabilityChange={onAvailabilityChange}
             availability={availability}
             space={space}
+            error={error}
           />
         </Stepper>
       </Modal>

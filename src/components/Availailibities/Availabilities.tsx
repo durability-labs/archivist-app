@@ -8,10 +8,7 @@ import { Promises } from "../../utils/promises";
 import { AvailabilityCreate } from "../Availability/AvailabilityCreate";
 import { CodexSdk } from "../../sdk/codex";
 import { Strings } from "../../utils/strings";
-import { CodexAvailability } from "@codex-storage/sdk-js";
-import { useState } from "react";
 import { AvailabilitiesTable } from "../Availability/AvailabilitiesTable";
-import { AvailabilityReservations } from "../Availability/AvailabilityReservations";
 import "./Availabilities.css";
 
 const defaultSpace = {

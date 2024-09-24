@@ -13,8 +13,6 @@ export function ErrorPlaceholder({ subtitle, error }: Props) {
         error.message
       : `${error}`;
 
-  console.info(message, error);
-
   return (
     <Placeholder
       Icon={<ErrorIcon />}
