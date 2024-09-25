@@ -13,16 +13,12 @@ export function AvailabilityForm({
   space,
 }: AvailabilityComponentProps) {
   useEffect(() => {
-    const max = availabilityMax(space, availability.totalSizeUnit);
-    const isValid = isAvailabilityValid(availability.totalSize, max);
+    const max = availabilityMax(space);
+    const isValid = isAvailabilityValid(availability, max);
 
     dispatch({
-      type: "toggle-next",
+      type: "toggle-buttons",
       isNextEnable: isValid,
-    });
-
-    dispatch({
-      type: "toggle-back",
       isBackEnable: true,
     });
   }, [space, availability]);
@@ -48,7 +44,6 @@ export function AvailabilityForm({
   const onAvailablityChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
     const v = element.value;
-    const valid = element.checkValidity();
 
     onAvailabilityChange({
       [element.name]: v,
@@ -63,8 +58,9 @@ export function AvailabilityForm({
     });
   };
 
-  const max = availabilityMax(space, availability.totalSizeUnit);
-  const isValid = isAvailabilityValid(availability.totalSize, max);
+  const max = availabilityMax(space);
+  const isValid = isAvailabilityValid(availability, max);
+  console.info(isValid, max);
   const helper = isValid
     ? "Total size of availability's storage in bytes"
     : "The total size cannot exceed the space available.";

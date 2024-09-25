@@ -8,12 +8,8 @@ export function StorageRequestError({
 }: StorageRequestComponentProps) {
   useEffect(() => {
     dispatch({
-      type: "toggle-next",
+      type: "toggle-buttons",
       isNextEnable: false,
-    });
-
-    dispatch({
-      type: "toggle-back",
       isBackEnable: true,
     });
   }, [dispatch]);

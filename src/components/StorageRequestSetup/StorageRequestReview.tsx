@@ -58,12 +58,8 @@ export function StorageRequestReview({
     );
 
     dispatch({
-      type: "toggle-next",
+      type: "toggle-buttons",
       isNextEnable: !invalid,
-    });
-
-    dispatch({
-      type: "toggle-back",
       isBackEnable: true,
     });
   }, [dispatch, storageRequest]);

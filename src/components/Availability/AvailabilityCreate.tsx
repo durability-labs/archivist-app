@@ -15,6 +15,7 @@ import { STEPPER_DURATION } from "../../utils/constants";
 import { useAvailabilityMutation } from "./useAvailabilityMutation";
 import { AvailabilitySuccess } from "./AvailabilitySuccess";
 import { AvailabilityError } from "./AvailabilityError";
+import "./AvailabilityCreate.css";
 
 type Props = {
   space: CodexNodeSpace;
@@ -121,6 +122,7 @@ export function AvailabilityCreate({ space }: Props) {
 
       <Modal open={state.open} onClose={onClose} displayCloseButton={false}>
         <Stepper
+          className="availabilityCreate"
           titles={steps.current}
           state={state}
           dispatch={dispatch}

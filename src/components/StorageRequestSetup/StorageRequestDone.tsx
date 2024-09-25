@@ -8,12 +8,8 @@ import { useEffect } from "react";
 export function StorageRequestDone({ dispatch }: StorageRequestComponentProps) {
   useEffect(() => {
     dispatch({
-      type: "toggle-next",
+      type: "toggle-buttons",
       isNextEnable: true,
-    });
-
-    dispatch({
-      type: "toggle-back",
       isBackEnable: false,
     });
   }, [dispatch]);

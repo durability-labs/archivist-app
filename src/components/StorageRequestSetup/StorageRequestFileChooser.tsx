@@ -21,12 +21,8 @@ export function StorageRequestFileChooser({
 
   useEffect(() => {
     dispatch({
-      type: "toggle-next",
+      type: "toggle-buttons",
       isNextEnable: !!storageRequest.cid,
-    });
-
-    dispatch({
-      type: "toggle-back",
       isBackEnable: true,
     });
   }, [dispatch, storageRequest]);
