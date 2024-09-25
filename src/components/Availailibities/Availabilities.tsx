@@ -28,9 +28,19 @@ export function Availabilities() {
           .then((s) => Promises.rejectOnError(s))
           .then((res) => res.sort((a, b) => b.totalSize - a.totalSize)),
       queryKey: ["availabilities"],
-      refetchOnWindowFocus: false,
+      initialData: [],
+
+      // No need to retry because if the connection to the node
+      // is back again, all the queries will be invalidated.
       retry: false,
-      throwOnError: true,
+
+      // The client node should be local, so display the cache value while
+      // making a background request looks good.
+      staleTime: 0,
+
+      // Refreshing when focus returns can be useful if a user comes back
+      // to the UI after performing an operation in the terminal.
+      refetchOnWindowFocus: true,
     });
 
     // Error will be catched in ErrorBounday
@@ -38,8 +48,19 @@ export function Availabilities() {
       queryFn: () =>
         CodexSdk.data.space().then((s) => Promises.rejectOnError(s)),
       queryKey: ["space"],
-      // TODO comment staleTime
-      staleTime: 24 * 60 * 60 * 1000,
+      initialData: defaultSpace,
+
+      // No need to retry because if the connection to the node
+      // is back again, all the queries will be invalidated.
+      retry: false,
+
+      // The client node should be local, so display the cache value while
+      // making a background request looks good.
+      staleTime: 0,
+
+      // Refreshing when focus returns can be useful if a user comes back
+      // to the UI after performing an operation in the terminal.
+      refetchOnWindowFocus: true,
     });
 
     const allocation = availabilities

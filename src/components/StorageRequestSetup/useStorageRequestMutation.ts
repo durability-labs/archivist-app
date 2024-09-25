@@ -15,24 +15,23 @@ export function useStorageRequestMutation(
   dispatch: Dispatch<StepperAction>,
   state: StepperState
 ) {
-  const queryClient = useQueryClient();
   const [error, setError] = useState<Error | null>(null);
 
   const { mutateAsync } = useMutation({
-    mutationKey: ["debug"],
+    mutationKey: ["purchases"],
     mutationFn: (input: CodexCreateStorageRequestInput) =>
       CodexSdk.marketplace
         .createStorageRequest(input)
         .then((s) => Promises.rejectOnError(s)),
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["purchases"] });
-
       //   if (!requestId.startsWith("0x")) {
       //     requestId = "0x" + requestId;
       //   }
 
       WebStorage.delete("storage-request-step");
       WebStorage.delete("storage-request");
+
+      setError(null);
 
       //   PurchaseStorage.set(requestId, cid);
       //   WebStorage.set("storage-request-step", SUCCESS_STEP);
