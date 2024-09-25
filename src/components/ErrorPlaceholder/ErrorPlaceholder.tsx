@@ -7,11 +7,9 @@ type Props = {
 };
 
 export function ErrorPlaceholder({ subtitle, error }: Props) {
-  const message =
-    error instanceof Object && error.hasOwnProperty("message")
-      ? // @ts-ignore
-        error.message
-      : `${error}`;
+  const message = Object.prototype.hasOwnProperty.call(error, "message")
+    ? (error as { message: string }).message
+    : `${error}`;
 
   return (
     <Placeholder

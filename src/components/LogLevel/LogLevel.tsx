@@ -72,6 +72,7 @@ export function LogLevel() {
         id="level"
         label="Log level"
         options={levels}
+        value={level}
         onChange={onChange}></Select>
       <Button
         variant="primary"

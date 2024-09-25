@@ -62,7 +62,7 @@ export function StorageRequestReview({
       isNextEnable: !invalid,
       isBackEnable: true,
     });
-  }, [dispatch, storageRequest]);
+  }, [isInvalidConstrainst, dispatch, storageRequest]);
 
   const onUpdateDurability = (data: Partial<StorageRequest>) => {
     onStorageRequestChange(data);

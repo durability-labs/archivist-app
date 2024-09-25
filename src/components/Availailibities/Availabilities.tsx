@@ -1,5 +1,4 @@
 import {
-  Placeholder,
   SpaceAllocation,
   Spinner,
 } from "@codex-storage/marketplace-ui-components";

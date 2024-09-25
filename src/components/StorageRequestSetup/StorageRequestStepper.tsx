@@ -13,15 +13,11 @@ import {
 import { StorageRequestDone } from "./StorageRequestDone";
 import { Times } from "../../utils/times";
 import { useStorageRequestMutation } from "./useStorageRequestMutation";
-import { ErrorPlaceholder } from "../ErrorPlaceholder/ErrorPlaceholder";
 import { Plus } from "lucide-react";
 import "./StorageRequestStepper.css";
 import { StorageRequestError } from "./StorageRequestError";
 
-type Props = {};
-
 const CONFIRM_STATE = 2;
-const STEPS = 3;
 
 const defaultStorageRequest: StorageRequest = {
   cid: "",
@@ -35,7 +31,7 @@ const defaultStorageRequest: StorageRequest = {
   expiration: 300,
 };
 
-export function StorageRequestStepper({}: Props) {
+export function StorageRequestStepper() {
   const [storageRequest, setStorageRequest] = useState<StorageRequest>(
     defaultStorageRequest
   );
@@ -91,7 +87,7 @@ export function StorageRequestStepper({}: Props) {
       mutateAsync({
         ...rest,
         duration: Times.toSeconds(availability, availabilityUnit),
-        expiry: expiration * 60,
+        expiry: expiration,
       });
     } else {
       dispatch({

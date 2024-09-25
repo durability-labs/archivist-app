@@ -29,7 +29,7 @@ export function AvailabilityReservations({
     if (availability) {
       queryClient.invalidateQueries({ queryKey: ["reservations"] });
     }
-  }, [availability]);
+  }, [queryClient, availability]);
 
   const {
     data = [],

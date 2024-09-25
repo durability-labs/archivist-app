@@ -21,7 +21,7 @@ export function AvailabilityForm({
       isNextEnable: isValid,
       isBackEnable: true,
     });
-  }, [space, availability]);
+  }, [dispatch, space, availability]);
 
   const onTotalSizeUnitChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget;
