@@ -21,7 +21,7 @@ export function useAvailabilityMutation(
   const [error, setError] = useState<Error | null>(null);
 
   const { mutateAsync } = useMutation({
-    mutationKey: ["debug"],
+    mutationKey: ["availabilities"],
     mutationFn: ({
       totalSize,
       totalSizeUnit,
@@ -47,11 +47,12 @@ export function useAvailabilityMutation(
       }).then((s) => Promises.rejectOnError(s));
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["availabilities"] });
       queryClient.invalidateQueries({ queryKey: ["space"] });
 
       WebStorage.delete("availability");
       WebStorage.delete("availability-step");
+
+      setError(null);
 
       dispatch({
         type: "next",

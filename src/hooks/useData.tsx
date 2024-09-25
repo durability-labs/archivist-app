@@ -58,6 +58,17 @@ export function useData() {
       });
     },
     queryKey: ["cids"],
+    initialData: [],
+
+    // No need to retry because if the connection to the node
+    // is back again, all the queries will be invalidated.
+    retry: false,
+
+    // The client node should be local, so display the cache value while
+    // making a background request looks good.
+    staleTime: 0,
+
+    // Don't expect something new when coming back to the UI
     refetchOnWindowFocus: false,
   });
 
