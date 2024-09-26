@@ -6,9 +6,7 @@ import {
   UploadResponse,
 } from "@codex-storage/sdk-js";
 import { CodexSdk as Sdk } from "./sdk/codex";
-import { Promises } from "./utils/promises";
 import { WebStorage } from "./utils/web-storage";
-import * as Sentry from "@sentry/browser";
 import { FilesStorage } from "./utils/file-storage";
 
 class CodexDataMock extends CodexData {

@@ -12,18 +12,18 @@ const plural = (value: number, unit: TimesUnit) =>
 export const Times = {
   toSeconds(value: number, unit: TimesUnit) {
     let seconds = value;
-    // eslint-disable no-fallthrough
+    /* eslint-disable no-fallthrough */
     switch (unit) {
-      // @ts-ignore
+      // @ts-expect-error - We don't want to break
       case "years":
         seconds *= 365;
-      // @ts-ignore
+      // @ts-expect-error - We don't want to break
       case "months":
         seconds *= 30;
-      // @ts-ignore
+      // @ts-expect-error - We don't want to break
       case "days":
         seconds *= 24;
-      // @ts-ignore
+      // @ts-expect-error - We don't want to break
       case "hours":
         seconds *= 60;
       case "minutes":

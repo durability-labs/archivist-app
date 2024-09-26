@@ -1,6 +1,5 @@
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { GB, TB } from "../../utils/constants";
-import { AvailabilityState } from "./types";
 
 export const availabilityUnit = (unit: "gb" | "tb") =>
   unit === "gb" ? GB : TB;

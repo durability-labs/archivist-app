@@ -1,7 +1,6 @@
 import { CodexSdk } from "../../sdk/codex";
 import "./StorageRequestFileChooser.css";
 import { ChangeEvent, useEffect } from "react";
-import { WebStorage } from "../../utils/web-storage";
 import { classnames } from "../../utils/classnames";
 import {
   Dropdown,

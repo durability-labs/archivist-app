@@ -6,7 +6,7 @@ import { Promises } from "../utils/promises";
 export function useData() {
   const { data = { content: [] } satisfies CodexDataResponse } =
     useQuery<CodexDataResponse>({
-      queryFn: (_) =>
+      queryFn: () =>
         CodexSdk.data.cids().then((res) => Promises.rejectOnError(res)),
       queryKey: ["cids"],
 
