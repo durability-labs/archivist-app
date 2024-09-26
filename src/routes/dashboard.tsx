@@ -82,7 +82,14 @@ const Layout = () => {
     },
   ] satisfies MenuItem[];
 
-  return <Page children={<Outlet />} items={items} Right={Right} />;
+  return (
+    <Page
+      children={<Outlet />}
+      items={items}
+      Right={Right}
+      version={__APP_VERSION__}
+    />
+  );
 };
 
 export const Route = createFileRoute("/dashboard")({
