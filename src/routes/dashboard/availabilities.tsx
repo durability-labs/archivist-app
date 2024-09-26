@@ -90,9 +90,7 @@ export function Availabilities() {
           )}
 
           <div className="availabilities-space">
-            <div>
-              <SpaceAllocation data={allocation} />
-            </div>
+            <div>{/* <SpaceAllocation data={allocation} /> */}</div>
             <div>
               <AvailabilityCreate space={space} />
             </div>
