@@ -1,4 +1,4 @@
-import { StorageRequestFileChooser } from "../../components/StorageRequestSetup/StorageRequestFileChooser";
+import { StorageRequestFileChooser } from "./StorageRequestFileChooser";
 import { useEffect, useRef, useState } from "react";
 import { WebStorage } from "../../utils/web-storage";
 import { STEPPER_DURATION } from "../../utils/constants";
@@ -10,11 +10,11 @@ import {
   Stepper,
   useStepperReducer,
 } from "@codex-storage/marketplace-ui-components";
-import { StorageRequestDone } from "./StorageRequestDone";
+import { StorageRequestSuccess } from "./StorageRequestSuccess";
 import { Times } from "../../utils/times";
 import { useStorageRequestMutation } from "./useStorageRequestMutation";
 import { Plus } from "lucide-react";
-import "./StorageRequestStepper.css";
+import "./StorageRequestCreate.css";
 import { StorageRequestError } from "./StorageRequestError";
 
 const CONFIRM_STATE = 2;
@@ -31,7 +31,7 @@ const defaultStorageRequest: StorageRequest = {
   expiration: 300,
 };
 
-export function StorageRequestStepper() {
+export function StorageRequestCreate() {
   const [storageRequest, setStorageRequest] = useState<StorageRequest>(
     defaultStorageRequest
   );
@@ -60,7 +60,7 @@ export function StorageRequestStepper() {
   const components = [
     StorageRequestFileChooser,
     StorageRequestReview,
-    error ? StorageRequestError : StorageRequestDone,
+    error ? StorageRequestError : StorageRequestSuccess,
   ];
 
   const onNextStep = async (step: number) => {
@@ -133,7 +133,7 @@ export function StorageRequestStepper() {
           duration={STEPPER_DURATION}
           onNextStep={onNextStep}
           backLabel={backLabel}
-          className="storageRequest-stepper"
+          className="storageRequestCreate"
           nextLabel={nextLabel}>
           <Body
             dispatch={dispatch}

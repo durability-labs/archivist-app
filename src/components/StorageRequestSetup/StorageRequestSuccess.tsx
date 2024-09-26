@@ -1,11 +1,12 @@
 import { Placeholder } from "@codex-storage/marketplace-ui-components";
 import { CircleCheck } from "lucide-react";
-import "./StorageRequestDone.css";
+import "./StorageRequestSuccess.css";
 import { StorageRequestComponentProps } from "./types";
 import { useEffect } from "react";
 
-// TODO rename
-export function StorageRequestDone({ dispatch }: StorageRequestComponentProps) {
+export function StorageRequestSuccess({
+  dispatch,
+}: StorageRequestComponentProps) {
   useEffect(() => {
     dispatch({
       type: "toggle-buttons",

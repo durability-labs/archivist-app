@@ -1,6 +1,5 @@
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { AvailabilityState } from "./types";
-import { GB, TB } from "../../utils/constants";
 import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
 import "./AvailabilitySpaceAllocation.css";
 import { availabilityUnit } from "./availability.domain";
@@ -24,15 +23,15 @@ export function AvailabilitySpaceAllocation({ availability, space }: Props) {
   const spaceData = [
     {
       title: "Space allocated",
-      size: allocated,
+      size: Math.trunc(allocated),
     },
     {
       title: "New space allocation",
-      size: size,
+      size: Math.trunc(size),
     },
     {
       title: "Remaining space",
-      size: remaining,
+      size: Math.trunc(remaining),
     },
   ];
 

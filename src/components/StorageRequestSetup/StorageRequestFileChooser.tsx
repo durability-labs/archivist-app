@@ -36,13 +36,7 @@ export function StorageRequestFileChooser({
     onStorageRequestChange({ cid: value });
   };
 
-  const onSuccess = (data: string, file: File) => {
-    // TODO Move this to proxy object
-    WebStorage.set(data, {
-      type: file.type,
-      name: file.name,
-    });
-
+  const onSuccess = (data: string) => {
     onStorageRequestChange({ cid: data });
   };
 

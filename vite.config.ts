@@ -17,4 +17,10 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: {
+      "../sdk/codex": "../proxy",
+      "../../sdk/codex": "../../proxy",
+    },
+  },
 });
