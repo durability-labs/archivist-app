@@ -6,10 +6,11 @@ import { StorageRequestCreate } from "../../components/StorageRequestSetup/Stora
 import "./purchases.css";
 import { FileCell } from "../../components/FileCellRender/FileCell";
 import { CustomStateCellRender } from "../../components/CustomStateCellRender/CustomStateCellRender";
-import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
 import { Promises } from "../../utils/promises";
 import { TruncateCell } from "../../components/TruncateCell/TruncateCell";
 import { Times } from "../../utils/times";
+import { ErrorPlaceholder } from "../../components/ErrorPlaceholder/ErrorPlaceholder";
+import { ErrorBoundary } from "@sentry/react";
 
 const Purchases = () => {
   const { data, isPending } = useQuery({
@@ -79,7 +80,10 @@ const Purchases = () => {
 
 export const Route = createFileRoute("/dashboard/purchases")({
   component: () => (
-    <ErrorBoundary card={true}>
+    <ErrorBoundary
+      fallback={({ error }) => (
+        <ErrorPlaceholder error={error} subtitle="Cannot retrieve the data." />
+      )}>
       <Purchases />
     </ErrorBoundary>
   ),

@@ -31,6 +31,7 @@ export function Availabilities() {
           .then((res) => res.sort((a, b) => b.totalSize - a.totalSize)),
       queryKey: ["availabilities"],
       initialData: [],
+      throwOnError: true,
 
       // No need to retry because if the connection to the node
       // is back again, all the queries will be invalidated.
@@ -106,7 +107,7 @@ export const Route = createFileRoute("/dashboard/availabilities")({
   component: () => (
     <ErrorBoundary
       fallback={({ error }) => (
-        <ErrorPlaceholder error={error} subtitle="Cannot retrive the data." />
+        <ErrorPlaceholder error={error} subtitle="Cannot retrieve the data." />
       )}>
       <Availabilities />
     </ErrorBoundary>
