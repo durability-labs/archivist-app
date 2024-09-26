@@ -103,7 +103,7 @@ const Layout = () => {
       children={<Outlet />}
       items={items}
       Right={Right}
-      version={__APP_VERSION__}
+      version={import.meta.env.PACKAGE_VERSION}
     />
   );
 };
