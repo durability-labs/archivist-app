@@ -5,16 +5,15 @@ import { AvailabilityState } from "./types";
 export const availabilityUnit = (unit: "gb" | "tb") =>
   unit === "gb" ? GB : TB;
 
-export const availabilityMax = (space: CodexNodeSpace, unit: "gb" | "tb") => {
-  const bytes = availabilityUnit(unit);
-  return space.quotaMaxBytes / bytes - space.quotaReservedBytes / bytes;
-};
+export const availabilityMax = (space: CodexNodeSpace) =>
+  space.quotaMaxBytes - space.quotaReservedBytes - space.quotaUsedBytes;
 
 export const isAvailabilityValid = (
-  totalSize: string | number,
+  availability: AvailabilityState,
   max: number
 ) => {
-  const size = parseFloat(totalSize.toString());
+  const unit = availabilityUnit(availability.totalSizeUnit);
+  const size = parseFloat(availability.totalSize.toString()) * unit;
 
   return size > 0 && size <= max;
 };
