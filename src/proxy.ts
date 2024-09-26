@@ -13,24 +13,22 @@ class CodexDataMock extends CodexData {
   override upload(
     file: File,
     onProgress?: (loaded: number, total: number) => void
-  ): Promise<UploadResponse> {
-    const res = super.upload(file, onProgress);
+  ): UploadResponse {
+    const { result, abort } = super.upload(file, onProgress);
 
-    return res.then(({ result, abort }) => {
-      return {
-        abort,
-        result: result.then((safe) => {
-          if (!safe.error) {
-            return WebStorage.set(safe.data, {
-              type: file.type,
-              name: file.name,
-            }).then(() => safe);
-          }
+    return {
+      abort,
+      result: result.then((safe) => {
+        if (!safe.error) {
+          return WebStorage.set(safe.data, {
+            type: file.type,
+            name: file.name,
+          }).then(() => safe);
+        }
 
-          return safe;
-        }),
-      };
-    });
+        return safe;
+      }),
+    };
   }
 
   override async cids(): Promise<SafeValue<CodexDataResponse>> {
