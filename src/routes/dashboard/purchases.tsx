@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { CodexSdk } from "../../sdk/codex";
 import { Cell, Spinner, Table } from "@codex-storage/marketplace-ui-components";
-import { StorageRequestStepper } from "../../components/StorageRequestSetup/StorageRequestStepper";
+import { StorageRequestCreate } from "../../components/StorageRequestSetup/StorageRequestCreate";
 import "./purchases.css";
 import { FileCell } from "../../components/FileCellRender/FileCell";
 import { CustomStateCellRender } from "../../components/CustomStateCellRender/CustomStateCellRender";
@@ -66,20 +66,16 @@ const Purchases = () => {
       ];
     }) || [];
 
-  // TODO make name uniforms
-
   return (
     <div className="container">
       <div className="purchases-actions">
-        <StorageRequestStepper />
+        <StorageRequestCreate />
       </div>
 
       <Table headers={headers} cells={cells} />
     </div>
   );
 };
-
-// TODO make uniforms for availabilities
 
 export const Route = createFileRoute("/dashboard/purchases")({
   component: () => (
