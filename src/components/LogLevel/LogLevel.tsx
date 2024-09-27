@@ -9,7 +9,6 @@ import {
   Toast,
 } from "@codex-storage/marketplace-ui-components";
 import { Promises } from "../../utils/promises";
-import * as Sentry from "@sentry/browser";
 
 export function LogLevel() {
   const queryClient = useQueryClient();
