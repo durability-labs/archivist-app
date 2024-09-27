@@ -22,6 +22,10 @@ if (import.meta.env.PROD) {
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
+      Sentry.feedbackIntegration({
+        // Additional SDK configuration goes in here, for example:
+        colorScheme: "dark",
+      }),
     ],
     // Tracing
     tracesSampleRate: 1.0, //  Capture 100% of the transactions
