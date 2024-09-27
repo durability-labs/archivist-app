@@ -100,10 +100,23 @@ export function AvailabilityCreate({ space }: Props) {
     setAvailability(val);
   };
 
-  const onOpen = () =>
+  const onOpen = () => {
+    if (availability.id) {
+      WebStorage.set("availability-step", 0);
+      WebStorage.set("availability", defaultAvailabilityData);
+
+      setAvailability(defaultAvailabilityData);
+    }
+
     dispatch({
       type: "open",
     });
+
+    dispatch({
+      step: 0,
+      type: "next",
+    });
+  };
 
   const onClose = () => dispatch({ type: "close" });
 
