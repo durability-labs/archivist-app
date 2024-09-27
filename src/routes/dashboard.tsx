@@ -5,7 +5,14 @@ import {
   MenuItemComponentProps,
   Page,
 } from "@codex-storage/marketplace-ui-components";
-import { Home, ShoppingBag, Server, Settings, HelpCircle } from "lucide-react";
+import {
+  Home,
+  ShoppingBag,
+  Server,
+  Settings,
+  HelpCircle,
+  TriangleAlert,
+} from "lucide-react";
 import { ICON_SIZE } from "../utils/constants";
 import { NodeIndicator } from "../components/NodeIndicator/NodeIndicator";
 import { HttpNetworkIndicator } from "../components/HttpNetworkIndicator/HttpNetworkIndicator";
@@ -80,6 +87,15 @@ const Layout = () => {
         </Link>
       ),
     },
+    {
+      type: "menu-item",
+      Component: (p: MenuItemComponentProps) => (
+        <Link to="/dashboard/disclaimer" {...p}>
+          <TriangleAlert size={ICON_SIZE} />
+          Disclaimer
+        </Link>
+      ),
+    },
   ] satisfies MenuItem[];
 
   return (
@@ -87,7 +103,7 @@ const Layout = () => {
       children={<Outlet />}
       items={items}
       Right={Right}
-      version={__APP_VERSION__}
+      version={import.meta.env.PACKAGE_VERSION}
     />
   );
 };
