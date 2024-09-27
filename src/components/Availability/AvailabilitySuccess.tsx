@@ -16,6 +16,6 @@ export function AvailabilitySuccess({ dispatch }: AvailabilityComponentProps) {
     <Placeholder
       Icon={<SuccessIcon />}
       title="Success"
-      message="The new availability will appear in your availability list. You can safely close this dialog."></Placeholder>
+      message="The new sale will appear in your sale list. You can safely close this dialog."></Placeholder>
   );
 }

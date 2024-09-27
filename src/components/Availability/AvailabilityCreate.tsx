@@ -33,7 +33,7 @@ const defaultAvailabilityData: AvailabilityState = {
 };
 
 export function AvailabilityCreate({ space }: Props) {
-  const steps = useRef(["Availability", "Confirmation", "Success"]);
+  const steps = useRef(["Sale", "Confirmation", "Success"]);
   const [availability, setAvailability] = useState<AvailabilityState>(
     defaultAvailabilityData
   );
@@ -126,12 +126,7 @@ export function AvailabilityCreate({ space }: Props) {
 
   return (
     <>
-      <Button
-        label="Availability"
-        Icon={Plus}
-        onClick={onOpen}
-        variant="primary"
-      />
+      <Button label="Sale" Icon={Plus} onClick={onOpen} variant="primary" />
 
       <Modal open={state.open} onClose={onClose} displayCloseButton={false}>
         <Stepper

@@ -28,13 +28,11 @@ export function AvailabilityConfirm({
         </div>
 
         <div>
-          <b className="availabilitConfirm-subtitle">
-            Confirm your new availability
-          </b>
+          <b className="availabilitConfirm-subtitle">Confirm your new sale</b>
 
           <p className="availabilitConfirm-message">
-            By clicking 'Next', you will establish a new availability based on
-            the space allocation specified above. Do you want to confirm ?
+            By clicking 'Next', you will establish a new sale based on the space
+            allocation specified above. Do you want to confirm ?
           </p>
         </div>
       </div>

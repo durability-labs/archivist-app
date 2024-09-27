@@ -1,4 +1,9 @@
-import { Grid2x2Check } from "lucide-react";
+import {
+  Columns3,
+  Grid2x2Check,
+  StretchHorizontal,
+  StretchVertical,
+} from "lucide-react";
 import "./AvailabilityActionsCell.css";
 import { CodexAvailability } from "@codex-storage/sdk-js/async";
 
@@ -44,7 +49,7 @@ export function AvailabilityActionsCell({
         className="cell--action availability-action"
         title="Reservations"
         onClick={onReservationsClick}>
-        <Grid2x2Check width={"1.25rem"} />
+        <StretchHorizontal width={"1.25rem"} />
       </a>
     </div>
   );
