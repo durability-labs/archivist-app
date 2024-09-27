@@ -1,9 +1,4 @@
-import {
-  Columns3,
-  Grid2x2Check,
-  StretchHorizontal,
-  StretchVertical,
-} from "lucide-react";
+import { StretchHorizontal } from "lucide-react";
 import "./AvailabilityActionsCell.css";
 import { CodexAvailability } from "@codex-storage/sdk-js/async";
 
