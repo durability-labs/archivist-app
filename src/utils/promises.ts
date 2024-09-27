@@ -1,4 +1,4 @@
-import { CodexError, SafeValue } from "@codex-storage/sdk-js";
+import { SafeValue } from "@codex-storage/sdk-js";
 import * as Sentry from "@sentry/browser";
 import { isCodexOnline } from "../components/NodeIndicator/NodeIndicator";
 
@@ -21,15 +21,18 @@ const getLogLevel = () => {
 
 export const Promises = {
   rejectOnError: <T>(safe: SafeValue<T>, report = true) => {
-    if (safe.error && report) {
-      Sentry.captureException(safe.data, {
-        extra: {
-          code: safe.data.code,
-          errors: safe.data.errors,
-          sourceStack: safe.data.sourceStack,
-          level: getLogLevel(),
-        },
-      });
+    if (safe.error) {
+      if (report) {
+        Sentry.captureException(safe.data, {
+          extra: {
+            code: safe.data.code,
+            errors: safe.data.errors,
+            sourceStack: safe.data.sourceStack,
+            level: getLogLevel(),
+          },
+        });
+      }
+
       return Promise.reject(safe.data);
     }
 
