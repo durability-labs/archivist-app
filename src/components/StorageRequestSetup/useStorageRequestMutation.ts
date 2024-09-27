@@ -23,7 +23,7 @@ export function useStorageRequestMutation(
         .createStorageRequest(input)
         .then((s) => Promises.rejectOnError(s)),
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["mutationKey"] });
+      queryClient.invalidateQueries({ queryKey: ["purchases"] });
 
       //   if (!requestId.startsWith("0x")) {
       //     requestId = "0x" + requestId;

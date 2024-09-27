@@ -62,7 +62,7 @@ export function AvailabilityForm({
   const isValid = isAvailabilityValid(availability, max);
 
   const helper = isValid
-    ? "Total size of availability's storage in bytes"
+    ? "Total size of sale's storage in bytes"
     : "The total size cannot exceed the space available.";
 
   return (

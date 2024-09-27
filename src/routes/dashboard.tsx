@@ -63,7 +63,7 @@ const Layout = () => {
       Component: (p: MenuItemComponentProps) => (
         <Link to="/dashboard/availabilities" {...p}>
           <Server size={ICON_SIZE} />
-          Availabilities
+          Sales
         </Link>
       ),
     },
