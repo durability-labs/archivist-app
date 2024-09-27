@@ -17,6 +17,7 @@ import { ErrorPlaceholder } from "./components/ErrorPlaceholder/ErrorPlaceholder
 
 if (import.meta.env.PROD) {
   Sentry.init({
+    release: "codex-storage-marketplace-ui@" + import.meta.env.PACKAGE_VERSION,
     dsn: "https://22d77c59a27b8d5efc07132188b505b9@o4507855852011520.ingest.de.sentry.io/4507866758512720",
     integrations: [
       Sentry.browserTracingIntegration(),
