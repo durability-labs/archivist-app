@@ -1,6 +1,6 @@
 import { CodexCreateStorageRequestInput } from "@codex-storage/sdk-js";
 import { CodexSdk } from "../../sdk/codex";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Promises } from "../../utils/promises";
 import { WebStorage } from "../../utils/web-storage";
 import {
@@ -15,14 +15,16 @@ export function useStorageRequestMutation(
   state: StepperState
 ) {
   const [error, setError] = useState<Error | null>(null);
+  const queryClient = useQueryClient();
 
   const { mutateAsync } = useMutation({
-    mutationKey: ["purchases"],
     mutationFn: (input: CodexCreateStorageRequestInput) =>
       CodexSdk.marketplace
         .createStorageRequest(input)
         .then((s) => Promises.rejectOnError(s)),
     onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ["mutationKey"] });
+
       //   if (!requestId.startsWith("0x")) {
       //     requestId = "0x" + requestId;
       //   }
