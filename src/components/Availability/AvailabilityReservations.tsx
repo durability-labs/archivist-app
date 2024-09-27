@@ -100,10 +100,13 @@ export function AvailabilityReservations({
       size: totalSize - totalUsed,
     },
   ];
-  const isEmpty = !!data.length;
+  const isEmpty = !data.length;
 
   return (
     <Modal open={open} onClose={onClose}>
+      <p className="reservations-title">
+        <b>Slots</b>
+      </p>
       {isEmpty ? (
         <EmptyPlaceholder
           title="No reservation"
