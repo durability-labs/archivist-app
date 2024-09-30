@@ -39,6 +39,7 @@ export function StorageRequestFileChooser({
 
   const onSuccess = (data: string) => {
     queryClient.invalidateQueries({ queryKey: ["cids"] });
+
     onStorageRequestChange({ cid: data });
   };
 
@@ -95,6 +96,7 @@ export function StorageRequestFileChooser({
         editable={false}
         onDeleteItem={onDelete}
         codexData={CodexSdk.data}
+        successMessage={"Success, the CID has been copied to the field on top."}
       />
     </>
   );
