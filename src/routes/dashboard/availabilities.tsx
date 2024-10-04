@@ -8,7 +8,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Promises } from "../../utils/promises";
 import { CodexSdk } from "../../sdk/codex";
-import "./availabilities.scss";
+import "./availabilities.css";
 import { AvailabilitiesTable } from "../../components/Availability/AvailabilitiesTable";
 import { AvailabilityEdit } from "../../components/Availability/AvailabilityEdit";
 import { Strings } from "../../utils/strings";
