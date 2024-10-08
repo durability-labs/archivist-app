@@ -1,13 +1,16 @@
 import {
+  CodexCreateStorageRequestInput,
   CodexData,
   CodexDataResponse,
   CodexMarketplace,
+  CodexPurchase,
   SafeValue,
   UploadResponse,
 } from "@codex-storage/sdk-js";
 import { CodexSdk as Sdk } from "./sdk/codex";
 import { WebStorage } from "./utils/web-storage";
 import { FilesStorage } from "./utils/file-storage";
+import { PurchaseDatesStorage, PurchaseStorage } from "./utils/purchases-storage";
 
 class CodexDataMock extends CodexData {
   override upload(
@@ -80,7 +83,46 @@ class CodexDataMock extends CodexData {
   }
 }
 
+
 class CodexMarketplaceMock extends CodexMarketplace {
+  // override async purchases(): Promise<SafeValue<CodexPurchase[]>> {
+  //   const res = await super.purchases()
+
+  //   if (res.error) {
+  //     return res
+  //   }
+
+  //   const defaultDate = new Date(0, 0, 0, 0, 0, 0).toJSON()
+  //   const dates = await Promise.all(res.data.map(p => PurchaseDatesStorage.get(p.requestId)))
+
+  //   return {
+  //     error: false, data: res.data
+  //       .map((p, index) => ({ ...p, createdAt: new Date(dates[index] || defaultDate).getTime() }))
+  //       .sort((a, b) => b.createdAt - a.createdAt)
+  //   }
+  // }
+
+  /**
+   * Maintains a temporary link between the CID and the file metadata. 
+   * When the metadata is available in the manifest, the CID link 
+   * should still be maintained, but the metadata should be retrieved 
+   * using a REST API call.
+   */
+  override async createStorageRequest(input: CodexCreateStorageRequestInput): Promise<SafeValue<string>> {
+    const res = await super.createStorageRequest(input)
+
+    if (res.error) {
+      return res
+    }
+
+    await PurchaseStorage.set("0x" + res.data, input.cid)
+
+    // await PurchaseDatesStorage.set(res.data, new Date().toJSON())
+
+    return res
+  }
+
+
   // override createStorageRequest(
   //   input: CodexCreateStorageRequestInput
   // ): Promise<SafeValue<string>> {
