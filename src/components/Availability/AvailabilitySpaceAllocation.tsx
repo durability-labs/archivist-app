@@ -27,7 +27,7 @@ export function AvailabilitySpaceAllocation({ availability, space }: Props) {
     },
     {
       title: "New space allocation",
-      size: Math.trunc(size),
+      size: size > remaining ? 0 : Math.trunc(size),
     },
     {
       title: "Remaining space",
