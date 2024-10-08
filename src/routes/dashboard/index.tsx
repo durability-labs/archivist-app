@@ -18,8 +18,6 @@ function About() {
     queryClient.invalidateQueries({ queryKey: ["cids"] });
   };
 
-  console.info(CodexSdk.data);
-
   return (
     <>
       <div className="dashboard">
