@@ -18,6 +18,8 @@ function About() {
     queryClient.invalidateQueries({ queryKey: ["cids"] });
   };
 
+  console.info(CodexSdk.data);
+
   return (
     <>
       <div className="dashboard">
@@ -29,7 +31,11 @@ function About() {
             />
           )}>
           <Card title="Upload a file">
-            <Upload multiple codexData={CodexSdk.data} onSuccess={onSuccess} />
+            <Upload
+              multiple
+              codexData={CodexSdk.data()}
+              onSuccess={onSuccess}
+            />
           </Card>
         </ErrorBoundary>
 

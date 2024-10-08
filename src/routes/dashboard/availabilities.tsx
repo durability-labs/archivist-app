@@ -21,7 +21,7 @@ export function Availabilities() {
     // Error will be catched in ErrorBounday
     const { data: availabilities = [], isPending } = useQuery({
       queryFn: () =>
-        CodexSdk.marketplace
+        CodexSdk.marketplace()
           .availabilities()
           .then((s) => Promises.rejectOnError(s))
           .then((res) => res.sort((a, b) => b.totalSize - a.totalSize)),
@@ -47,7 +47,9 @@ export function Availabilities() {
     // Error will be catched in ErrorBounday
     const { data: space = defaultSpace } = useQuery({
       queryFn: () =>
-        CodexSdk.data.space().then((s) => Promises.rejectOnError(s)),
+        CodexSdk.data()
+          .space()
+          .then((s) => Promises.rejectOnError(s)),
       queryKey: ["space"],
       initialData: defaultSpace,
 
