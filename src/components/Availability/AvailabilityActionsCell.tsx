@@ -1,6 +1,7 @@
 import { StretchHorizontal } from "lucide-react";
 import "./AvailabilityActionsCell.css";
 import { CodexAvailability } from "@codex-storage/sdk-js/async";
+import { Cell } from "@codex-storage/marketplace-ui-components";
 
 type Props = {
   availability: CodexAvailability;
@@ -32,20 +33,22 @@ export function AvailabilityActionsCell({
   const onReservationsClick = () => onReservationsShow(availability);
 
   return (
-    <div className="availability-actions">
-      {/* <a
+    <Cell>
+      <div className="availability-actions">
+        {/* <a
         className="cell--action availability-action"
         title="Edit"
         onClick={onEditClick}>
         <Pen width={"1.25rem"} />
       </a> */}
 
-      <a
-        className="cell--action availability-action"
-        title="Reservations"
-        onClick={onReservationsClick}>
-        <StretchHorizontal width={"1.25rem"} />
-      </a>
-    </div>
+        <a
+          className="cell--action availability-action"
+          title="Reservations"
+          onClick={onReservationsClick}>
+          <StretchHorizontal width={"1.25rem"} />
+        </a>
+      </div>
+    </Cell>
   );
 }

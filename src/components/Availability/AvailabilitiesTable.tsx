@@ -1,4 +1,4 @@
-import { Cell, Table } from "@codex-storage/marketplace-ui-components";
+import { Cell, Row, Table } from "@codex-storage/marketplace-ui-components";
 import { TruncateCell } from "../TruncateCell/TruncateCell";
 import { PrettyBytes } from "../../utils/bytes";
 import { AvailabilityActionsCell } from "./AvailabilityActionsCell";
@@ -29,24 +29,24 @@ export function AvailabilitiesTable({ availabilities }: Props) {
 
   const onReservationsClose = () => setAvailability(null);
 
-  const cells =
-    availabilities.map((a) => {
-      return [
+  const rows = availabilities.map((a) => (
+    <Row
+      cells={[
         <TruncateCell value={a.id} />,
-        <Cell value={PrettyBytes(a.totalSize)} />,
-        <Cell value={Times.pretty(a.duration)} />,
-        <Cell value={a.minPrice.toString()} />,
-        <Cell value={a.maxCollateral.toString()} />,
+        <Cell>{PrettyBytes(a.totalSize)}</Cell>,
+        <Cell>{Times.pretty(a.duration)}</Cell>,
+        <Cell>{a.minPrice}</Cell>,
+        <Cell>{a.maxCollateral}</Cell>,
         <AvailabilityActionsCell
           availability={a}
           onReservationsShow={onReservationsShow}
         />,
-      ];
-    }) || [];
+      ]}></Row>
+  ));
 
   return (
     <>
-      <Table headers={headers} cells={cells} />
+      <Table headers={headers} rows={rows} />
       <AvailabilityReservations
         availability={availability}
         onClose={onReservationsClose}

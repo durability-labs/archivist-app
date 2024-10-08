@@ -3,14 +3,13 @@ import {
   CodexData,
   CodexDataResponse,
   CodexMarketplace,
-  CodexPurchase,
   SafeValue,
   UploadResponse,
 } from "@codex-storage/sdk-js";
 import { CodexSdk as Sdk } from "./sdk/codex";
 import { WebStorage } from "./utils/web-storage";
 import { FilesStorage } from "./utils/file-storage";
-import { PurchaseDatesStorage, PurchaseStorage } from "./utils/purchases-storage";
+import { PurchaseStorage } from "./utils/purchases-storage";
 
 class CodexDataMock extends CodexData {
   override upload(
