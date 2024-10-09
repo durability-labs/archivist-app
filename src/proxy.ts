@@ -2,6 +2,7 @@ import {
   CodexData,
   CodexDataResponse,
   CodexMarketplace,
+  CodexReservation,
   SafeValue,
   UploadResponse,
 } from "@codex-storage/sdk-js";
