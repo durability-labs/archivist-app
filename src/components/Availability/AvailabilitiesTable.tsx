@@ -1,9 +1,4 @@
-import {
-  Cell,
-  Row,
-  Row,
-  Table,
-} from "@codex-storage/marketplace-ui-components";
+import { Cell, Row, Table } from "@codex-storage/marketplace-ui-components";
 import { PrettyBytes } from "../../utils/bytes";
 import { AvailabilityActionsCell } from "./AvailabilityActionsCell";
 import { CodexAvailability, CodexNodeSpace } from "@codex-storage/sdk-js/async";
