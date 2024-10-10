@@ -75,9 +75,9 @@ const Purchases = () => {
           />,
           <TruncateCell value={r.id} />,
           <Cell>{Times.pretty(duration)}</Cell>,
-          <Cell>{ask.slots}</Cell>,
+          <Cell>{ask.slots.toString()}</Cell>,
           <Cell>{ask.reward + " CDX"}</Cell>,
-          <Cell>{pf}</Cell>,
+          <Cell>{pf.toString()}</Cell>,
           <CustomStateCellRender state={p.state} message={p.error} />,
         ]}></Row>
     );

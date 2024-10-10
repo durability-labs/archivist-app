@@ -1,4 +1,4 @@
-import { Cell, Tooltip } from "@codex-storage/marketplace-ui-components";
+import { Cell } from "@codex-storage/marketplace-ui-components";
 import "./TruncateCell.css";
 
 type Props = {
@@ -7,15 +7,15 @@ type Props = {
 
 export function TruncateCell({ value }: Props) {
   if (value.length <= 10) {
-    return <span>{value}</span>;
+    return <span id={value}>{value}</span>;
   }
 
   return (
     <Cell>
-      <div className="truncateCell">
-        <Tooltip message={value}>
-          <span>{value.slice(0, 10) + "..."}</span>
-        </Tooltip>
+      <div className="truncateCell" id={value}>
+        <div className="truncateCell--ellipsis">
+          <span>{value}</span>
+        </div>
       </div>
     </Cell>
   );

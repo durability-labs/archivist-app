@@ -18,7 +18,7 @@ type Props = {
   open: boolean;
   onClose: () => unknown;
 };
-
+// TODO remove this
 export function AvailabilityReservations({
   availability,
   onClose,
