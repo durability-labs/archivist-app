@@ -40,7 +40,7 @@ export function Availabilities() {
           .then((data) =>
             Promise.all(
               data.map((a) =>
-                CodexSdk.marketplace
+                CodexSdk.marketplace()
                   .reservations(a.id)
                   .then((res) => {
                     if (res.error) {

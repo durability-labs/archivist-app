@@ -12,6 +12,7 @@ import { CodexSdk } from "../../sdk/codex";
 import { AvailabilityStorage } from "../../utils/availabilities-storage";
 import { CodexAvailabilityCreateResponse } from "@codex-storage/sdk-js";
 
+
 export function useAvailabilityMutation(
   dispatch: Dispatch<StepperAction>,
   state: StepperState
@@ -29,12 +30,11 @@ export function useAvailabilityMutation(
       name,
       ...input
     }: AvailabilityState) => {
-      const unit = totalSizeUnit === "gb" ? GB : TB;
       const time = Times.toSeconds(duration, durationUnit);
 
       const fn: (
         input: Omit<AvailabilityState, "totalSizeUnit" | "durationUnit">
-      ) => Promise<unknown> = input.id
+      ) => Promise<"" | CodexAvailabilityCreateResponse> = input.id
           ? (input) =>
             CodexSdk.marketplace()
               .updateAvailability({ ...input, id: input.id || "" })
