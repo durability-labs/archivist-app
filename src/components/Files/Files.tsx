@@ -1,5 +1,14 @@
-import { Download, FilesIcon, ReceiptText, Star } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import {
+  ChevronDown,
+  Download,
+  FilesIcon,
+  Folder,
+  Plus,
+  ReceiptText,
+  Star,
+  X,
+} from "lucide-react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { PrettyBytes } from "../../utils/bytes";
 import { Dates } from "../../utils/dates";
 import "./Files.css";
@@ -9,10 +18,17 @@ import {
   EmptyPlaceholder,
   WebFileIcon,
   Tabs,
+  Input,
+  Button,
+  TabProps,
 } from "@codex-storage/marketplace-ui-components";
 import { FileDetails } from "./FileDetails.tsx";
 import { FavoriteStorage } from "../../utils/favorite-storage.tsx";
 import { useData } from "../../hooks/useData.tsx";
+import { WebStorage } from "../../utils/web-storage.ts";
+import { CodexSdk } from "../../sdk/codex.ts";
+import { FolderButton } from "./FolderButton.tsx";
+import { classnames } from "../../utils/classnames.ts";
 
 type StarIconProps = {
   isFavorite: boolean;
@@ -32,11 +48,14 @@ export function Files() {
   const files = useData();
   const cid = useRef<string | null>("");
   const [expanded, setExpanded] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
+  const [folder, setFolder] = useState("");
+  const [folders, setFolders] = useState<[string, string[]][]>([]);
+  const [error, setError] = useState("");
+  const [details, setDetails] = useState<string[]>([]);
 
   useEffect(() => {
-    FavoriteStorage.list().then((cids) => setFavorites(cids));
+    WebStorage.folders.list().then((items) => setFolders(items));
   }, []);
 
   const onClose = () => {
@@ -47,59 +66,159 @@ export function Files() {
     }, SIDE_DURATION);
   };
 
-  const onTabChange = (i: number) => setIndex(i);
+  const onTabChange = async (i: number) => setIndex(i);
 
   const onDetails = (id: string) => {
     cid.current = id;
     setExpanded(true);
   };
 
-  const onToggleFavorite = (cid: string) => {
-    if (favorites.includes(cid)) {
-      FavoriteStorage.delete(cid);
-      setFavorites(favorites.filter((c) => c !== cid));
+  // const details = items.find((c) => c.cid === cid.current);
+
+  const onFolderChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value;
+    setFolder(val);
+    setError("");
+
+    if (!val) {
+      return;
+    }
+
+    if (e.currentTarget.checkValidity()) {
+      if (folders.length >= 5) {
+        setError("5 folders limit reached");
+        return;
+      }
     } else {
-      FavoriteStorage.add(cid);
-      setFavorites([...favorites, cid]);
+      setError("9 alpha characters maximum");
     }
   };
 
-  const items = [];
+  const onFolderCreate = () => {
+    WebStorage.folders.create(folder);
 
-  if (index === 1) {
-    items.push(...files.filter((f) => favorites.includes(f.cid)));
-  } else {
-    items.push(...files);
-  }
+    setFolder("");
+    setFolders([...folders, [folder, []]]);
+  };
 
-  const details = items.find((c) => c.cid === cid.current);
+  const onFolderDelete = (val: string) => {
+    WebStorage.folders.delete(val);
 
-  const url = import.meta.env.VITE_CODEX_API_URL + "/api/codex/v1/data/";
+    const currentIndex = folders.findIndex(([name]) => name === val);
+
+    if (currentIndex + 1 == index) {
+      setIndex(index - 1);
+    }
+
+    setFolders(folders.filter(([name]) => name !== val));
+  };
+
+  const onFolderToggle = (cid: string, folder: string) => {
+    const current = folders.find(([name]) => name === folder);
+
+    if (!current) {
+      return;
+    }
+
+    const [, files] = current;
+
+    if (files.includes(cid)) {
+      WebStorage.folders.deleteFile(folder, cid);
+
+      setFolders(
+        folders.map(([name, files]) =>
+          name === folder
+            ? [name, files.filter((id) => id !== cid)]
+            : [name, files]
+        )
+      );
+    } else {
+      WebStorage.folders.addFile(folder, cid);
+
+      setFolders(
+        folders.map(([name, files]) =>
+          name === folder ? [name, [...files, cid]] : [name, files]
+        )
+      );
+    }
+  };
+
+  const tabs: TabProps[] = folders.map(([folder]) => ({
+    label: folder,
+    Icon: () => <Folder size={"1rem"}></Folder>,
+    IconAfter: () => (
+      <X
+        size={"1rem"}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          onFolderDelete(folder);
+        }}></X>
+    ),
+  }));
+
+  const onToggleDetails = (cid: string) => {
+    if (details.includes(cid)) {
+      setDetails(details.filter((val) => val !== cid));
+    } else {
+      setDetails([...details, cid]);
+    }
+  };
+
+  tabs.unshift({
+    label: "All files",
+    Icon: () => <FilesIcon size={"1rem"}></FilesIcon>,
+  });
+  const items =
+    index === 0
+      ? files
+      : files.filter((file) => folders[index - 1][1].includes(file.cid));
+
+  const url = CodexSdk.url() + "/api/codex/v1/data/";
 
   return (
     <div className="files">
       <div className="files-header">
-        <div className="files-title">Files</div>
-        <Tabs
-          onTabChange={onTabChange}
-          tabIndex={index}
-          tabs={[
-            {
-              label: "All files",
-              Icon: () => <FilesIcon size={"1rem"}></FilesIcon>,
-            },
-            {
-              label: "Favorites",
-              Icon: () => <Star size={"1rem"}></Star>,
-            },
-          ]}></Tabs>
+        <div className="files-headerLeft">
+          <div className="files-title">Files</div>
+        </div>
+        <div className="files-headerRight">
+          <div>
+            <Input
+              id="folder"
+              inputClassName={classnames(["files-folders"])}
+              isInvalid={folder !== "" && !!error}
+              value={folder}
+              required={true}
+              pattern="[A-Za-z]*"
+              maxLength={9}
+              helper={error || "Enter the folder name"}
+              onChange={onFolderChange}></Input>
+          </div>
+
+          <Button
+            label="Folder"
+            Icon={Plus}
+            disabled={!!error || !folder}
+            onClick={onFolderCreate}></Button>
+        </div>
       </div>
+
+      <Tabs onTabChange={onTabChange} tabIndex={index} tabs={tabs}></Tabs>
 
       <div className="files-fileBody">
         {items.length ? (
           items.map((c) => (
             <div className="files-file" key={c.cid}>
               <div className="files-fileContent">
+                <ChevronDown
+                  onClick={() => onToggleDetails(c.cid)}
+                  className={classnames(
+                    ["availabilityTable-chevron"],
+                    ["availabilityTable-chevron--open", details.includes(c.cid)]
+                  )}></ChevronDown>
+
                 <div className="files-fileIcon">
                   <WebFileIcon type={c.manifest.mimetype} />
                 </div>
@@ -120,12 +239,13 @@ export function Files() {
                       onClick={() => window.open(url + c.cid, "_blank")}
                       Icon={() => <Download size={ICON_SIZE} />}></ButtonIcon>
 
-                    <ButtonIcon
-                      variant="small"
-                      onClick={() => onToggleFavorite(c.cid)}
-                      Icon={() => (
-                        <StarIcon isFavorite={favorites.includes(c.cid)} />
-                      )}></ButtonIcon>
+                    <FolderButton
+                      folders={folders.map(([folder, files]) => [
+                        folder,
+                        files.includes(c.cid),
+                      ])}
+                      onFolderToggle={(folder) => onFolderToggle(c.cid, folder)}
+                    />
 
                     <ButtonIcon
                       variant="small"
@@ -136,6 +256,14 @@ export function Files() {
                   </div>
                 </div>
               </div>
+
+              {details.includes(c.cid) && (
+                <>
+                  <div>CID : {c.cid}</div>
+                  <div>Filename : {c.manifest.filename}</div>
+                  <div>Protected: {c.manifest.protected}</div>
+                </>
+              )}
             </div>
           ))
         ) : (
@@ -148,7 +276,7 @@ export function Files() {
         )}
       </div>
 
-      <FileDetails onClose={onClose} details={details} expanded={expanded} />
+      {/* <FileDetails onClose={onClose} details={details} expanded={expanded} /> */}
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { Dates } from "../../utils/dates";
 import { CidCopyButton } from "./CidCopyButton";
 import "./FileDetails.css";
 import { DownloadIcon, X } from "lucide-react";
+import { CodexSdk } from "../../sdk/codex";
 
 type Props = {
   details: CodexDataContent | undefined;
@@ -18,7 +19,7 @@ type Props = {
 };
 
 export function FileDetails({ onClose, details, expanded }: Props) {
-  const url = import.meta.env.VITE_CODEX_API_URL + "/api/codex/v1/data/";
+  const url = CodexSdk.url() + "/api/codex/v1/data/";
 
   const Icon = () => <X size={ICON_SIZE} onClick={onClose} />;
 

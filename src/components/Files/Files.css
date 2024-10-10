@@ -69,4 +69,24 @@
 
 .files-header {
   margin-bottom: 0.75rem;
+  display: flex;
+}
+
+.files-headerLeft {
+  flex: 1;
+}
+
+.files-headerRight {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.files-fileBody {
+  margin-top: 1.25rem;
+}
+
+.files-folders {
+  width: 200px;
+  min-width: 0px;
 }
