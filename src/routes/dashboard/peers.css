@@ -1,0 +1,10 @@
+.peers-map,
+.peers-table {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.peers-table {
+  margin-top: 1rem;
+  width: 100%;
+}
