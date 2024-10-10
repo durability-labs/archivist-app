@@ -29,18 +29,18 @@ export function useAvailabilityMutation(
       name,
       ...input
     }: AvailabilityState) => {
-      const marketplace = CodexSdk.marketplace;
+      const unit = totalSizeUnit === "gb" ? GB : TB;
       const time = Times.toSeconds(duration, durationUnit);
 
       const fn: (
         input: Omit<AvailabilityState, "totalSizeUnit" | "durationUnit">
-      ) => Promise<CodexAvailabilityCreateResponse | ""> = input.id
+      ) => Promise<unknown> = input.id
           ? (input) =>
-            marketplace
+            CodexSdk.marketplace()
               .updateAvailability({ ...input, id: input.id || "" })
               .then((s) => Promises.rejectOnError(s))
           : (input) =>
-            marketplace
+            CodexSdk.marketplace()
               .createAvailability(input)
               .then((s) => Promises.rejectOnError(s));
 

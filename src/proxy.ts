@@ -180,6 +180,6 @@ class CodexMarketplaceMock extends CodexMarketplace {
 
 export const CodexSdk = {
   ...Sdk,
-  marketplace: new CodexMarketplaceMock(import.meta.env.VITE_CODEX_API_URL),
-  data: new CodexDataMock(import.meta.env.VITE_CODEX_API_URL),
+  marketplace: () => new CodexMarketplaceMock(CodexSdk.url()),
+  data: () => new CodexDataMock(CodexSdk.url()),
 };

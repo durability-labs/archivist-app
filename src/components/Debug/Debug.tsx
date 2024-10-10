@@ -6,7 +6,10 @@ import { CircleX } from "lucide-react";
 
 export function Debug() {
   const { data, isPending, isError, error } = useQuery({
-    queryFn: () => CodexSdk.debug.info().then((s) => Promises.rejectOnError(s)),
+    queryFn: () =>
+      CodexSdk.debug()
+        .info()
+        .then((s) => Promises.rejectOnError(s)),
     queryKey: ["debug"],
 
     // No need to retry because if the connection to the node
