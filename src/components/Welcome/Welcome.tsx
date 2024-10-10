@@ -14,13 +14,6 @@ export function Welcome() {
           explore its features. Your feedback is invaluable as we continue to
           improve!
         </SimpleText>
-        <Alert
-          variant="warning"
-          title="Disclaimer"
-          className="welcome-disclaimer">
-          The website and the content herein is not intended for public use and
-          is for informational and demonstration purposes only.
-        </Alert>
       </div>
 
       <Link to="/dashboard/help" className="welcome-link">
