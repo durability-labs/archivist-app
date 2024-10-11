@@ -117,7 +117,7 @@ jobs:
         id: playwright-browsers
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-node-${{ hashFiles('**/playwright.config') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/playwright.config.ts') }}
 
       - if: steps.playwright-browsers.outputs.cache-hit != 'true'
         name: Install Playwright Browsers
