@@ -38,8 +38,6 @@ jobs:
       - name: Download circuits
         if: steps.circuits-cache-restore.outputs.cache-hit != 'true'
         run: |
-          echo $platform 
-          echo "https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz"
           mkdir -p datadir/circuits
           chmod 700 datadir
           chmod 700 datadir/circuits
@@ -65,8 +63,6 @@ jobs:
       - name: Download codex
         if: steps.codex-cache-restore.outputs.cache-hit != 'true'
         run: |
-          platform=${RUNNER_OS,,}
-          architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
           curl -LO https://github.com/codex-storage/nim-codex/releases/download/${codex_version}/codex-${codex_version}-${platform}-${architecture}.tar.gz
           curl -LO https://github.com/codex-storage/nim-codex/releases/download/${codex_version}/codex-${codex_version}-${platform}-${architecture}.tar.gz.sha256
           sha256sum -c codex-${codex_version}-${platform}-${architecture}.tar.gz.sha256
@@ -89,8 +85,6 @@ jobs:
           chmod 600 eth.key
 
           # Run
-          platform=${RUNNER_OS,,}
-          architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
           ./codex-${codex_version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
 
           sleep 15
