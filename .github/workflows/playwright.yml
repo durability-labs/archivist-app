@@ -22,16 +22,16 @@ jobs:
       - name: Install dependencies
         run: sudo apt update && sudo apt install libgomp1
 
-      - name: Restore cached circuits
-        id: restore-circuits
-        uses: actions/cache/restore@v4
+      - name: Cache circuits
+        id: cache-circuits
+        uses: actions/cache
         with:
           path: |
             datadir/circuits
           key: ${{ env.circuit_version }}-circuits
 
       - name: Download circuits
-        if: steps.restore-circuits.outputs.cache-hit != 'true'
+        if: steps.cache-circuits.outputs.cache-hit != 'true'
         run: |
           platform=${RUNNER_OS,,}
           architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
@@ -44,13 +44,6 @@ jobs:
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
           chmod +x cirdl-${circuit_version}-${platform}-${architecture}
           ./cirdl-${circuit_version}-${platform}-${architecture} ./datadir/circuits ${eth_provider} ${marketplace_address}
-
-      - name: Cache circuits
-        id: cache-circuits
-        uses: actions/cache/save@v4
-        with:
-          path: datadir/circuits
-          key: ${{ env.circuit_version }}-circuits
 
       - name: Restore cached codex
         id: restore-codex
