@@ -12,8 +12,8 @@ on:
 env:
   codex_version: v0.1.6
   circuit_version: v0.1.6
-  marketplace_address: 0xfE822Df439d987849a90B64a4C0e26a297DBD47F
-  eth_provider: https://rpc.testnet.codex.storage
+  marketplace_address: "0xfE822Df439d987849a90B64a4C0e26a297DBD47F"
+  eth_provider: "https://rpc.testnet.codex.storage"
 jobs:
   tests:
     timeout-minutes: 60
