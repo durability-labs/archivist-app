@@ -37,6 +37,7 @@ jobs:
           chmod 700 datadir/circuits
           whoami 
           ls -ltr
+          ls -ltr datadir
           # Download circuit files
           curl -OL https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz 
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
