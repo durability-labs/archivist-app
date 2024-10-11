@@ -22,15 +22,16 @@ jobs:
       - name: Install dependencies
         run: sudo apt update && sudo apt install libgomp1
 
-      - name: Cache circuits
-        id: cache-circuits
-        uses: actions/cache@v4
+      - name: Restore cached circuits
+        id: restore-circuits
+        uses: actions/cache/restore@v4
         with:
-          path: datadir/circuits
+          path: |
+            datadir/circuits
           key: ${{ env.circuit_version }}-circuits
 
       - name: Download circuits
-        if: steps.cache-circuits.outputs.cache-hit != 'true'
+        if: steps.restore-circuits.outputs.cache-hit != 'true'
         run: |
           platform=${RUNNER_OS,,}
           architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
@@ -44,15 +45,22 @@ jobs:
           chmod +x cirdl-${circuit_version}-${platform}-${architecture}
           ./cirdl-${circuit_version}-${platform}-${architecture} ./datadir/circuits ${eth_provider} ${marketplace_address}
 
-      - name: Cache codex
-        id: cache-codex
+      - name: Cache circuits
+        id: cache-circuits
         uses: actions/cache@v4
+        with:
+          path: datadir/circuits
+          key: ${{ env.circuit_version }}-circuits
+
+      - name: Restore cached codex
+        id: restore-codex
+        uses: actions/cache/restore@v4
         with:
           path: codex-${{ env.codex_version }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}
           key: ${{ env.codex_version }}-codex
 
       - name: Download codex
-        if: steps.cache-codex.outputs.cache-hit != 'true'
+        if: steps.restore-codex.outputs.cache-hit != 'true'
         run: |
           platform=${RUNNER_OS,,}
           architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
@@ -61,6 +69,13 @@ jobs:
           sha256sum -c codex-${codex_version}-${platform}-${architecture}.tar.gz.sha256
           [[ $? -eq 0 ]] && { echo "Checksum is OK"; } || { echo "Checksum failed"; exit 1; }
           tar -zxvf codex-${codex_version}-${platform}-${architecture}.tar.gz
+
+      - name: Cache codex
+        id: cache-codex
+        uses: actions/cache@v4
+        with:
+          path: codex-${{ env.codex_version }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}
+          key: ${{ env.codex_version }}-codex
 
       - name: Run Codex node
         run: |
