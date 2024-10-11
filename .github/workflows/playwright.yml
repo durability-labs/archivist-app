@@ -11,6 +11,7 @@ on:
 
 env:
   codex_version: v0.1.6
+  circuit_version: v0.1.6
 
 jobs:
   tests:
@@ -30,6 +31,19 @@ jobs:
           tar -zxvf codex-${version}-${platform}-${architecture}.tar.gz
           sudo apt update && sudo apt install libgomp1
 
+          # Create circuit files folder
+          mkdir -p datadir/circuits
+          chmod 700 datadir/circuits
+
+          # Download circuit files
+          curl -OL https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz 
+          tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
+          cirdl-${circuit_version}-${platform}-${architecture} \
+            datadir/circuits \
+            https://rpc.testnet.codex.storage \
+            0xfE822Df439d987849a90B64a4C0e26a297DBD47F
+
+          # Get an eth address
           response=$(curl -s https://key.codex.storage)
           awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
           awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
@@ -37,9 +51,7 @@ jobs:
           ETH_ADDRESS=$(cat eth.address)
 
           # Run
-          ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-account=$ETH_ADDRESS &
-
-          #  --data-dir=datadir  --api-port=8080  --disc-port=8090 persistence --eth-account=$ETH_ADDRESS --api-cors-origin="*"
+          ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=https://rpc.testnet.codex.storage --eth-private-key=./eth.key --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F prover --circuit-dir=/datadir/circuits &
 
       - name: Check Codex API
         run: |
