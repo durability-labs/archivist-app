@@ -22,16 +22,16 @@ jobs:
       - name: Install dependencies
         run: sudo apt update && sudo apt install libgomp1
 
-      - name: Cache circuits
-        id: cache-circuits
-        uses: actions/cache
+      - name: Restore cached circuits
+        id: restore-circuits
+        uses: actions/cache/restore@v4
         with:
           path: |
             datadir/circuits
           key: ${{ env.circuit_version }}-circuits
 
       - name: Download circuits
-        if: steps.cache-circuits.outputs.cache-hit != 'true'
+        if: steps.restore-circuits.outputs.cache-hit != 'true'
         run: |
           platform=${RUNNER_OS,,}
           architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
@@ -44,6 +44,13 @@ jobs:
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
           chmod +x cirdl-${circuit_version}-${platform}-${architecture}
           ./cirdl-${circuit_version}-${platform}-${architecture} ./datadir/circuits ${eth_provider} ${marketplace_address}
+
+      - name: Cache circuits
+        id: cache-circuits
+        uses: actions/cache/save@v4
+        with:
+          path: datadir/circuits
+          key: ${{ env.circuit_version }}-circuits
 
       - name: Restore cached codex
         id: restore-codex
@@ -96,33 +103,28 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
+      - uses: actions/cache@v4
+        id: npm-cache
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: npm list
-
-      - name: Install dependencies
+      - if: steps.npm-cache.outputs.cache-hit != 'true'
+        name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
+      - uses: actions/cache@v4
+        id: playwright-browsers
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-node-${{ hashFiles('**/playwright.config') }}
+
+      - if: steps.playwright-browsers.outputs.cache-hit != 'true'
+        name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npm run test
 
       - uses: actions/upload-artifact@v4
         # if: ${{ !cancelled() }}
