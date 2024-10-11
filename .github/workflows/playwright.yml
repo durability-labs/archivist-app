@@ -1,0 +1,71 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main, master]
+    tags: v*
+  pull_request:
+    branches: [main, master]
+    tags: v*
+  workflow_dispatch:
+
+env:
+  codex_version: v0.1.6
+
+jobs:
+  tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Codex node
+        run: |
+          # Download
+          version=${{ env.codex_version }}
+          platform=$(echo `uname -s` | awk '{print tolower($0)}')
+          architecture=$([[ `uname -m` == 'x86_64' ]] && echo amd64 || echo arm64)
+          curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz
+          curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz.sha256
+          sha256sum -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
+          [[ $? -eq 0 ]] && { echo "Checksum is OK"; } || { echo "Checksum failed"; exit 1; }
+          tar -zxvf codex-${version}-${platform}-${architecture}.tar.gz
+          sudo apt update && sudo apt install libgomp1
+
+          response=$(curl -s https://key.codex.storage)
+          awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
+          awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
+          chmod 600 eth.key
+          ETH_ADDRESS=$(cat eth.address)
+
+          # Run
+          ./codex-${version}-${platform}-${architecture} --data-dir=datadir  --listen-addrs="/ip4/127.0.0.1/tcp/8070" --api-port=8080  --disc-port=8090 persistence --eth-account=${cat eth.address} --api-cors-origin="*"  &
+
+      - name: Check Codex API
+        run: |
+          curl --max-time 5 --fail localhost:8080/api/codex/v1/debug/info -w "\n"
+          [[ $? -eq 0 ]] && { echo "Codex node is up"; } || { echo "Please check Codex node"; exit 1; }
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        if: false
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        if: false
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        if: false
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: false
+        # if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
