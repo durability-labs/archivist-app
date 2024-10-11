@@ -2,11 +2,9 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [main, master, feat/tests/test-init]
-    tags: [releases*]
+    branches: [main, master, feat/tests/test-init, releases/*]
   pull_request:
-    branches: [main, master]
-    tags: [releases*]
+    branches: [main, master, releases/*]
   workflow_dispatch:
 
 env:
