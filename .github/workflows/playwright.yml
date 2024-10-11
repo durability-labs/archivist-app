@@ -37,7 +37,7 @@ jobs:
           ETH_ADDRESS=$(cat eth.address)
 
           # Run
-          ./codex-${version}-${platform}-${architecture} --data-dir=datadir  --listen-addrs="/ip4/127.0.0.1/tcp/8070" --api-port=8080  --disc-port=8090 persistence --eth-account=$ETH_ADDRESS --api-cors-origin="*"  &
+          ./codex-${version}-${platform}-${architecture} --data-dir=datadir  --api-port=8080  --disc-port=8090 persistence --eth-account=$ETH_ADDRESS --api-cors-origin="*"  &
 
       - name: Check Codex API
         run: |
