@@ -56,6 +56,7 @@ jobs:
           # Run
           ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=https://rpc.testnet.codex.storage --eth-private-key=./eth.key --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F prover --circuit-dir=./datadir/circuits &
 
+          sleep 10
       - name: Check Codex API
         run: |
           curl --max-time 5 --fail localhost:8080/api/codex/v1/debug/info -w "\n"
