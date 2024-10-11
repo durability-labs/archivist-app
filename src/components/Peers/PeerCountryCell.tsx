@@ -1,7 +1,8 @@
 import { Cell } from "@codex-storage/marketplace-ui-components";
-import { useEffect, useState } from "react";
 import { PeerPin } from "./types";
 import { countriesCoordinates } from "./countries";
+import { useQuery } from "@tanstack/react-query";
+import "./PeerCountryCell.css";
 
 export type Props = {
   address: string;
@@ -17,34 +18,56 @@ const getFlagEmoji = (countryCode: string) => {
 };
 
 export function PeerCountryCell({ address, onPinAdd }: Props) {
-  const [country, setCountry] = useState("");
+  const { data } = useQuery({
+    queryFn: () => {
+      const [ip] = address.split(":");
 
-  useEffect(() => {
-    const [ip] = address.split(":");
+      return fetch(import.meta.env.VITE_GEO_IP_URL + "/" + ip)
+        .then((res) => res.json())
+        .then((json) => {
+          const coordinate = countriesCoordinates.find(
+            (c) => c.iso === json.country
+          );
 
-    console.info(ip);
+          if (coordinate) {
+            onPinAdd({
+              lat: parseFloat(coordinate.lat),
+              lng: parseFloat(coordinate.lng),
+            });
+          }
 
-    fetch("https://api.country.is/" + ip)
-      .then((res) => res.json())
-      .then((json) => {
-        setCountry(json.country);
+          return coordinate;
+        });
+    },
+    queryKey: [address],
 
-        const coordinate = countriesCoordinates.find(
-          (c) => c.iso === json.country
-        );
+    // Enable only when the address exists
+    enabled: !!address,
 
-        if (coordinate) {
-          onPinAdd({
-            lat: parseFloat(coordinate.lat),
-            lng: parseFloat(coordinate.lng),
-          });
-        }
-      });
-  }, [address]);
+    // No need to retry because if the connection to the node
+    // is back again, all the queries will be invalidated.
+    retry: false,
+
+    // We can cache the data at Infinity because the relation between
+    // country and ip is fixed
+    staleTime: Infinity,
+
+    // Don't expect something new when coming back to the UI
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <Cell>
-      {getFlagEmoji(country)} {address}
+      <div className="peerCountry">
+        {data ? (
+          <>
+            <span> {!!data && getFlagEmoji(data.iso)}</span>
+            <span>{data?.name}</span>
+          </>
+        ) : (
+          <span>{address}</span>
+        )}
+      </div>
     </Cell>
   );
 }

@@ -53,7 +53,7 @@ export const Route = createFileRoute("/dashboard/peers")({
       map.addPin({
         lat: pin.lat,
         lng: pin.lng,
-        svgOptions: { color: "#d6ff79", radius: 0.4 * quantity },
+        svgOptions: { color: "#d6ff79", radius: 0.8 * quantity },
       })
     );
 
@@ -85,14 +85,18 @@ export const Route = createFileRoute("/dashboard/peers")({
       )) || [];
 
     return (
-      <>
-        <img
+      <div className="peers">
+        {/* <img
           src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
           className="peers-map"
-        />
+        /> */}
+
+        <div
+          className="peers-map"
+          dangerouslySetInnerHTML={{ __html: svgMap }}></div>
 
         <Table headers={headers} rows={rows} className="peers-table" />
-      </>
+      </div>
     );
   },
 });
