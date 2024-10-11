@@ -1,8 +1,7 @@
 import test, { expect } from "@playwright/test";
-import { APP_URL } from './constants';
 
 test('creates an availability', async ({ page }) => {
-    await page.goto(APP_URL + '/dashboard');
+    await page.goto('/dashboard');
     await page.getByRole('link', { name: 'Sales' }).click();
     await page.getByRole('button').first().click();
     await page.getByLabel('Total size').click();
@@ -26,7 +25,7 @@ test('creates an availability', async ({ page }) => {
 })
 
 test('availability navigation buttons', async ({ page }) => {
-    await page.goto(APP_URL + '/dashboard/availabilities');
+    await page.goto('/dashboard/availabilities');
     await page.getByRole('button').first().click();
     await expect(page.locator('.stepper-number-done')).not.toBeVisible()
     await expect(page.locator('.stepper-number-active')).toBeVisible()

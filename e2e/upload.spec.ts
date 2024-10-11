@@ -3,13 +3,12 @@ import { Buffer } from 'buffer';
 import { readFileSync } from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { APP_URL } from './constants';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 test('upload one file', async ({ page }) => {
-  await page.goto(APP_URL + '/dashboard');
+  await page.goto('/dashboard');
   await page.getByText('browse').click();
   await page.locator('div').getByTestId("upload").setInputFiles([
     path.join(__dirname, "assets", 'chatgpt.jpg'),
@@ -19,7 +18,7 @@ test('upload one file', async ({ page }) => {
 });
 
 test('multiple files upload', async ({ page }) => {
-  await page.goto(APP_URL + '/dashboard');
+  await page.goto('/dashboard');
   await page.getByText('browse').click();
   await page.locator('div').getByTestId("upload").setInputFiles([
     path.join(__dirname, "assets", 'chatgpt.jpg'),
@@ -38,7 +37,7 @@ test('multiple files upload', async ({ page }) => {
 });
 
 test('drag and drop file', async ({ page }) => {
-  await page.goto(APP_URL + '/dashboard');
+  await page.goto('/dashboard');
 
   const buffer = readFileSync(path.join(__dirname, "assets", 'chatgpt.jpg'));
 
@@ -57,7 +56,7 @@ test('drag and drop file', async ({ page }) => {
 });
 
 test('stop an upload display a message', async ({ page }) => {
-  await page.goto(APP_URL + '/dashboard');
+  await page.goto('/dashboard');
   await page.getByText('browse').click();
 
   const buffer = Buffer.alloc(10_000_000);

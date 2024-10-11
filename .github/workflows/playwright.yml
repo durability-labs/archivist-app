@@ -110,11 +110,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run the marketplace
-        run: |
-          npm run dev & 
-          sleep 5
-
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
