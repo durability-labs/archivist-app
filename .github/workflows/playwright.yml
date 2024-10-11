@@ -71,7 +71,9 @@ jobs:
           chmod 600 eth.key
 
           # Run
-          ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
+          platform=${RUNNER_OS,,}
+          architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
+          ./codex-${codex_version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
 
           sleep 15
 
