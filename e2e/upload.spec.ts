@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { Buffer } from 'buffer';
 import { readFileSync } from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
