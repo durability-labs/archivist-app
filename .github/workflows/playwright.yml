@@ -33,7 +33,7 @@ jobs:
         if: steps.cache-circuits.outputs.cache-hit != 'true'
         run: |
           platform=${RUNNER_OS,,}
-          architecture=${RUNNER_ARCH,,}
+          architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
           echo $platform 
           echo "https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz"
           mkdir -p datadir/circuits
@@ -55,7 +55,7 @@ jobs:
         if: steps.cache-codex.outputs.cache-hit != 'true'
         run: |
           platform=${RUNNER_OS,,}
-          architecture=${RUNNER_ARCH,,}
+          architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})
           curl -LO https://github.com/codex-storage/nim-codex/releases/download/${codex_version}/codex-${codex_version}-${platform}-${architecture}.tar.gz
           curl -LO https://github.com/codex-storage/nim-codex/releases/download/${codex_version}/codex-${codex_version}-${platform}-${architecture}.tar.gz.sha256
           sha256sum -c codex-${codex_version}-${platform}-${architecture}.tar.gz.sha256
