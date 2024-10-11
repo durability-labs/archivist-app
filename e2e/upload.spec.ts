@@ -9,7 +9,6 @@ const __dirname = dirname(__filename);
 
 test('upload one file', async ({ page }) => {
   await page.goto('/dashboard');
-  await page.getByText('browse').click();
   await page.locator('div').getByTestId("upload").setInputFiles([
     path.join(__dirname, "assets", 'chatgpt.jpg'),
   ]);
@@ -19,7 +18,6 @@ test('upload one file', async ({ page }) => {
 
 test('multiple files upload', async ({ page }) => {
   await page.goto('/dashboard');
-  await page.getByText('browse').click();
   await page.locator('div').getByTestId("upload").setInputFiles([
     path.join(__dirname, "assets", 'chatgpt.jpg'),
     path.join(__dirname, "assets", 'mountain.jpeg'),
@@ -57,9 +55,8 @@ test('drag and drop file', async ({ page }) => {
 
 test('stop an upload display a message', async ({ page }) => {
   await page.goto('/dashboard');
-  await page.getByText('browse').click();
 
-  const buffer = Buffer.alloc(10_000_000);
+  const buffer = Buffer.alloc(50_000_000);
 
   await page.locator('div').getByTestId("upload").setInputFiles({
     buffer,
