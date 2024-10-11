@@ -12,51 +12,69 @@ on:
 env:
   codex_version: v0.1.6
   circuit_version: v0.1.6
-
+  marketplace_address: 0xfE822Df439d987849a90B64a4C0e26a297DBD47F
+  eth_provider: https://rpc.testnet.codex.storage
 jobs:
   tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - name: Run Codex node
-        run: |
-          # Download
-          version=${{ env.codex_version }}
-          platform=$(echo `uname -s` | awk '{print tolower($0)}')
-          architecture=$([[ `uname -m` == 'x86_64' ]] && echo amd64 || echo arm64)
-          curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz
-          curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz.sha256
-          sha256sum -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
-          [[ $? -eq 0 ]] && { echo "Checksum is OK"; } || { echo "Checksum failed"; exit 1; }
-          tar -zxvf codex-${version}-${platform}-${architecture}.tar.gz
-          sudo apt update && sudo apt install libgomp1
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install libgomp1
 
-          # Create circuit files folder
+      - name: Cache circuits
+        id: cache-circuits
+        uses: actions/cache@v4
+        with:
+          path: datadir/circuits
+          key: ${{ env.circuit_version }}-circuits
+
+      - name: Download circuits
+        if: steps.cache-circuits.outputs.cache-hit != 'true'
+        run: |
+          platform=${RUNNER_OS,,}
+          architecture=${RUNNER_ARCH,,}
           mkdir -p datadir/circuits
           chmod 700 datadir
           chmod 700 datadir/circuits
-          whoami 
-          ls -ltr
-          ls -ltr datadir
-          # Download circuit files
           curl -OL https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz 
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
           chmod +x cirdl-${circuit_version}-${platform}-${architecture}
-          ./cirdl-${circuit_version}-${platform}-${architecture} ./datadir/circuits https://rpc.testnet.codex.storage 0xfE822Df439d987849a90B64a4C0e26a297DBD47F
+          ./cirdl-${circuit_version}-${platform}-${architecture} ./datadir/circuits ${eth_provider} ${marketplace_address}
 
-          ls -ltr ./datadir/circuits
+      - name: Cache codex
+        id: cache-codex
+        uses: actions/cache@v4
+        with:
+          platform=${RUNNER_OS,,}
+          architecture=${RUNNER_ARCH,,}
+          path: codex-${codex_version}-${platform}-${architecture}
+          key: ${{ codex_version }}-codex
 
+      - name: Download codex
+        if: steps.cache-codex.outputs.cache-hit != 'true'
+        run: |
+          platform=${RUNNER_OS,,}
+          architecture=${RUNNER_ARCH,,}
+          curl -LO https://github.com/codex-storage/nim-codex/releases/download/${codex_version}/codex-${codex_version}-${platform}-${architecture}.tar.gz
+          curl -LO https://github.com/codex-storage/nim-codex/releases/download/${codex_version}/codex-${codex_version}-${platform}-${architecture}.tar.gz.sha256
+          sha256sum -c codex-${codex_version}-${platform}-${architecture}.tar.gz.sha256
+          [[ $? -eq 0 ]] && { echo "Checksum is OK"; } || { echo "Checksum failed"; exit 1; }
+          tar -zxvf codex-${codex_version}-${platform}-${architecture}.tar.gz
+
+      - name: Run Codex node
+        run: |
           # Get an eth address
           response=$(curl -s https://key.codex.storage)
           awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
           awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
           chmod 600 eth.key
-          ETH_ADDRESS=$(cat eth.address)
 
           # Run
-          ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=https://rpc.testnet.codex.storage --eth-private-key=./eth.key --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F prover --circuit-dir=./datadir/circuits &
+          ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
 
           sleep 15
+
       - name: Check Codex API
         run: |
           curl --max-time 5 --fail localhost:8080/api/codex/v1/debug/info -w "\n"
@@ -68,8 +86,32 @@ jobs:
         with:
           node-version: lts/*
 
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Run the marketplace 
+        run: |
+          npm run dev & 
+          sleep 5
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
