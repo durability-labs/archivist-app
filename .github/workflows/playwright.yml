@@ -12,6 +12,8 @@ env:
   circuit_version: v0.1.6
   marketplace_address: "0xfE822Df439d987849a90B64a4C0e26a297DBD47F"
   eth_provider: "https://rpc.testnet.codex.storage"
+  VITE_CODEX_API_URL: ${{ secrets.VITE_CODEX_API_URL }}
+  VITE_GEO_IP_URL: ${{ secrets.VITE_GEO_IP_URL }}
 jobs:
   tests:
     timeout-minutes: 60
