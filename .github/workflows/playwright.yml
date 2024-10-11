@@ -46,10 +46,8 @@ jobs:
         id: cache-codex
         uses: actions/cache@v4
         with:
-          platform=${RUNNER_OS,,}
-          architecture=${RUNNER_ARCH,,}
-          path: codex-${codex_version}-${platform}-${architecture}
-          key: ${{ codex_version }}-codex
+          path: codex-${{ env.codex_version }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}
+          key: ${{ env.codex_version }}-codex
 
       - name: Download codex
         if: steps.cache-codex.outputs.cache-hit != 'true'
@@ -108,7 +106,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run the marketplace 
+      - name: Run the marketplace
         run: |
           npm run dev & 
           sleep 5
