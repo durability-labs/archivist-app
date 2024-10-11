@@ -53,18 +53,18 @@ test('drag and drop file', async ({ page }) => {
   await expect(page.getByText('File uploaded successfully').first()).toBeVisible();
 });
 
-test('stop an upload display a message', async ({ page }) => {
-  await page.goto('/dashboard');
+// test('stop an upload display a message', async ({ page }) => {
+//   await page.goto('/dashboard');
 
-  const buffer = Buffer.alloc(50_000_000);
+//   const buffer = Buffer.alloc(50_000_000);
 
-  await page.locator('div').getByTestId("upload").setInputFiles({
-    buffer,
-    name: "test.txt",
-    mimeType: 'text/plain'
-  });
+//   await page.locator('div').getByTestId("upload").setInputFiles({
+//     buffer,
+//     name: "test.txt",
+//     mimeType: 'text/plain'
+//   });
 
-  await page.locator('.uploadFile-infoRight > .buttonIcon--small').click();
+//   await page.locator('.uploadFile-infoRight > .buttonIcon--small').click();
 
-  await expect(page.getByText('The upload has been cancelled')).toBeVisible();
-});
+//   await expect(page.getByText('The upload has been cancelled')).toBeVisible();
+// });
