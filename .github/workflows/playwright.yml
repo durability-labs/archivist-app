@@ -33,12 +33,12 @@ jobs:
 
           # Create circuit files folder
           mkdir -p datadir/circuits
-          chmod -R 700 datadir
           chmod -R 700 datadir/circuits
 
           # Download circuit files
           curl -OL https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz 
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
+          chmod +x cirdl-${circuit_version}-${platform}-${architecture}
           ./cirdl-${circuit_version}-${platform}-${architecture} \
             datadir/circuits \
             https://rpc.testnet.codex.storage \
