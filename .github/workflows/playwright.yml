@@ -55,7 +55,7 @@ jobs:
           ETH_ADDRESS=$(cat eth.address)
 
           # Run
-          ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=https://rpc.testnet.codex.storage --eth-private-key=./eth.key --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F prover --circuit-dir=/datadir/circuits &
+          ./codex-${version}-${platform}-${architecture} --data-dir=datadir --api-cors-origin="*" persistence --eth-provider=https://rpc.testnet.codex.storage --eth-private-key=./eth.key --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F prover --circuit-dir=./datadir/circuits &
 
       - name: Check Codex API
         run: |
