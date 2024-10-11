@@ -38,7 +38,7 @@ jobs:
           # Download circuit files
           curl -OL https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz 
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
-          cirdl-${circuit_version}-${platform}-${architecture} \
+          ./cirdl-${circuit_version}-${platform}-${architecture} \
             datadir/circuits \
             https://rpc.testnet.codex.storage \
             0xfE822Df439d987849a90B64a4C0e26a297DBD47F
