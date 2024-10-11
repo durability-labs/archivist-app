@@ -33,8 +33,10 @@ jobs:
 
           # Create circuit files folder
           mkdir -p datadir/circuits
-          chmod -R 700 datadir/circuits
-
+          chmod 700 datadir
+          chmod 700 datadir/circuits
+          whoami 
+          ls -ltr
           # Download circuit files
           curl -OL https://github.com/codex-storage/nim-codex/releases/download/${circuit_version}/cirdl-${circuit_version}-${platform}-${architecture}.tar.gz 
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
