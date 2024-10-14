@@ -18,7 +18,7 @@ type Props = {
   open: boolean;
   onClose: () => unknown;
 };
-
+// TODO remove this
 export function AvailabilityReservations({
   availability,
   onClose,
@@ -38,7 +38,7 @@ export function AvailabilityReservations({
     error,
   } = useQuery({
     queryFn: () =>
-      CodexSdk.marketplace
+      CodexSdk.marketplace()
         .reservations(availability!.id)
         .then((s) => Promises.rejectOnError(s)),
     queryKey: ["reservations"],

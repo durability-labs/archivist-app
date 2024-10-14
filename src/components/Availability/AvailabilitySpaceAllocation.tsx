@@ -2,7 +2,6 @@ import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { AvailabilityState } from "./types";
 import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
 import "./AvailabilitySpaceAllocation.css";
-import { availabilityUnit } from "./availability.domain";
 import { nodeSpaceAllocationColors } from "../NodeSpaceAllocation/nodeSpaceAllocation.domain";
 
 type Props = {
@@ -11,15 +10,15 @@ type Props = {
 };
 
 export function AvailabilitySpaceAllocation({ availability, space }: Props) {
-  const unit = availabilityUnit(availability.totalSizeUnit);
-  const { quotaMaxBytes, quotaReservedBytes } = space;
-  const size = availability.totalSize * unit;
+  const { quotaMaxBytes, quotaReservedBytes, quotaUsedBytes } = space;
   const isUpdating = !!availability.id;
-  const allocated = isUpdating ? quotaReservedBytes - size : quotaReservedBytes;
+  const allocated = isUpdating
+    ? quotaReservedBytes - availability.totalSize + quotaUsedBytes
+    : quotaReservedBytes + quotaUsedBytes;
   const remaining =
-    size > quotaMaxBytes - allocated
+    availability.totalSize > quotaMaxBytes - allocated
       ? quotaMaxBytes - allocated
-      : quotaMaxBytes - allocated - size;
+      : quotaMaxBytes - allocated - availability.totalSize;
 
   const spaceData = [
     {
@@ -29,7 +28,7 @@ export function AvailabilitySpaceAllocation({ availability, space }: Props) {
     },
     {
       title: "New space allocation",
-      size: size > remaining ? 0 : Math.trunc(size),
+      size: Math.trunc(availability.totalSize),
       color: nodeSpaceAllocationColors[1],
     },
     {

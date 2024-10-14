@@ -2,7 +2,7 @@ import {
   Stepper,
   useStepperReducer,
   Button,
-  Modal,
+  Sheets,
 } from "@codex-storage/marketplace-ui-components";
 import { useEffect, useRef, useState } from "react";
 import { AvailabilityForm } from "./AvailabilityForm";
@@ -19,6 +19,8 @@ import "./AvailabilityCreate.css";
 
 type Props = {
   space: CodexNodeSpace;
+  hasLabel?: boolean;
+  className?: string;
 };
 
 const CONFIRM_STATE = 2;
@@ -32,7 +34,11 @@ const defaultAvailabilityData: AvailabilityState = {
   durationUnit: "days",
 };
 
-export function AvailabilityCreate({ space }: Props) {
+export function AvailabilitySheetCreate({
+  space,
+  className = "",
+  hasLabel = true,
+}: Props) {
   const steps = useRef(["Sale", "Confirmation", "Success"]);
   const [availability, setAvailability] = useState<AvailabilityState>(
     defaultAvailabilityData
@@ -126,9 +132,15 @@ export function AvailabilityCreate({ space }: Props) {
 
   return (
     <>
-      <Button label="Sale" Icon={Plus} onClick={onOpen} variant="primary" />
+      <Button
+        label={hasLabel ? "Sale" : ""}
+        Icon={Plus}
+        onClick={onOpen}
+        variant="primary"
+        className={className}
+      />
 
-      <Modal open={state.open} onClose={onClose} displayCloseButton={false}>
+      <Sheets open={state.open} onClose={onClose}>
         <Stepper
           className="availabilityCreate"
           titles={steps.current}
@@ -147,7 +159,7 @@ export function AvailabilityCreate({ space }: Props) {
             error={error}
           />
         </Stepper>
-      </Modal>
+      </Sheets>
     </>
   );
 }
