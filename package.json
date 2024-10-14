@@ -23,7 +23,7 @@
     "React"
   ],
   "dependencies": {
-    "@codex-storage/marketplace-ui-components": "^0.0.16",
+    "@codex-storage/marketplace-ui-components": "0.0.18",
     "@codex-storage/sdk-js": "^0.0.7",
     "@sentry/browser": "^8.32.0",
     "@sentry/react": "^8.31.0",
