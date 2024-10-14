@@ -1,4 +1,4 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import "./index.css";
 import { AlphaIcon } from "../components/AlphaIcon/AlphaIcon";
 import { AlphaText } from "../components/AlphaText/AlphaText";
