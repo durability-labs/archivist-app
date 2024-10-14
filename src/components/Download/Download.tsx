@@ -19,7 +19,6 @@ export function Download() {
       <div className="download-inputContainer">
         <Input
           id="cid"
-          isInvalid={false}
           placeholder="CID"
           inputClassName="download-input"
           onChange={onCidChange}></Input>
