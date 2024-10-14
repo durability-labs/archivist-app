@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { GB, TB } from "../../utils/constants";
 import { Promises } from "../../utils/promises";
 import { WebStorage } from "../../utils/web-storage";
 import { AvailabilityState } from "./types";
@@ -10,6 +9,9 @@ import {
 } from "@codex-storage/marketplace-ui-components";
 import { Times } from "../../utils/times";
 import { CodexSdk } from "../../sdk/codex";
+import { AvailabilityStorage } from "../../utils/availabilities-storage";
+import { CodexAvailabilityCreateResponse } from "@codex-storage/sdk-js";
+
 
 export function useAvailabilityMutation(
   dispatch: Dispatch<StepperAction>,
@@ -19,41 +21,45 @@ export function useAvailabilityMutation(
   const [error, setError] = useState<Error | null>(null);
 
   const { mutateAsync } = useMutation({
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     mutationFn: ({
       totalSize,
       totalSizeUnit,
       duration,
       durationUnit = "days",
+      name,
       ...input
     }: AvailabilityState) => {
-      const unit = totalSizeUnit === "gb" ? GB : TB;
-      const marketplace = CodexSdk.marketplace;
       const time = Times.toSeconds(duration, durationUnit);
 
       const fn: (
         input: Omit<AvailabilityState, "totalSizeUnit" | "durationUnit">
-      ) => Promise<unknown> = input.id
-        ? (input) =>
-            marketplace
+      ) => Promise<"" | CodexAvailabilityCreateResponse> = input.id
+          ? (input) =>
+            CodexSdk.marketplace()
               .updateAvailability({ ...input, id: input.id || "" })
               .then((s) => Promises.rejectOnError(s))
-        : (input) =>
-            marketplace
+          : (input) =>
+            CodexSdk.marketplace()
               .createAvailability(input)
               .then((s) => Promises.rejectOnError(s));
 
       return fn({
         ...input,
         duration: time,
-        totalSize: Math.trunc(totalSize * unit),
+        totalSize: Math.trunc(totalSize),
       });
     },
-    onSuccess: () => {
+    onSuccess: (res, body) => {
       queryClient.invalidateQueries({ queryKey: ["availabilities"] });
       queryClient.invalidateQueries({ queryKey: ["space"] });
 
       WebStorage.delete("availability");
       WebStorage.delete("availability-step");
+
+      if (typeof res === "object" && body.name) {
+        AvailabilityStorage.add(res.id, body.name)
+      }
 
       setError(null);
 

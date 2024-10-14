@@ -7,7 +7,9 @@ export function useData() {
   const { data = { content: [] } satisfies CodexDataResponse } =
     useQuery<CodexDataResponse>({
       queryFn: () =>
-        CodexSdk.data.cids().then((res) => Promises.rejectOnError(res)),
+        CodexSdk.data()
+          .cids()
+          .then((res) => Promises.rejectOnError(res)),
       queryKey: ["cids"],
 
       initialData: { content: [] } satisfies CodexDataResponse,
@@ -22,6 +24,9 @@ export function useData() {
 
       // Don't expect something new when coming back to the UI
       refetchOnWindowFocus: false,
+
+      // Throw the error to the error boundary
+      throwOnError: true,
     });
 
   return data.content;

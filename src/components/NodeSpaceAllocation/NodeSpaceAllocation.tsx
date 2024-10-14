@@ -3,6 +3,7 @@ import Loader from "../../assets/loader.svg";
 import { CodexSdk } from "../../sdk/codex";
 import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
 import { Promises } from "../../utils/promises";
+import { nodeSpaceAllocationColors } from "./nodeSpaceAllocation.domain";
 
 const defaultSpace = {
   quotaMaxBytes: 0,
@@ -13,7 +14,10 @@ const defaultSpace = {
 
 export function NodeSpaceAllocation() {
   const { data: space, isPending } = useQuery({
-    queryFn: () => CodexSdk.data.space().then((s) => Promises.rejectOnError(s)),
+    queryFn: () =>
+      CodexSdk.data()
+        .space()
+        .then((s) => Promises.rejectOnError(s)),
     queryKey: ["space"],
     initialData: defaultSpace,
 
@@ -42,14 +46,18 @@ export function NodeSpaceAllocation() {
         {
           title: "Maximum storage space used by the node",
           size: quotaMaxBytes,
+          color: nodeSpaceAllocationColors[0],
         },
         {
           title: "Amount of storage space currently in use",
           size: quotaUsedBytes,
+          color: nodeSpaceAllocationColors[1],
         },
         {
           title: "Amount of storage space reserved",
           size: quotaReservedBytes,
+          color:
+            nodeSpaceAllocationColors[nodeSpaceAllocationColors.length - 1],
         },
       ]}></SpaceAllocation>
   );

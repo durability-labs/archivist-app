@@ -1,39 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Files } from "../../components/Files/Files.tsx";
-import { Card, Upload } from "@codex-storage/marketplace-ui-components";
+import { Alert, Card, Upload } from "@codex-storage/marketplace-ui-components";
 import { CodexSdk } from "../../sdk/codex";
 import { Welcome } from "../../components/Welcome/Welcome.tsx";
-import { FilesStorage } from "../../utils/file-storage";
 import { ErrorPlaceholder } from "../../components/ErrorPlaceholder/ErrorPlaceholder.tsx";
 import { ErrorBoundary } from "@sentry/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Download } from "../../components/Download/Download.tsx";
 
 export const Route = createFileRoute("/dashboard/")({
   component: About,
 });
 
-const onSuccess = (cid: string, file: File) => {
-  FilesStorage.set(cid, {
-    name: file.name,
-    mimetype: file.type,
-    uploadedAt: new Date().toJSON(),
-  });
-};
-
 function About() {
+  const queryClient = useQueryClient();
+
+  const onSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["cids"] });
+  };
+
   return (
     <>
       <div className="dashboard">
-        <ErrorBoundary
-          fallback={({ error }) => (
-            <ErrorPlaceholder
-              error={error}
-              subtitle="Cannot retrieve the data."
-            />
-          )}>
-          <Card title="Upload a file">
-            <Upload multiple codexData={CodexSdk.data} onSuccess={onSuccess} />
-          </Card>
-        </ErrorBoundary>
+        <div>
+          <ErrorBoundary
+            fallback={({ error }) => (
+              <ErrorPlaceholder
+                error={error}
+                subtitle="Cannot retrieve the data."
+              />
+            )}>
+            <Card title="Upload a file">
+              <Upload
+                multiple
+                codexData={CodexSdk.data()}
+                onSuccess={onSuccess}
+              />
+            </Card>
+          </ErrorBoundary>
+
+          <ErrorBoundary
+            fallback={({ error }) => (
+              <ErrorPlaceholder
+                error={error}
+                subtitle="Cannot retrieve the data."
+              />
+            )}>
+            <Card title="Download a file" className="dashboard-download">
+              <Download></Download>
+            </Card>
+          </ErrorBoundary>
+        </div>
 
         <ErrorBoundary
           fallback={({ error }) => (
@@ -42,17 +59,29 @@ function About() {
               subtitle="Cannot retrieve the data."
             />
           )}>
-          <Welcome />
+          <div className="dashboard-welcome">
+            <Welcome />
+
+            <Alert
+              variant="warning"
+              title="Disclaimer"
+              className="welcome-disclaimer dashboard-alert">
+              The website and the content herein is not intended for public use
+              and is for informational and demonstration purposes only.
+            </Alert>
+          </div>
         </ErrorBoundary>
       </div>
 
       <div className="container-fluid">
         <ErrorBoundary
           fallback={({ error }) => (
-            <ErrorPlaceholder
-              error={error}
-              subtitle="Cannot retrieve the data."
-            />
+            <Card title="Error">
+              <ErrorPlaceholder
+                error={error}
+                subtitle="Cannot retrieve the data."
+              />
+            </Card>
           )}>
           <Files />
         </ErrorBoundary>
