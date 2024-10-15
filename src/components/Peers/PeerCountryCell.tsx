@@ -3,6 +3,7 @@ import { PeerPin } from "./types";
 import { countriesCoordinates } from "./countries";
 import { useQuery } from "@tanstack/react-query";
 import "./PeerCountryCell.css";
+import { useEffect } from "react";
 
 export type Props = {
   address: string;
@@ -24,21 +25,12 @@ export function PeerCountryCell({ address, onPinAdd }: Props) {
 
       return fetch(import.meta.env.VITE_GEO_IP_URL + "/" + ip)
         .then((res) => res.json())
-        .then((json) => {
-          const coordinate = countriesCoordinates.find(
-            (c) => c.iso === json.country
-          );
-
-          if (coordinate) {
-            onPinAdd({
-              lat: parseFloat(coordinate.lat),
-              lng: parseFloat(coordinate.lng),
-            });
-          }
-
-          return coordinate;
-        });
+        .then((json) =>
+          countriesCoordinates.find((c) => c.iso === json.country)
+        );
     },
+    refetchOnMount: true,
+
     queryKey: [address],
 
     // Enable only when the address exists
@@ -55,6 +47,15 @@ export function PeerCountryCell({ address, onPinAdd }: Props) {
     // Don't expect something new when coming back to the UI
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (data) {
+      onPinAdd({
+        lat: parseFloat(data.lat),
+        lng: parseFloat(data.lng),
+      });
+    }
+  }, [data]);
 
   return (
     <Cell>
