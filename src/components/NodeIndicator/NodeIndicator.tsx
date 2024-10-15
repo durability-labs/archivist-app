@@ -8,7 +8,6 @@ import {
 import { Promises } from "../../utils/promises";
 
 const report = false;
-export let isCodexOnline: boolean | null = null;
 
 export function NodeIndicator() {
   const queryClient = useQueryClient();
@@ -41,13 +40,16 @@ export function NodeIndicator() {
     gcTime: 0,
   });
 
-  isCodexOnline = !isError && !!data;
+  const isCodexOnline = !isError && !!data;
 
   useEffect(() => {
     queryClient.invalidateQueries({
       type: "active",
       refetchType: "all",
     });
+
+    // Dispatch an event in order to reset Sentry error boundary
+    document.dispatchEvent(new CustomEvent("codexinvalidatequeries"));
   }, [queryClient, isCodexOnline]);
 
   return (
