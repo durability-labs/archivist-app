@@ -22,6 +22,11 @@ export function FolderButton({ folders, onFolderToggle }: Props) {
 
   const attr = attributes({ "aria-expanded": open });
 
+  const doesFolderContainFile = folders.reduce(
+    (prev, [, isActive]) => isActive || prev,
+    false
+  );
+
   return (
     <div className="folderButton">
       <Backdrop open={open} onClose={onClose}></Backdrop>
@@ -29,7 +34,11 @@ export function FolderButton({ folders, onFolderToggle }: Props) {
       <ButtonIcon
         variant="small"
         onClick={onOpen}
-        Icon={() => <Folder />}></ButtonIcon>
+        Icon={() => (
+          <Folder
+            fill={doesFolderContainFile ? "var(--codex-color-primary)" : ""}
+          />
+        )}></ButtonIcon>
 
       <div className="folderButton-options" {...attr}>
         {folders.map(([folder, isActive]) => (

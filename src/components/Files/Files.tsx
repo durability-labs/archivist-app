@@ -1,5 +1,6 @@
 import {
   ChevronDown,
+  Copy,
   Download,
   FilesIcon,
   Folder,
@@ -89,6 +90,11 @@ export function Files() {
         setError("5 folders limit reached");
         return;
       }
+
+      if (folders.find(([folder]) => folder === val)) {
+        setError("This folder already exists");
+        return;
+      }
     } else {
       setError("9 alpha characters maximum");
     }
@@ -146,30 +152,36 @@ export function Files() {
   const tabs: TabProps[] = folders.map(([folder]) => ({
     label: folder,
     Icon: () => <Folder size={"1rem"}></Folder>,
-    IconAfter: () => (
-      <X
-        size={"1rem"}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
+    IconAfter:
+      folder === "Favorites"
+        ? undefined
+        : () => (
+            <X
+              size={"1rem"}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
 
-          onFolderDelete(folder);
-        }}></X>
-    ),
+                onFolderDelete(folder);
+              }}></X>
+          ),
   }));
 
-  const onToggleDetails = (cid: string) => {
-    if (details.includes(cid)) {
-      setDetails(details.filter((val) => val !== cid));
-    } else {
-      setDetails([...details, cid]);
-    }
-  };
+  // const onToggleDetails = (cid: string) => {
+  //   if (details.includes(cid)) {
+  //     setDetails(details.filter((val) => val !== cid));
+  //   } else {
+  //     setDetails([...details, cid]);
+  //   }
+  // };
+
+  const onCopy = (cid: string) => navigator.clipboard.writeText(cid);
 
   tabs.unshift({
     label: "All files",
     Icon: () => <FilesIcon size={"1rem"}></FilesIcon>,
   });
+
   const items =
     index === 0
       ? files
@@ -191,7 +203,7 @@ export function Files() {
               isInvalid={folder !== "" && !!error}
               value={folder}
               required={true}
-              pattern="[A-Za-z]*"
+              pattern="[A-Za-z0-9_\-]*"
               maxLength={9}
               helper={error || "Enter the folder name"}
               onChange={onFolderChange}></Input>
@@ -212,13 +224,6 @@ export function Files() {
           items.map((c) => (
             <div className="files-file" key={c.cid}>
               <div className="files-fileContent">
-                <ChevronDown
-                  onClick={() => onToggleDetails(c.cid)}
-                  className={classnames(
-                    ["availabilityTable-chevron"],
-                    ["availabilityTable-chevron--open", details.includes(c.cid)]
-                  )}></ChevronDown>
-
                 <div className="files-fileIcon">
                   <WebFileIcon type={c.manifest.mimetype} />
                 </div>
@@ -236,6 +241,7 @@ export function Files() {
                   <div className="files-fileActions">
                     <ButtonIcon
                       variant="small"
+                      animation="bounce"
                       onClick={() => window.open(url + c.cid, "_blank")}
                       Icon={() => <Download size={ICON_SIZE} />}></ButtonIcon>
 
@@ -249,6 +255,12 @@ export function Files() {
 
                     <ButtonIcon
                       variant="small"
+                      onClick={() => onCopy(c.cid)}
+                      animation="buzz"
+                      Icon={() => <Copy size={ICON_SIZE} />}></ButtonIcon>
+
+                    <ButtonIcon
+                      variant="small"
                       onClick={() => onDetails(c.cid)}
                       Icon={() => (
                         <ReceiptText size={ICON_SIZE} />
@@ -256,14 +268,6 @@ export function Files() {
                   </div>
                 </div>
               </div>
-
-              {details.includes(c.cid) && (
-                <>
-                  <div>CID : {c.cid}</div>
-                  <div>Filename : {c.manifest.filename}</div>
-                  <div>Protected: {c.manifest.protected}</div>
-                </>
-              )}
             </div>
           ))
         ) : (
