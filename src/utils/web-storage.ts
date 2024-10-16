@@ -1,4 +1,4 @@
-import { createStore, del, entries, get, keys, set } from "idb-keyval";
+import { createStore, del, entries, get, set } from "idb-keyval";
 
 const folders = createStore("folders", "folders");
 
