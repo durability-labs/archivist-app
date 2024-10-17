@@ -1,6 +1,5 @@
 import { Cell } from "@codex-storage/marketplace-ui-components";
 import { PeerPin } from "./types";
-import { countriesCoordinates } from "./countries";
 import { useQuery } from "@tanstack/react-query";
 import "./PeerCountryCell.css";
 import { useEffect } from "react";
@@ -23,11 +22,9 @@ export function PeerCountryCell({ address, onPinAdd }: Props) {
     queryFn: () => {
       const [ip] = address.split(":");
 
-      return fetch(import.meta.env.VITE_GEO_IP_URL + "/" + ip)
-        .then((res) => res.json())
-        .then((json) =>
-          countriesCoordinates.find((c) => c.iso === json.country)
-        );
+      return fetch(import.meta.env.VITE_GEO_IP_URL + "/json?ip=" + ip).then(
+        (res) => res.json()
+      );
     },
     refetchOnMount: true,
 
@@ -51,8 +48,8 @@ export function PeerCountryCell({ address, onPinAdd }: Props) {
   useEffect(() => {
     if (data) {
       onPinAdd({
-        lat: parseFloat(data.lat),
-        lng: parseFloat(data.lng),
+        lat: data.latitude,
+        lng: data.longitude,
       });
     }
   }, [data]);
@@ -62,8 +59,8 @@ export function PeerCountryCell({ address, onPinAdd }: Props) {
       <div className="peerCountry">
         {data ? (
           <>
-            <span> {!!data && getFlagEmoji(data.iso)}</span>
-            <span>{data?.name}</span>
+            <span> {!!data && getFlagEmoji(data.country_iso)}</span>
+            <span>{data?.country}</span>
           </>
         ) : (
           <span>{address}</span>
