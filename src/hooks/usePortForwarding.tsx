@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Echo } from "../utils/echo";
 import { Errors } from "../utils/errors";
 
 type PortForwardingResponse = { reachable: boolean };
@@ -6,9 +7,7 @@ type PortForwardingResponse = { reachable: boolean };
 export function usePortForwarding(online: boolean) {
   const { data, isFetching, refetch } = useQuery({
     queryFn: (): Promise<PortForwardingResponse> =>
-      fetch(import.meta.env.VITE_ECHO_URL + "/port/8070")
-        .then((res) => res.json())
-        .catch((e) => Errors.report(e)),
+      Echo.portForwarding().catch((e) => Errors.report(e)),
     queryKey: ["port-forwarding"],
 
     initialData: { reachable: false },
