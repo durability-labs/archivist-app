@@ -6,27 +6,19 @@ import { Check } from "lucide-react";
 type Props = {
   files: CodexDataContent[];
   onFilterToggle: (filter: string) => void;
+  selected: string[];
 };
 
-const archiveMimetypes = [
-  "application/zip",
-  "application/x-rar-compressed",
-  "application/x-tar",
-  "application/gzip",
-  "application/x-7z-compressed",
-  "application/gzip", // for .tar.gz
-  "application/x-bzip2",
-  "application/x-xz",
-];
-
-export function FilterFilters({ files, onFilterToggle }: Props) {
+export function FilterFilters({ selected, files, onFilterToggle }: Props) {
   const filters = Array.from(
     new Set(
-      files.map((file) =>
-        archiveMimetypes.includes(file.manifest.mimetype)
-          ? "archive"
-          : Files.type(file.manifest.mimetype)
-      )
+      files
+        .filter((f) => f.manifest.mimetype !== "")
+        .map((file) =>
+          Files.isArchive(file.manifest.mimetype)
+            ? "archive"
+            : Files.type(file.manifest.mimetype)
+        )
     )
   );
 
@@ -35,7 +27,7 @@ export function FilterFilters({ files, onFilterToggle }: Props) {
       key={type}
       className={classnames(
         ["files-filter"],
-        ["files-filter--active", filters.includes(type)]
+        ["files-filter--active", !!filters.find((f) => selected.includes(f))]
       )}
       onClick={() => onFilterToggle(type)}>
       <span>{type}</span> <Check size={"1rem"}></Check>

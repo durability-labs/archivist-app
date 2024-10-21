@@ -33,7 +33,7 @@ export function Files() {
   const [error, setError] = useState("");
   const [details, setDetails] = useState<CodexDataContent | null>(null);
   const [sortFn, setSortFn] = useState<SortFn | null>(null);
-  const [filters, setFilters] = useState<string[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   useEffect(() => {
     WebStorage.folders.list().then((items) => setFolders(items));
@@ -191,9 +191,9 @@ export function Files() {
   };
 
   const onToggleFilter = (filter: string) =>
-    filters.includes(filter)
-      ? setFilters(filters.filter((f) => f !== filter))
-      : setFilters([...filters, filter]);
+    selectedFilters.includes(filter)
+      ? setSelectedFilters(selectedFilters.filter((f) => f !== filter))
+      : setSelectedFilters([...selectedFilters, filter]);
 
   tabs.unshift({
     label: "All files",
@@ -214,7 +214,10 @@ export function Files() {
 
   const filtered = items.filter(
     (item) =>
-      filters.length === 0 || filters.includes(F.type(item.manifest.mimetype))
+      selectedFilters.length === 0 ||
+      selectedFilters.includes(F.type(item.manifest.mimetype)) ||
+      (selectedFilters.includes("archive") &&
+        F.isArchive(item.manifest.mimetype))
   );
 
   const sorted = sortFn ? [...filtered].sort(sortFn) : filtered;
@@ -264,11 +267,15 @@ export function Files() {
       <Tabs onTabChange={onTabChange} tabIndex={index} tabs={tabs}></Tabs>
 
       <div className="files-filters">
-        <FilterFilters files={files} onFilterToggle={onToggleFilter} />
+        <FilterFilters
+          files={files}
+          onFilterToggle={onToggleFilter}
+          selected={selectedFilters}
+        />
       </div>
 
       <div className="files-fileBody">
-        <Table headers={headers} rows={rows} defaultSortIndex={3} />
+        <Table headers={headers} rows={rows} defaultSortIndex={2} />
       </div>
 
       <FileDetails onClose={onClose} details={details} />
