@@ -1,10 +1,5 @@
 .index {
   width: 100%;
-  background-image: url(/bg.png);
-  background-position: 10px 10px;
-  background-position: right;
-  background-repeat: no-repeat;
-  background-size: auto 90%;
   padding: 3rem 6rem;
 }
 

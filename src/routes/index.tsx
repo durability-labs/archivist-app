@@ -11,6 +11,7 @@ import { classnames } from "../utils/classnames";
 import { OnBoardingStepThree } from "../components/OnBoarding/OnBoardingStepThree";
 import { attributes } from "../utils/attributes";
 import { CodexLogo } from "../components/CodexLogo/CodexLogo";
+import { OnBoardingImage } from "../components/OnBoarding/OnBoardingImage";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -79,6 +80,9 @@ function Index() {
                 )}></span>
             </div>
           </div>
+        </div>
+        <div className="index-column">
+          <OnBoardingImage />
         </div>
         <div className="index-columnRight">
           <div className="index-logo">
