@@ -59,6 +59,7 @@ export function OnBoardingStepThree({ online, onStepValid }: Props) {
         <ButtonIcon Icon={Save} onClick={onSave}></ButtonIcon>
       </div>
       <div
+        data-testid="network"
         className={classnames(
           ["onboarding-check"],
           ["onboarding-check--valid", online]
