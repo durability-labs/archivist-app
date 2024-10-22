@@ -6,7 +6,11 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-test('download a file', async ({ page }) => {
+test('download a file', async ({ page, browserName }) => {
+    // https://github.com/microsoft/playwright/issues/13037
+    test.skip(browserName.toLowerCase() !== 'chromium',
+        `Test only for chromium!`);
+
     await page.goto('/dashboard');
     await page.locator('div').getByTestId("upload").setInputFiles([
         path.join(__dirname, "assets", 'chatgpt.jpg'),
