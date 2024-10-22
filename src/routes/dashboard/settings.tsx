@@ -5,6 +5,7 @@ import { Debug } from "../../components/Debug/Debug";
 import { CodexUrlSettings } from "../../components/CodexUrllSettings/CodexUrlSettings";
 import { ErrorBoundary } from "@sentry/react";
 import { ErrorPlaceholder } from "../../components/ErrorPlaceholder/ErrorPlaceholder";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/dashboard/settings")({
   component: () => (
@@ -35,12 +36,25 @@ export const Route = createFileRoute("/dashboard/settings")({
 
       <div className="settings">
         <ErrorBoundary
-          fallback={({ error }) => (
-            <ErrorPlaceholder
-              error={error}
-              subtitle="Cannot retrieve the data."
-            />
-          )}>
+          fallback={({ error, resetError }) => {
+            useEffect(() => {
+              document.addEventListener("codexinvalidatequeries", resetError);
+
+              return () => {
+                document.removeEventListener(
+                  "codexinvalidatequeries",
+                  resetError
+                );
+              };
+            }, [resetError]);
+
+            return (
+              <ErrorPlaceholder
+                error={error}
+                subtitle="Cannot retrieve the data."
+              />
+            );
+          }}>
           <Debug />
         </ErrorBoundary>
       </div>
