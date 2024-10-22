@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { readFileSync } from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -23,10 +22,10 @@ test('download a file', async ({ page, browserName }) => {
     await page.locator('.sheets-container > .backdrop').click();
     await page.getByPlaceholder('CID').click();
     await page.getByPlaceholder('CID').fill(cid);
-    const page1Promise = page.waitForEvent('popup');
+    // const page1Promise = page.waitForEvent('popup');
     const downloadPromise = page.waitForEvent('download');
     await page.locator('div').filter({ hasText: /^Download a fileDownload$/ }).getByRole('button').click();
-    const page1 = await page1Promise;
+    // const page1 = await page1Promise;
     const download = await downloadPromise;
     expect(await download.failure()).toBeNull()
 });
