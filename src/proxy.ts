@@ -7,7 +7,6 @@ import {
   UploadResponse,
 } from "@codex-storage/sdk-js";
 import { CodexSdk as Sdk } from "./sdk/codex";
-import { WebStorage } from "./utils/web-storage";
 import { FilesStorage } from "./utils/file-storage";
 import { PurchaseStorage } from "./utils/purchases-storage";
 
