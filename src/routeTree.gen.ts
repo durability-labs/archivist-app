@@ -27,61 +27,73 @@ import { Route as DashboardAboutImport } from './routes/dashboard/about'
 // Create/Update Routes
 
 const DashboardRoute = DashboardImport.update({
+  id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
 const IndexRoute = IndexImport.update({
+  id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
 const DashboardIndexRoute = DashboardIndexImport.update({
+  id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardSettingsRoute = DashboardSettingsImport.update({
+  id: '/settings',
   path: '/settings',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardRequestsRoute = DashboardRequestsImport.update({
+  id: '/requests',
   path: '/requests',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardPurchasesRoute = DashboardPurchasesImport.update({
+  id: '/purchases',
   path: '/purchases',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardPeersRoute = DashboardPeersImport.update({
+  id: '/peers',
   path: '/peers',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardHelpRoute = DashboardHelpImport.update({
+  id: '/help',
   path: '/help',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardFavoritesRoute = DashboardFavoritesImport.update({
+  id: '/favorites',
   path: '/favorites',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardDisclaimerRoute = DashboardDisclaimerImport.update({
+  id: '/disclaimer',
   path: '/disclaimer',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardAvailabilitiesRoute = DashboardAvailabilitiesImport.update({
+  id: '/availabilities',
   path: '/availabilities',
   getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardAboutRoute = DashboardAboutImport.update({
+  id: '/about',
   path: '/about',
   getParentRoute: () => DashboardRoute,
 } as any)
