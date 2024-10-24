@@ -275,3 +275,23 @@
     /* position: inherit; */
   }
 }
+
+.menu a {
+  position: relative;
+}
+
+.menu a[data-title]:hover::after {
+  content: attr(data-title);
+  background-color: #2f2f2f;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 14px;
+  display: block;
+  position: absolute;
+  white-space: nowrap;
+  position: absolute;
+  right: 1rem;
+  z-index: 1;
+}
