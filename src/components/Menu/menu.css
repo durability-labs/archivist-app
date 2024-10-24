@@ -280,7 +280,7 @@
   position: relative;
 }
 
-.menu a[data-title]:hover::after {
+.menu:not(.menu--unexpanded) a[data-title]:hover::after {
   content: attr(data-title);
   background-color: #2f2f2f;
   color: #fff;
@@ -289,9 +289,8 @@
   font-size: 12px;
   line-height: 14px;
   display: block;
-  position: absolute;
   white-space: nowrap;
   position: absolute;
   right: 1rem;
-  z-index: 1;
+  overflow: visible;
 }
