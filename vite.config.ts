@@ -14,8 +14,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          echarts: ['echarts'],
-          "dotted-map": ["dotted-map"],
           "@sentry/react": ["@sentry/react"],
         }
       },
