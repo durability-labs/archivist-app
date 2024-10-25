@@ -1,14 +1,16 @@
 type Props = {
   variant: "primary" | "error";
+  className?: string;
 };
 
-export function AlphaIcon({ variant }: Props) {
+export function AlphaIcon({ variant, className = "" }: Props) {
   const color =
     variant === "primary"
       ? "var(--codex-color-primary)"
       : "var(--codex-color-error-hexa)";
   return (
     <svg
+      className={className}
       width="27"
       height="27"
       viewBox="0 0 27 27"

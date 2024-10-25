@@ -23,7 +23,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [isStepValid, setIsStepValid] = useState(true);
-  const [step, setStep] = useState(OnBoardingUtils.getStep());
+  // const [step, setStep] = useState(OnBoardingUtils.getStep());
+  const [step, setStep] = useState(0);
   const online = useNetwork();
   const navigate = useNavigate({ from: "/" });
   const onStepValid = (valid: boolean) => setIsStepValid(valid);
