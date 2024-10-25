@@ -1,4 +1,4 @@
-import "./OmBoardingImage.css";
+import "./OnBoardingImage.css";
 
 export function OnBoardingImage() {
   return (

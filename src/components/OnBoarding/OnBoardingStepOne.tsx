@@ -19,7 +19,7 @@ export function OnBoardingStepOne({ onNextStep }: Props) {
     <>
       <div className="index-column-section">
         <div>
-          <AlphaIcon />
+          <AlphaIcon variant="primary" />
         </div>
         <div className="index-alphaText">
           <p>
