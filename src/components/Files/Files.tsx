@@ -1,154 +1,284 @@
-import { Download, FilesIcon, ReceiptText, Star } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { FilesIcon, Folder, Plus, X } from "lucide-react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { PrettyBytes } from "../../utils/bytes";
 import { Dates } from "../../utils/dates";
 import "./Files.css";
-import { ICON_SIZE, SIDE_DURATION } from "../../utils/constants";
 import {
-  ButtonIcon,
-  EmptyPlaceholder,
-  WebFileIcon,
   Tabs,
+  Input,
+  Button,
+  TabProps,
+  Table,
+  Row,
+  Cell,
+  TabSortState,
 } from "@codex-storage/marketplace-ui-components";
 import { FileDetails } from "./FileDetails.tsx";
-import { FavoriteStorage } from "../../utils/favorite-storage.tsx";
 import { useData } from "../../hooks/useData.tsx";
+import { WebStorage } from "../../utils/web-storage.ts";
+import { classnames } from "../../utils/classnames.ts";
+import { CodexDataContent } from "@codex-storage/sdk-js";
+import { Files as F } from "../../utils/files.ts";
+import { FilterFilters } from "./FileFilters.tsx";
+import { FileCell } from "./FileCell.tsx";
+import { FileActions } from "./FileActions.tsx";
 
-type StarIconProps = {
-  isFavorite: boolean;
-};
-
-function StarIcon({ isFavorite }: StarIconProps) {
-  if (isFavorite) {
-    return (
-      <Star size={ICON_SIZE} className="files-fileFavorite files-fileStar" />
-    );
-  }
-
-  return <Star size={ICON_SIZE} className="files-star" />;
-}
+type SortFn = (a: CodexDataContent, b: CodexDataContent) => number;
 
 export function Files() {
   const files = useData();
-  const cid = useRef<string | null>("");
-  const [expanded, setExpanded] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
+  const [folder, setFolder] = useState("");
+  const [folders, setFolders] = useState<[string, string[]][]>([]);
+  const [error, setError] = useState("");
+  const [details, setDetails] = useState<CodexDataContent | null>(null);
+  const [sortFn, setSortFn] = useState<SortFn | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   useEffect(() => {
-    FavoriteStorage.list().then((cids) => setFavorites(cids));
+    WebStorage.folders.list().then((items) => setFolders(items));
   }, []);
 
-  const onClose = () => {
-    setExpanded(false);
+  const onClose = () => setDetails(null);
 
-    setTimeout(() => {
-      cid.current = "";
-    }, SIDE_DURATION);
-  };
+  const onTabChange = async (i: number) => setIndex(i);
 
-  const onTabChange = (i: number) => setIndex(i);
+  const onDetails = (cid: string) => {
+    const d = files.find((file) => file.cid === cid);
 
-  const onDetails = (id: string) => {
-    cid.current = id;
-    setExpanded(true);
-  };
-
-  const onToggleFavorite = (cid: string) => {
-    if (favorites.includes(cid)) {
-      FavoriteStorage.delete(cid);
-      setFavorites(favorites.filter((c) => c !== cid));
-    } else {
-      FavoriteStorage.add(cid);
-      setFavorites([...favorites, cid]);
+    if (d) {
+      setDetails(d);
     }
   };
 
-  const items = [];
+  const onFolderChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value;
+    setFolder(val);
+    setError("");
 
-  if (index === 1) {
-    items.push(...files.filter((f) => favorites.includes(f.cid)));
-  } else {
-    items.push(...files);
-  }
+    if (!val) {
+      return;
+    }
 
-  const details = items.find((c) => c.cid === cid.current);
+    if (e.currentTarget.checkValidity()) {
+      if (folders.length >= 5) {
+        setError("5 folders limit reached");
+        return;
+      }
 
-  const url = import.meta.env.VITE_CODEX_API_URL + "/api/codex/v1/data/";
+      if (folders.find(([folder]) => folder === val)) {
+        setError("This folder already exists");
+        return;
+      }
+    } else {
+      setError("9 alpha characters maximum");
+    }
+  };
+
+  const onFolderCreate = () => {
+    WebStorage.folders.create(folder);
+
+    setFolder("");
+    setFolders([...folders, [folder, []]]);
+  };
+
+  const onFolderDelete = (val: string) => {
+    WebStorage.folders.delete(val);
+
+    const currentIndex = folders.findIndex(([name]) => name === val);
+
+    if (currentIndex + 1 == index) {
+      setIndex(index - 1);
+    }
+
+    setFolders(folders.filter(([name]) => name !== val));
+  };
+
+  const onFolderToggle = (cid: string, folder: string) => {
+    const current = folders.find(([name]) => name === folder);
+
+    if (!current) {
+      return;
+    }
+
+    const [, files] = current;
+
+    if (files.includes(cid)) {
+      WebStorage.folders.deleteFile(folder, cid);
+
+      setFolders(
+        folders.map(([name, files]) =>
+          name === folder
+            ? [name, files.filter((id) => id !== cid)]
+            : [name, files]
+        )
+      );
+    } else {
+      WebStorage.folders.addFile(folder, cid);
+
+      setFolders(
+        folders.map(([name, files]) =>
+          name === folder ? [name, [...files, cid]] : [name, files]
+        )
+      );
+    }
+  };
+
+  const tabs: TabProps[] = folders.map(([folder]) => ({
+    label: folder,
+    Icon: () => <Folder size={"1rem"}></Folder>,
+    IconAfter:
+      folder === "Favorites"
+        ? undefined
+        : () => (
+            <X
+              size={"1rem"}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                onFolderDelete(folder);
+              }}></X>
+          ),
+  }));
+
+  const onSortByFilename = (state: TabSortState) => {
+    if (!state) {
+      setSortFn(null);
+      return;
+    }
+
+    setSortFn(
+      () => (a: CodexDataContent, b: CodexDataContent) =>
+        state === "desc"
+          ? b.manifest.filename
+              .toLocaleLowerCase()
+              .localeCompare(a.manifest.filename.toLocaleLowerCase())
+          : a.manifest.filename
+              .toLocaleLowerCase()
+              .localeCompare(b.manifest.filename.toLocaleLowerCase())
+    );
+  };
+
+  const onSortBySize = (state: TabSortState) => {
+    if (!state) {
+      setSortFn(null);
+      return;
+    }
+
+    setSortFn(
+      () => (a: CodexDataContent, b: CodexDataContent) =>
+        state === "desc"
+          ? b.manifest.datasetSize - a.manifest.datasetSize
+          : a.manifest.datasetSize - b.manifest.datasetSize
+    );
+  };
+
+  const onSortByDate = (state: TabSortState) => {
+    if (!state) {
+      setSortFn(null);
+      return;
+    }
+
+    setSortFn(
+      () => (a: CodexDataContent, b: CodexDataContent) =>
+        state === "desc"
+          ? new Date(b.manifest.uploadedAt).getTime() -
+            new Date(a.manifest.uploadedAt).getTime()
+          : new Date(a.manifest.uploadedAt).getTime() -
+            new Date(b.manifest.uploadedAt).getTime()
+    );
+  };
+
+  const onToggleFilter = (filter: string) =>
+    selectedFilters.includes(filter)
+      ? setSelectedFilters(selectedFilters.filter((f) => f !== filter))
+      : setSelectedFilters([...selectedFilters, filter]);
+
+  tabs.unshift({
+    label: "All files",
+    Icon: () => <FilesIcon size={"1rem"}></FilesIcon>,
+  });
+
+  const items =
+    index === 0
+      ? files
+      : files.filter((file) => folders[index - 1][1].includes(file.cid));
+
+  const headers = [
+    ["file", onSortByFilename],
+    ["size", onSortBySize],
+    ["date", onSortByDate],
+    ["actions"],
+  ] satisfies [string, ((state: TabSortState) => void)?][];
+
+  const filtered = items.filter(
+    (item) =>
+      selectedFilters.length === 0 ||
+      selectedFilters.includes(F.type(item.manifest.mimetype)) ||
+      (selectedFilters.includes("archive") &&
+        F.isArchive(item.manifest.mimetype))
+  );
+
+  const sorted = sortFn ? [...filtered].sort(sortFn) : filtered;
+  const rows =
+    sorted.map((c) => (
+      <Row
+        cells={[
+          <FileCell content={c}></FileCell>,
+          <Cell>{PrettyBytes(c.manifest.datasetSize)}</Cell>,
+          <Cell>{Dates.format(c.manifest.uploadedAt).toString()}</Cell>,
+          <FileActions
+            content={c}
+            folders={folders}
+            onDetails={onDetails}
+            onFolderToggle={onFolderToggle}></FileActions>,
+        ]}></Row>
+    )) || [];
 
   return (
     <div className="files">
       <div className="files-header">
-        <div className="files-title">Files</div>
-        <Tabs
-          onTabChange={onTabChange}
-          tabIndex={index}
-          tabs={[
-            {
-              label: "All files",
-              Icon: () => <FilesIcon size={"1rem"}></FilesIcon>,
-            },
-            {
-              label: "Favorites",
-              Icon: () => <Star size={"1rem"}></Star>,
-            },
-          ]}></Tabs>
+        <div className="files-headerLeft">
+          <div className="files-title">Files</div>
+        </div>
+        <div className="files-headerRight">
+          <div>
+            <Input
+              id="folder"
+              inputClassName={classnames(["files-folders"])}
+              isInvalid={folder !== "" && !!error}
+              value={folder}
+              required={true}
+              pattern="[A-Za-z0-9_\-]*"
+              maxLength={9}
+              helper={error || "Enter the folder name"}
+              onChange={onFolderChange}></Input>
+          </div>
+
+          <Button
+            label="Folder"
+            Icon={Plus}
+            disabled={!!error || !folder}
+            onClick={onFolderCreate}></Button>
+        </div>
+      </div>
+
+      <Tabs onTabChange={onTabChange} tabIndex={index} tabs={tabs}></Tabs>
+
+      <div className="files-filters">
+        <FilterFilters
+          files={files}
+          onFilterToggle={onToggleFilter}
+          selected={selectedFilters}
+        />
       </div>
 
       <div className="files-fileBody">
-        {items.length ? (
-          items.map((c) => (
-            <div className="files-file" key={c.cid}>
-              <div className="files-fileContent">
-                <div className="files-fileIcon">
-                  <WebFileIcon type={c.manifest.mimetype} />
-                </div>
-                <div className="files-fileData">
-                  <div>
-                    <b>{c.manifest.filename}</b>
-                    <div>
-                      <small className="files-fileMeta">
-                        {PrettyBytes(c.manifest.datasetSize)} -{" "}
-                        {Dates.format(c.manifest.uploadedAt).toString()} - ...
-                        {c.cid.slice(-5)}
-                      </small>
-                    </div>
-                  </div>
-                  <div className="files-fileActions">
-                    <ButtonIcon
-                      variant="small"
-                      onClick={() => window.open(url + c.cid, "_blank")}
-                      Icon={() => <Download size={ICON_SIZE} />}></ButtonIcon>
-
-                    <ButtonIcon
-                      variant="small"
-                      onClick={() => onToggleFavorite(c.cid)}
-                      Icon={() => (
-                        <StarIcon isFavorite={favorites.includes(c.cid)} />
-                      )}></ButtonIcon>
-
-                    <ButtonIcon
-                      variant="small"
-                      onClick={() => onDetails(c.cid)}
-                      Icon={() => (
-                        <ReceiptText size={ICON_SIZE} />
-                      )}></ButtonIcon>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="files-placeholder">
-            <EmptyPlaceholder
-              title="Nothing to show"
-              message="No data here yet. Start to upload files to see data here."
-            />
-          </div>
-        )}
+        <Table headers={headers} rows={rows} defaultSortIndex={2} />
       </div>
 
-      <FileDetails onClose={onClose} details={details} expanded={expanded} />
+      <FileDetails onClose={onClose} details={details} />
     </div>
   );
 }
