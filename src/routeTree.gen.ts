@@ -22,7 +22,6 @@ import { Route as DashboardWalletImport } from './routes/dashboard/wallet'
 import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
 import { Route as DashboardRequestsImport } from './routes/dashboard/requests'
 import { Route as DashboardPurchasesImport } from './routes/dashboard/purchases'
-import { Route as DashboardPeersImport } from './routes/dashboard/peers'
 import { Route as DashboardNodesImport } from './routes/dashboard/nodes'
 import { Route as DashboardLogsImport } from './routes/dashboard/logs'
 import { Route as DashboardHelpImport } from './routes/dashboard/help'
@@ -30,7 +29,6 @@ import { Route as DashboardFilesImport } from './routes/dashboard/files'
 import { Route as DashboardFavoritesImport } from './routes/dashboard/favorites'
 import { Route as DashboardDisclaimerImport } from './routes/dashboard/disclaimer'
 import { Route as DashboardDeviceImport } from './routes/dashboard/device'
-import { Route as DashboardAvailabilitiesImport } from './routes/dashboard/availabilities'
 import { Route as DashboardAnalyticsImport } from './routes/dashboard/analytics'
 import { Route as DashboardAboutImport } from './routes/dashboard/about'
 
@@ -73,11 +71,6 @@ const DashboardIndexRoute = DashboardIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardWalletRoute = DashboardWalletImport.update({
-  id: '/wallet',
-  path: '/wallet',
-  getParentRoute: () => DashboardRoute,
-} as any)
 const DashboardPeersLazyRoute = DashboardPeersLazyImport.update({
   id: '/peers',
   path: '/peers',
@@ -95,6 +88,12 @@ const DashboardAvailabilitiesLazyRoute =
     import('./routes/dashboard/availabilities.lazy').then((d) => d.Route),
   )
 
+const DashboardWalletRoute = DashboardWalletImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 const DashboardSettingsRoute = DashboardSettingsImport.update({
   id: '/settings',
   path: '/settings',
@@ -110,12 +109,6 @@ const DashboardRequestsRoute = DashboardRequestsImport.update({
 const DashboardPurchasesRoute = DashboardPurchasesImport.update({
   id: '/purchases',
   path: '/purchases',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardPeersRoute = DashboardPeersImport.update({
-  id: '/peers',
-  path: '/peers',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -158,12 +151,6 @@ const DashboardDisclaimerRoute = DashboardDisclaimerImport.update({
 const DashboardDeviceRoute = DashboardDeviceImport.update({
   id: '/device',
   path: '/device',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardAvailabilitiesRoute = DashboardAvailabilitiesImport.update({
-  id: '/availabilities',
-  path: '/availabilities',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -225,13 +212,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAnalyticsImport
       parentRoute: typeof DashboardImport
     }
-    '/dashboard/availabilities': {
-      id: '/dashboard/availabilities'
-      path: '/availabilities'
-      fullPath: '/dashboard/availabilities'
-      preLoaderRoute: typeof DashboardAvailabilitiesImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/device': {
       id: '/dashboard/device'
       path: '/device'
@@ -281,13 +261,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardNodesImport
       parentRoute: typeof DashboardImport
     }
-    '/dashboard/peers': {
-      id: '/dashboard/peers'
-      path: '/peers'
-      fullPath: '/dashboard/peers'
-      preLoaderRoute: typeof DashboardPeersImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/purchases': {
       id: '/dashboard/purchases'
       path: '/purchases'
@@ -314,178 +287,154 @@ declare module '@tanstack/react-router' {
       path: '/wallet'
       fullPath: '/dashboard/wallet'
       preLoaderRoute: typeof DashboardWalletImport
-      '/dashboard/availabilities': {
-        id: '/dashboard/availabilities'
-        path: '/availabilities'
-        fullPath: '/dashboard/availabilities'
-        preLoaderRoute: typeof DashboardAvailabilitiesLazyImport
-        parentRoute: typeof DashboardImport
-      }
-      '/dashboard/peers': {
-        id: '/dashboard/peers'
-        path: '/peers'
-        fullPath: '/dashboard/peers'
-        preLoaderRoute: typeof DashboardPeersLazyImport
-        parentRoute: typeof DashboardImport
-      }
-      '/dashboard/': {
-        id: '/dashboard/'
-        path: '/'
-        fullPath: '/dashboard/'
-        preLoaderRoute: typeof DashboardIndexImport
-        parentRoute: typeof DashboardImport
-      }
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/availabilities': {
+      id: '/dashboard/availabilities'
+      path: '/availabilities'
+      fullPath: '/dashboard/availabilities'
+      preLoaderRoute: typeof DashboardAvailabilitiesLazyImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/peers': {
+      id: '/dashboard/peers'
+      path: '/peers'
+      fullPath: '/dashboard/peers'
+      preLoaderRoute: typeof DashboardPeersLazyImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof DashboardImport
     }
   }
+}
 
-  // Create and export the route tree
+// Create and export the route tree
 
-  interface DashboardRouteChildren {
-    DashboardAboutRoute: typeof DashboardAboutRoute
-    DashboardAnalyticsRoute: typeof DashboardAnalyticsRoute
-    DashboardAvailabilitiesRoute: typeof DashboardAvailabilitiesRoute
-    DashboardDeviceRoute: typeof DashboardDeviceRoute
-    DashboardDisclaimerRoute: typeof DashboardDisclaimerRoute
-    DashboardFavoritesRoute: typeof DashboardFavoritesRoute
-    DashboardFilesRoute: typeof DashboardFilesRoute
-    DashboardHelpRoute: typeof DashboardHelpRoute
-    DashboardLogsRoute: typeof DashboardLogsRoute
-    DashboardNodesRoute: typeof DashboardNodesRoute
-    DashboardPeersRoute: typeof DashboardPeersRoute
-    DashboardPurchasesRoute: typeof DashboardPurchasesRoute
-    DashboardRequestsRoute: typeof DashboardRequestsRoute
-    DashboardSettingsRoute: typeof DashboardSettingsRoute
-    DashboardWalletRoute: typeof DashboardWalletRoute
-    DashboardPurchasesRoute: typeof DashboardPurchasesRoute
-    DashboardRequestsRoute: typeof DashboardRequestsRoute
-    DashboardSettingsRoute: typeof DashboardSettingsRoute
-    DashboardAvailabilitiesLazyRoute: typeof DashboardAvailabilitiesLazyRoute
-    DashboardPeersLazyRoute: typeof DashboardPeersLazyRoute
-    DashboardIndexRoute: typeof DashboardIndexRoute
-  }
+interface DashboardRouteChildren {
+  DashboardAboutRoute: typeof DashboardAboutRoute
+  DashboardAnalyticsRoute: typeof DashboardAnalyticsRoute
+  DashboardDeviceRoute: typeof DashboardDeviceRoute
+  DashboardDisclaimerRoute: typeof DashboardDisclaimerRoute
+  DashboardFavoritesRoute: typeof DashboardFavoritesRoute
+  DashboardFilesRoute: typeof DashboardFilesRoute
+  DashboardHelpRoute: typeof DashboardHelpRoute
+  DashboardLogsRoute: typeof DashboardLogsRoute
+  DashboardNodesRoute: typeof DashboardNodesRoute
+  DashboardPurchasesRoute: typeof DashboardPurchasesRoute
+  DashboardRequestsRoute: typeof DashboardRequestsRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardWalletRoute: typeof DashboardWalletRoute
+  DashboardAvailabilitiesLazyRoute: typeof DashboardAvailabilitiesLazyRoute
+  DashboardPeersLazyRoute: typeof DashboardPeersLazyRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
 
-  const DashboardRouteChildren: DashboardRouteChildren = {
-    DashboardAboutRoute: DashboardAboutRoute,
-    DashboardAnalyticsRoute: DashboardAnalyticsRoute,
-    DashboardAvailabilitiesRoute: DashboardAvailabilitiesRoute,
-    DashboardDeviceRoute: DashboardDeviceRoute,
-    DashboardDisclaimerRoute: DashboardDisclaimerRoute,
-    DashboardFavoritesRoute: DashboardFavoritesRoute,
-    DashboardFilesRoute: DashboardFilesRoute,
-    DashboardHelpRoute: DashboardHelpRoute,
-    DashboardLogsRoute: DashboardLogsRoute,
-    DashboardNodesRoute: DashboardNodesRoute,
-    DashboardPeersRoute: DashboardPeersRoute,
-    DashboardPurchasesRoute: DashboardPurchasesRoute,
-    DashboardRequestsRoute: DashboardRequestsRoute,
-    DashboardSettingsRoute: DashboardSettingsRoute,
-    DashboardWalletRoute: DashboardWalletRoute,
-    DashboardPurchasesRoute: DashboardPurchasesRoute,
-    DashboardRequestsRoute: DashboardRequestsRoute,
-    DashboardSettingsRoute: DashboardSettingsRoute,
-    DashboardAvailabilitiesLazyRoute: DashboardAvailabilitiesLazyRoute,
-    DashboardPeersLazyRoute: DashboardPeersLazyRoute,
-    DashboardIndexRoute: DashboardIndexRoute,
-  }
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAboutRoute: DashboardAboutRoute,
+  DashboardAnalyticsRoute: DashboardAnalyticsRoute,
+  DashboardDeviceRoute: DashboardDeviceRoute,
+  DashboardDisclaimerRoute: DashboardDisclaimerRoute,
+  DashboardFavoritesRoute: DashboardFavoritesRoute,
+  DashboardFilesRoute: DashboardFilesRoute,
+  DashboardHelpRoute: DashboardHelpRoute,
+  DashboardLogsRoute: DashboardLogsRoute,
+  DashboardNodesRoute: DashboardNodesRoute,
+  DashboardPurchasesRoute: DashboardPurchasesRoute,
+  DashboardRequestsRoute: DashboardRequestsRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardWalletRoute: DashboardWalletRoute,
+  DashboardAvailabilitiesLazyRoute: DashboardAvailabilitiesLazyRoute,
+  DashboardPeersLazyRoute: DashboardPeersLazyRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
 
-  const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-    DashboardRouteChildren,
-  )
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
 
-  export interface FileRoutesByFullPath {
-    '/': typeof IndexRoute
-    '/dashboard': typeof DashboardRouteWithChildren
-    '/onboarding-checks': typeof OnboardingChecksRoute
-    '/onboarding-name': typeof OnboardingNameRoute
-    '/dashboard/about': typeof DashboardAboutRoute
-    '/dashboard/analytics': typeof DashboardAnalyticsRoute
-    '/dashboard/availabilities': typeof DashboardAvailabilitiesRoute
-    '/dashboard/device': typeof DashboardDeviceRoute
-    '/dashboard/disclaimer': typeof DashboardDisclaimerRoute
-    '/dashboard/favorites': typeof DashboardFavoritesRoute
-    '/dashboard/files': typeof DashboardFilesRoute
-    '/dashboard/help': typeof DashboardHelpRoute
-    '/dashboard/logs': typeof DashboardLogsRoute
-    '/dashboard/nodes': typeof DashboardNodesRoute
-    '/dashboard/peers': typeof DashboardPeersRoute
-    '/dashboard/purchases': typeof DashboardPurchasesRoute
-    '/dashboard/requests': typeof DashboardRequestsRoute
-    '/dashboard/settings': typeof DashboardSettingsRoute
-    '/dashboard/wallet': typeof DashboardWalletRoute
-    '/dashboard/purchases': typeof DashboardPurchasesRoute
-    '/dashboard/requests': typeof DashboardRequestsRoute
-    '/dashboard/settings': typeof DashboardSettingsRoute
-    '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
-    '/dashboard/peers': typeof DashboardPeersLazyRoute
-    '/dashboard/': typeof DashboardIndexRoute
-  }
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/onboarding-checks': typeof OnboardingChecksRoute
+  '/onboarding-name': typeof OnboardingNameRoute
+  '/dashboard/about': typeof DashboardAboutRoute
+  '/dashboard/analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/device': typeof DashboardDeviceRoute
+  '/dashboard/disclaimer': typeof DashboardDisclaimerRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/files': typeof DashboardFilesRoute
+  '/dashboard/help': typeof DashboardHelpRoute
+  '/dashboard/logs': typeof DashboardLogsRoute
+  '/dashboard/nodes': typeof DashboardNodesRoute
+  '/dashboard/purchases': typeof DashboardPurchasesRoute
+  '/dashboard/requests': typeof DashboardRequestsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallet': typeof DashboardWalletRoute
+  '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
+  '/dashboard/peers': typeof DashboardPeersLazyRoute
+  '/dashboard/': typeof DashboardIndexRoute
+}
 
-  export interface FileRoutesByTo {
-    '/': typeof IndexRoute
-    '/onboarding-checks': typeof OnboardingChecksRoute
-    '/onboarding-name': typeof OnboardingNameRoute
-    '/dashboard/about': typeof DashboardAboutRoute
-    '/dashboard/analytics': typeof DashboardAnalyticsRoute
-    '/dashboard/availabilities': typeof DashboardAvailabilitiesRoute
-    '/dashboard/device': typeof DashboardDeviceRoute
-    '/dashboard/disclaimer': typeof DashboardDisclaimerRoute
-    '/dashboard/favorites': typeof DashboardFavoritesRoute
-    '/dashboard/files': typeof DashboardFilesRoute
-    '/dashboard/help': typeof DashboardHelpRoute
-    '/dashboard/logs': typeof DashboardLogsRoute
-    '/dashboard/nodes': typeof DashboardNodesRoute
-    '/dashboard/peers': typeof DashboardPeersRoute
-    '/dashboard/purchases': typeof DashboardPurchasesRoute
-    '/dashboard/requests': typeof DashboardRequestsRoute
-    '/dashboard/settings': typeof DashboardSettingsRoute
-    '/dashboard/wallet': typeof DashboardWalletRoute
-    '/dashboard/purchases': typeof DashboardPurchasesRoute
-    '/dashboard/requests': typeof DashboardRequestsRoute
-    '/dashboard/settings': typeof DashboardSettingsRoute
-    '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
-    '/dashboard/peers': typeof DashboardPeersLazyRoute
-    '/dashboard': typeof DashboardIndexRoute
-  }
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/onboarding-checks': typeof OnboardingChecksRoute
+  '/onboarding-name': typeof OnboardingNameRoute
+  '/dashboard/about': typeof DashboardAboutRoute
+  '/dashboard/analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/device': typeof DashboardDeviceRoute
+  '/dashboard/disclaimer': typeof DashboardDisclaimerRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/files': typeof DashboardFilesRoute
+  '/dashboard/help': typeof DashboardHelpRoute
+  '/dashboard/logs': typeof DashboardLogsRoute
+  '/dashboard/nodes': typeof DashboardNodesRoute
+  '/dashboard/purchases': typeof DashboardPurchasesRoute
+  '/dashboard/requests': typeof DashboardRequestsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallet': typeof DashboardWalletRoute
+  '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
+  '/dashboard/peers': typeof DashboardPeersLazyRoute
+  '/dashboard': typeof DashboardIndexRoute
+}
 
-  export interface FileRoutesById {
-    __root__: typeof rootRoute
-    '/': typeof IndexRoute
-    '/dashboard': typeof DashboardRouteWithChildren
-    '/onboarding-checks': typeof OnboardingChecksRoute
-    '/onboarding-name': typeof OnboardingNameRoute
-    '/dashboard/about': typeof DashboardAboutRoute
-    '/dashboard/analytics': typeof DashboardAnalyticsRoute
-    '/dashboard/availabilities': typeof DashboardAvailabilitiesRoute
-    '/dashboard/device': typeof DashboardDeviceRoute
-    '/dashboard/disclaimer': typeof DashboardDisclaimerRoute
-    '/dashboard/favorites': typeof DashboardFavoritesRoute
-    '/dashboard/files': typeof DashboardFilesRoute
-    '/dashboard/help': typeof DashboardHelpRoute
-    '/dashboard/logs': typeof DashboardLogsRoute
-    '/dashboard/nodes': typeof DashboardNodesRoute
-    '/dashboard/peers': typeof DashboardPeersRoute
-    '/dashboard/purchases': typeof DashboardPurchasesRoute
-    '/dashboard/requests': typeof DashboardRequestsRoute
-    '/dashboard/settings': typeof DashboardSettingsRoute
-    '/dashboard/wallet': typeof DashboardWalletRoute
-    '/dashboard/purchases': typeof DashboardPurchasesRoute
-    '/dashboard/requests': typeof DashboardRequestsRoute
-    '/dashboard/settings': typeof DashboardSettingsRoute
-    '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
-    '/dashboard/peers': typeof DashboardPeersLazyRoute
-    '/dashboard/': typeof DashboardIndexRoute
-  }
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/onboarding-checks': typeof OnboardingChecksRoute
+  '/onboarding-name': typeof OnboardingNameRoute
+  '/dashboard/about': typeof DashboardAboutRoute
+  '/dashboard/analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/device': typeof DashboardDeviceRoute
+  '/dashboard/disclaimer': typeof DashboardDisclaimerRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/files': typeof DashboardFilesRoute
+  '/dashboard/help': typeof DashboardHelpRoute
+  '/dashboard/logs': typeof DashboardLogsRoute
+  '/dashboard/nodes': typeof DashboardNodesRoute
+  '/dashboard/purchases': typeof DashboardPurchasesRoute
+  '/dashboard/requests': typeof DashboardRequestsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallet': typeof DashboardWalletRoute
+  '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
+  '/dashboard/peers': typeof DashboardPeersLazyRoute
+  '/dashboard/': typeof DashboardIndexRoute
+}
 
-  export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath
-    fullPaths:
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
     | '/'
     | '/dashboard'
     | '/onboarding-checks'
     | '/onboarding-name'
     | '/dashboard/about'
     | '/dashboard/analytics'
-    | '/dashboard/availabilities'
     | '/dashboard/device'
     | '/dashboard/disclaimer'
     | '/dashboard/favorites'
@@ -493,25 +442,20 @@ declare module '@tanstack/react-router' {
     | '/dashboard/help'
     | '/dashboard/logs'
     | '/dashboard/nodes'
-    | '/dashboard/peers'
     | '/dashboard/purchases'
     | '/dashboard/requests'
     | '/dashboard/settings'
     | '/dashboard/wallet'
-    | '/dashboard/purchases'
-    | '/dashboard/requests'
-    | '/dashboard/settings'
     | '/dashboard/availabilities'
     | '/dashboard/peers'
     | '/dashboard/'
-    fileRoutesByTo: FileRoutesByTo
-    to:
+  fileRoutesByTo: FileRoutesByTo
+  to:
     | '/'
     | '/onboarding-checks'
     | '/onboarding-name'
     | '/dashboard/about'
     | '/dashboard/analytics'
-    | '/dashboard/availabilities'
     | '/dashboard/device'
     | '/dashboard/disclaimer'
     | '/dashboard/favorites'
@@ -519,18 +463,14 @@ declare module '@tanstack/react-router' {
     | '/dashboard/help'
     | '/dashboard/logs'
     | '/dashboard/nodes'
-    | '/dashboard/peers'
     | '/dashboard/purchases'
     | '/dashboard/requests'
     | '/dashboard/settings'
     | '/dashboard/wallet'
-    | '/dashboard/purchases'
-    | '/dashboard/requests'
-    | '/dashboard/settings'
     | '/dashboard/availabilities'
     | '/dashboard/peers'
     | '/dashboard'
-    id:
+  id:
     | '__root__'
     | '/'
     | '/dashboard'
@@ -538,7 +478,6 @@ declare module '@tanstack/react-router' {
     | '/onboarding-name'
     | '/dashboard/about'
     | '/dashboard/analytics'
-    | '/dashboard/availabilities'
     | '/dashboard/device'
     | '/dashboard/disclaimer'
     | '/dashboard/favorites'
@@ -546,37 +485,33 @@ declare module '@tanstack/react-router' {
     | '/dashboard/help'
     | '/dashboard/logs'
     | '/dashboard/nodes'
-    | '/dashboard/peers'
     | '/dashboard/purchases'
     | '/dashboard/requests'
     | '/dashboard/settings'
     | '/dashboard/wallet'
-    | '/dashboard/purchases'
-    | '/dashboard/requests'
-    | '/dashboard/settings'
     | '/dashboard/availabilities'
     | '/dashboard/peers'
     | '/dashboard/'
-    fileRoutesById: FileRoutesById
-  }
+  fileRoutesById: FileRoutesById
+}
 
-  export interface RootRouteChildren {
-    IndexRoute: typeof IndexRoute
-    DashboardRoute: typeof DashboardRouteWithChildren
-    OnboardingChecksRoute: typeof OnboardingChecksRoute
-    OnboardingNameRoute: typeof OnboardingNameRoute
-  }
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  OnboardingChecksRoute: typeof OnboardingChecksRoute
+  OnboardingNameRoute: typeof OnboardingNameRoute
+}
 
-  const rootRouteChildren: RootRouteChildren = {
-    IndexRoute: IndexRoute,
-    DashboardRoute: DashboardRouteWithChildren,
-    OnboardingChecksRoute: OnboardingChecksRoute,
-    OnboardingNameRoute: OnboardingNameRoute,
-  }
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  OnboardingChecksRoute: OnboardingChecksRoute,
+  OnboardingNameRoute: OnboardingNameRoute,
+}
 
-  export const routeTree = rootRoute
-    ._addFileChildren(rootRouteChildren)
-    ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
@@ -600,7 +535,6 @@ declare module '@tanstack/react-router' {
       "children": [
         "/dashboard/about",
         "/dashboard/analytics",
-        "/dashboard/availabilities",
         "/dashboard/device",
         "/dashboard/disclaimer",
         "/dashboard/favorites",
@@ -608,14 +542,10 @@ declare module '@tanstack/react-router' {
         "/dashboard/help",
         "/dashboard/logs",
         "/dashboard/nodes",
-        "/dashboard/peers",
         "/dashboard/purchases",
         "/dashboard/requests",
         "/dashboard/settings",
         "/dashboard/wallet",
-        "/dashboard/purchases",
-        "/dashboard/requests",
-        "/dashboard/settings",
         "/dashboard/availabilities",
         "/dashboard/peers",
         "/dashboard/"
@@ -633,10 +563,6 @@ declare module '@tanstack/react-router' {
     },
     "/dashboard/analytics": {
       "filePath": "dashboard/analytics.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/availabilities": {
-      "filePath": "dashboard/availabilities.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/device": {
@@ -667,10 +593,6 @@ declare module '@tanstack/react-router' {
       "filePath": "dashboard/nodes.tsx",
       "parent": "/dashboard"
     },
-    "/dashboard/peers": {
-      "filePath": "dashboard/peers.tsx",
-      "parent": "/dashboard"
-    },
     "/dashboard/purchases": {
       "filePath": "dashboard/purchases.tsx",
       "parent": "/dashboard"
@@ -685,6 +607,8 @@ declare module '@tanstack/react-router' {
     },
     "/dashboard/wallet": {
       "filePath": "dashboard/wallet.tsx",
+      "parent": "/dashboard"
+    },
     "/dashboard/availabilities": {
       "filePath": "dashboard/availabilities.lazy.tsx",
       "parent": "/dashboard"
