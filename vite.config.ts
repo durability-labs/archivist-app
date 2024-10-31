@@ -12,6 +12,11 @@ export default defineConfig({
   build: {
     sourcemap: true,
     rollupOptions: {
+      output: {
+        manualChunks: {
+          "@sentry/react": ["@sentry/react"],
+        }
+      },
       onwarn(warning, defaultHandler) {
         if (warning.code === "SOURCEMAP_ERROR") {
           return;

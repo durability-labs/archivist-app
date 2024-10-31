@@ -1,5 +1,4 @@
 import { Cell, Row, Table } from "@codex-storage/marketplace-ui-components";
-import { createFileRoute } from "@tanstack/react-router";
 import { getMapJSON } from "dotted-map";
 import DottedMap from "dotted-map/without-countries";
 import { Promises } from "../../utils/promises";
@@ -14,6 +13,7 @@ import { ErrorPlaceholder } from "../../components/ErrorPlaceholder/ErrorPlaceho
 import { PeersIcon } from "../../components/Menu/PeersIcon";
 import { SuccessCheckIcon } from "../../components/SuccessCheckIcon/SuccessCheckIcon";
 import { ErrorCircleIcon } from "../../components/ErrorCircleIcon/ErrorCircleIcon";
+import { createLazyFileRoute } from "@tanstack/react-router";
 
 // This function accepts the same arguments as DottedMap in the example above.
 const mapJsonString = getMapJSON({ height: 60, grid: "diagonal" });
@@ -139,7 +139,7 @@ const Peers = () => {
   );
 };
 
-export const Route = createFileRoute("/dashboard/peers")({
+export const Route = createLazyFileRoute("/dashboard/peers")({
   component: () => (
     <ErrorBoundary
       fallback={({ error }) => (
