@@ -2,9 +2,11 @@ name: Unit Tests
 
 on:
   push:
-    branches: *
+    branches:
+      - "**"
   pull_request:
-    branches: *
+    branches:
+      - "**"
   workflow_dispatch:
 
 env:
@@ -16,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
-        run: sudo apt update 
+        run: sudo apt update
 
       - uses: actions/checkout@v4
 
