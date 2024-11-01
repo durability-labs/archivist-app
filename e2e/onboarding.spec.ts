@@ -15,8 +15,8 @@ test('onboarding steps', async ({ page }) => {
   await expect(page.locator(".health-checks ul li").nth(1).getByTestId("icon-success")).toBeVisible()
 
   // Port forwarding
-  await expect(page.locator(".health-checks ul li").nth(2).getByTestId("icon-error")).toBeVisible()
-  await expect(page.locator(".health-checks ul li").nth(2).getByTestId("icon-success")).not.toBeVisible()
+  await expect(page.locator(".health-checks ul li").nth(2).getByTestId("icon-error")).not.toBeVisible()
+  await expect(page.locator(".health-checks ul li").nth(2).getByTestId("icon-success")).toBeVisible()
 
   // Codex node
   await expect(page.locator(".health-checks ul li").nth(3).getByTestId("icon-error")).not.toBeVisible()

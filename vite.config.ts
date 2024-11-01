@@ -34,6 +34,7 @@ export default defineConfig({
     alias: {
       "../sdk/codex": "../proxy",
       "../../sdk/codex": "../../proxy",
+      "./port-forwarding.util": "../proxy",
     },
   },
 });

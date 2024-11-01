@@ -1,13 +1,6 @@
 import { createStore, del, entries, get, set } from "idb-keyval";
 
 
-export type FileMetadata = {
-  mimetype: string;
-  uploadedAt: string;
-  name: string;
-};
-
-
 export const WebStorage = {
   set(key: string, value: unknown) {
     return set(key, value);
@@ -98,22 +91,6 @@ export const WebStorage = {
 
     async add(key: string, value: string) {
       return set(key, value, this.store);
-    },
-  },
-
-  files: {
-    store: createStore("files", "files"),
-
-    list() {
-      return entries<string, FileMetadata>(this.store);
-    },
-
-    async get(cid: string) {
-      return get<FileMetadata>(cid, this.store);
-    },
-
-    async set(cid: string, metadata: FileMetadata) {
-      return set(cid, metadata, this.store);
     },
   },
 
