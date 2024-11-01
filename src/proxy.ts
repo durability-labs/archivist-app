@@ -7,8 +7,7 @@ import {
   UploadResponse,
 } from "@codex-storage/sdk-js";
 import { CodexSdk as Sdk } from "./sdk/codex";
-import { FilesStorage } from "./utils/file-storage";
-import { PurchaseStorage } from "./utils/purchases-storage";
+import { WebStorage } from "./utils/web-storage";
 
 class CodexDataMock extends CodexData {
   override upload(
@@ -63,7 +62,7 @@ class CodexDataMock extends CodexData {
       abort,
       result: result.then((safe) => {
         if (!safe.error) {
-          return FilesStorage.set(safe.data, {
+          return WebStorage.files.set(safe.data, {
             mimetype: file.type,
             name: file.name,
             uploadedAt: new Date().toJSON(),
@@ -82,7 +81,7 @@ class CodexDataMock extends CodexData {
       return res;
     }
 
-    const metadata = await FilesStorage.list();
+    const metadata = await WebStorage.files.list();
 
     const content = res.data.content.map((content, index) => {
       if (content.manifest.filename) {
@@ -156,7 +155,7 @@ class CodexMarketplaceMock extends CodexMarketplace {
       return res
     }
 
-    await PurchaseStorage.set("0x" + res.data, input.cid)
+    await WebStorage.purchases.set("0x" + res.data, input.cid)
 
     // await PurchaseDatesStorage.set(res.data, new Date().toJSON())
 

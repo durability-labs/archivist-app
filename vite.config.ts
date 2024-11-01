@@ -17,6 +17,7 @@ export default defineConfig({
           "@sentry/react": ["@sentry/react"],
           "emoji-picker-react": ["emoji-picker-react"],
           "dotted-map": ["dotted-map"],
+          "echarts": ["echarts"],
         }
       },
       onwarn(warning, defaultHandler) {

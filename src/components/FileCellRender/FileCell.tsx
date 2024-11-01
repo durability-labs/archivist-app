@@ -5,8 +5,7 @@ import {
   WebFileIcon,
 } from "@codex-storage/marketplace-ui-components";
 import "./FileCell.css";
-import { FileMetadata, FilesStorage } from "../../utils/file-storage";
-import { PurchaseStorage } from "../../utils/purchases-storage";
+import { FileMetadata, WebStorage } from "../../utils/web-storage";
 
 type Props = {
   requestId: string;
@@ -23,11 +22,11 @@ export function FileCell({ requestId, purchaseCid }: Props) {
   });
 
   useEffect(() => {
-    PurchaseStorage.get(requestId).then((cid) => {
+    WebStorage.purchases.get(requestId).then((cid) => {
       if (cid) {
         setCid(cid);
 
-        FilesStorage.get<FileMetadata>(cid).then((data) => {
+        WebStorage.files.get(cid).then((data) => {
           if (data) {
             setMetadata(data);
           }
