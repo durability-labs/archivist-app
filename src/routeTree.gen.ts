@@ -22,6 +22,7 @@ import { Route as DashboardWalletImport } from './routes/dashboard/wallet'
 import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
 import { Route as DashboardRequestsImport } from './routes/dashboard/requests'
 import { Route as DashboardPurchasesImport } from './routes/dashboard/purchases'
+import { Route as DashboardPeersImport } from './routes/dashboard/peers'
 import { Route as DashboardNodesImport } from './routes/dashboard/nodes'
 import { Route as DashboardLogsImport } from './routes/dashboard/logs'
 import { Route as DashboardHelpImport } from './routes/dashboard/help'
@@ -34,7 +35,6 @@ import { Route as DashboardAboutImport } from './routes/dashboard/about'
 
 // Create Virtual Routes
 
-const DashboardPeersLazyImport = createFileRoute('/dashboard/peers')()
 const DashboardAvailabilitiesLazyImport = createFileRoute(
   '/dashboard/availabilities',
 )()
@@ -71,14 +71,6 @@ const DashboardIndexRoute = DashboardIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardPeersLazyRoute = DashboardPeersLazyImport.update({
-  id: '/peers',
-  path: '/peers',
-  getParentRoute: () => DashboardRoute,
-} as any).lazy(() =>
-  import('./routes/dashboard/peers.lazy').then((d) => d.Route),
-)
-
 const DashboardAvailabilitiesLazyRoute =
   DashboardAvailabilitiesLazyImport.update({
     id: '/availabilities',
@@ -109,6 +101,12 @@ const DashboardRequestsRoute = DashboardRequestsImport.update({
 const DashboardPurchasesRoute = DashboardPurchasesImport.update({
   id: '/purchases',
   path: '/purchases',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardPeersRoute = DashboardPeersImport.update({
+  id: '/peers',
+  path: '/peers',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -261,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardNodesImport
       parentRoute: typeof DashboardImport
     }
+    '/dashboard/peers': {
+      id: '/dashboard/peers'
+      path: '/peers'
+      fullPath: '/dashboard/peers'
+      preLoaderRoute: typeof DashboardPeersImport
+      parentRoute: typeof DashboardImport
+    }
     '/dashboard/purchases': {
       id: '/dashboard/purchases'
       path: '/purchases'
@@ -296,13 +301,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAvailabilitiesLazyImport
       parentRoute: typeof DashboardImport
     }
-    '/dashboard/peers': {
-      id: '/dashboard/peers'
-      path: '/peers'
-      fullPath: '/dashboard/peers'
-      preLoaderRoute: typeof DashboardPeersLazyImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -325,12 +323,12 @@ interface DashboardRouteChildren {
   DashboardHelpRoute: typeof DashboardHelpRoute
   DashboardLogsRoute: typeof DashboardLogsRoute
   DashboardNodesRoute: typeof DashboardNodesRoute
+  DashboardPeersRoute: typeof DashboardPeersRoute
   DashboardPurchasesRoute: typeof DashboardPurchasesRoute
   DashboardRequestsRoute: typeof DashboardRequestsRoute
   DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardWalletRoute: typeof DashboardWalletRoute
   DashboardAvailabilitiesLazyRoute: typeof DashboardAvailabilitiesLazyRoute
-  DashboardPeersLazyRoute: typeof DashboardPeersLazyRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
@@ -344,12 +342,12 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardHelpRoute: DashboardHelpRoute,
   DashboardLogsRoute: DashboardLogsRoute,
   DashboardNodesRoute: DashboardNodesRoute,
+  DashboardPeersRoute: DashboardPeersRoute,
   DashboardPurchasesRoute: DashboardPurchasesRoute,
   DashboardRequestsRoute: DashboardRequestsRoute,
   DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardWalletRoute: DashboardWalletRoute,
   DashboardAvailabilitiesLazyRoute: DashboardAvailabilitiesLazyRoute,
-  DashboardPeersLazyRoute: DashboardPeersLazyRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
@@ -371,12 +369,12 @@ export interface FileRoutesByFullPath {
   '/dashboard/help': typeof DashboardHelpRoute
   '/dashboard/logs': typeof DashboardLogsRoute
   '/dashboard/nodes': typeof DashboardNodesRoute
+  '/dashboard/peers': typeof DashboardPeersRoute
   '/dashboard/purchases': typeof DashboardPurchasesRoute
   '/dashboard/requests': typeof DashboardRequestsRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/wallet': typeof DashboardWalletRoute
   '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
-  '/dashboard/peers': typeof DashboardPeersLazyRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 
@@ -393,12 +391,12 @@ export interface FileRoutesByTo {
   '/dashboard/help': typeof DashboardHelpRoute
   '/dashboard/logs': typeof DashboardLogsRoute
   '/dashboard/nodes': typeof DashboardNodesRoute
+  '/dashboard/peers': typeof DashboardPeersRoute
   '/dashboard/purchases': typeof DashboardPurchasesRoute
   '/dashboard/requests': typeof DashboardRequestsRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/wallet': typeof DashboardWalletRoute
   '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
-  '/dashboard/peers': typeof DashboardPeersLazyRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 
@@ -417,12 +415,12 @@ export interface FileRoutesById {
   '/dashboard/help': typeof DashboardHelpRoute
   '/dashboard/logs': typeof DashboardLogsRoute
   '/dashboard/nodes': typeof DashboardNodesRoute
+  '/dashboard/peers': typeof DashboardPeersRoute
   '/dashboard/purchases': typeof DashboardPurchasesRoute
   '/dashboard/requests': typeof DashboardRequestsRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/wallet': typeof DashboardWalletRoute
   '/dashboard/availabilities': typeof DashboardAvailabilitiesLazyRoute
-  '/dashboard/peers': typeof DashboardPeersLazyRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 
@@ -442,12 +440,12 @@ export interface FileRouteTypes {
     | '/dashboard/help'
     | '/dashboard/logs'
     | '/dashboard/nodes'
+    | '/dashboard/peers'
     | '/dashboard/purchases'
     | '/dashboard/requests'
     | '/dashboard/settings'
     | '/dashboard/wallet'
     | '/dashboard/availabilities'
-    | '/dashboard/peers'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -463,12 +461,12 @@ export interface FileRouteTypes {
     | '/dashboard/help'
     | '/dashboard/logs'
     | '/dashboard/nodes'
+    | '/dashboard/peers'
     | '/dashboard/purchases'
     | '/dashboard/requests'
     | '/dashboard/settings'
     | '/dashboard/wallet'
     | '/dashboard/availabilities'
-    | '/dashboard/peers'
     | '/dashboard'
   id:
     | '__root__'
@@ -485,12 +483,12 @@ export interface FileRouteTypes {
     | '/dashboard/help'
     | '/dashboard/logs'
     | '/dashboard/nodes'
+    | '/dashboard/peers'
     | '/dashboard/purchases'
     | '/dashboard/requests'
     | '/dashboard/settings'
     | '/dashboard/wallet'
     | '/dashboard/availabilities'
-    | '/dashboard/peers'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -542,12 +540,12 @@ export const routeTree = rootRoute
         "/dashboard/help",
         "/dashboard/logs",
         "/dashboard/nodes",
+        "/dashboard/peers",
         "/dashboard/purchases",
         "/dashboard/requests",
         "/dashboard/settings",
         "/dashboard/wallet",
         "/dashboard/availabilities",
-        "/dashboard/peers",
         "/dashboard/"
       ]
     },
@@ -593,6 +591,10 @@ export const routeTree = rootRoute
       "filePath": "dashboard/nodes.tsx",
       "parent": "/dashboard"
     },
+    "/dashboard/peers": {
+      "filePath": "dashboard/peers.tsx",
+      "parent": "/dashboard"
+    },
     "/dashboard/purchases": {
       "filePath": "dashboard/purchases.tsx",
       "parent": "/dashboard"
@@ -611,10 +613,6 @@ export const routeTree = rootRoute
     },
     "/dashboard/availabilities": {
       "filePath": "dashboard/availabilities.lazy.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/peers": {
-      "filePath": "dashboard/peers.lazy.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/": {

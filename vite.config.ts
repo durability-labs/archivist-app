@@ -15,7 +15,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           "@sentry/react": ["@sentry/react"],
-          "emoji-picker-react": ["emoji-picker-react"]
+          "emoji-picker-react": ["emoji-picker-react"],
+          "dotted-map": ["dotted-map"],
         }
       },
       onwarn(warning, defaultHandler) {

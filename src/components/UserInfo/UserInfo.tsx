@@ -54,6 +54,8 @@ export function UserInfo({ onNameChange }: Props) {
                 "objects",
                 "symbols",
                 "flags",
+                // The type does not allow a string array but the api yes
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ] as any
             }
           />

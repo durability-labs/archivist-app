@@ -19,9 +19,9 @@ test('download a file', async ({ page, browserName }) => {
     await page.getByRole('button', { name: 'Copy CID' }).click();
     const handle = await page.evaluateHandle(() => navigator.clipboard.readText());
     const cid = await handle.jsonValue()
-    await page.locator('.sheets-container > .backdrop').click();
-    await page.getByPlaceholder('CID').click();
-    await page.getByPlaceholder('CID').fill(cid);
+    await page.locator('.sheets > .backdrop').click();
+    await page.locator('.download-input input').click();
+    await page.locator('.download-input input').fill(cid);
     // const page1Promise = page.waitForEvent('popup');
     const downloadPromise = page.waitForEvent('download');
     await page.locator('div').filter({ hasText: /^Download a fileDownload$/ }).getByRole('button').click();
