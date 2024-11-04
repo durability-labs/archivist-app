@@ -6,10 +6,34 @@ import { Logotype } from "../Logotype/Logotype";
 import { DiscordIcon } from "./DiscordIcon";
 import { Alert } from "@codex-storage/marketplace-ui-components";
 import { AlertIcon } from "../AlertIcon/AlertIcon";
+import { useEffect, useRef } from "react";
 
 export function WelcomeCard() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onResize = () => {
+      const current = ref.current;
+      if (!current) {
+        return;
+      }
+
+      if (current.clientWidth > 800) {
+        current.classList.remove("welcome-card--tiny");
+      } else {
+        current.classList.add("welcome-card--tiny");
+      }
+    };
+
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [ref.current]);
+
   return (
-    <div className="welcome-card card">
+    <div className="welcome-card card" ref={ref}>
       <div className="card">
         <header>
           <div>
