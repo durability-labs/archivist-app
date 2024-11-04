@@ -7,6 +7,7 @@ import { DiscordIcon } from "./DiscordIcon";
 import { Alert } from "@codex-storage/marketplace-ui-components";
 import { AlertIcon } from "../AlertIcon/AlertIcon";
 import { useEffect, useRef } from "react";
+import { classnames } from "../../utils/classnames";
 
 export function WelcomeCard() {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,8 +33,15 @@ export function WelcomeCard() {
     };
   }, [ref.current]);
 
+  const clientWidth = ref.current?.clientWidth || 0;
+
   return (
-    <div className="welcome-card card" ref={ref}>
+    <div
+      className={classnames(
+        ["welcome-card card"],
+        ["welcome-card card--tiny", clientWidth <= 800]
+      )}
+      ref={ref}>
       <div className="card">
         <header>
           <div>
