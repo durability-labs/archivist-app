@@ -82,31 +82,6 @@ export const Route = createFileRoute("/dashboard/settings")({
           <Debug />
         </ErrorBoundary>
       </div> */}
-
-      {/* <div className="input-floating">
-              <input
-                className="input input-floating-input"
-                id="input-floating"
-                placeholder=""
-              />
-              <label className="input-floating-label" htmlFor="input-floating">
-                Floating
-              </label>
-            </div>
-
-            <div className="input-floating">
-              <input
-                className="input input-floating-input"
-                id="input-floating-with-value"
-                placeholder=""
-                value="Some value"
-              />
-              <label
-                className="input-floating-label"
-                htmlFor="input-floating-with-value">
-                Floating
-              </label>
-            </div> */}
     </div>
   ),
 });
