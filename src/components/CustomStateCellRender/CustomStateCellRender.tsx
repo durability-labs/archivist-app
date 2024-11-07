@@ -1,4 +1,4 @@
-import { Cell, Tooltip } from "@codex-storage/marketplace-ui-components";
+import { Cell } from "@codex-storage/marketplace-ui-components";
 import PurchaseStateIcon from "../../assets/icons/purchases-state-pending.svg?react";
 import SuccessCircleIcon from "../../assets/icons/success-circle.svg?react";
 import ErrorCircleIcon from "../../assets/icons/error-circle.svg?react";
@@ -8,7 +8,7 @@ type Props = {
   message: string | undefined;
 };
 
-export const CustomStateCellRender = ({ state, message }: Props) => {
+export const CustomStateCellRender = ({ state }: Props) => {
   const icons = {
     pending: PurchaseStateIcon,
     submitted: PurchaseStateIcon,
@@ -31,18 +31,15 @@ export const CustomStateCellRender = ({ state, message }: Props) => {
 
   return (
     <Cell>
-      <p
-        className={
-          "cell-state cell-state--custom cell-state--" +
-          states[state as keyof typeof states]
-        }>
-        {message ? (
+      <p className={"cell-state" + states[state as keyof typeof states]}>
+        {/* {message ? (
           <Tooltip message={message}>
             <Icon width={32} className="cell-stateIcon" />
           </Tooltip>
         ) : (
           <Icon width={32} className="cell-stateIcon" />
-        )}
+        )} */}
+        <Icon width={20} />
       </p>
     </Cell>
   );
