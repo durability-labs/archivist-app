@@ -200,7 +200,7 @@
     z-index: 1;
 
     right: 6rem;
-    bottom: 3rem;
+    bottom: 16px;
 
     &:hover {
       animation-name: example;
