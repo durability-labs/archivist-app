@@ -2,13 +2,11 @@ import {
   CodexCreateStorageRequestInput,
   CodexData,
   CodexMarketplace,
-  CodexReservation,
   SafeValue,
 } from "@codex-storage/sdk-js";
 import { CodexSdk as Sdk } from "./sdk/codex";
 import { PortForwardingUtil as PUtil } from "./hooks/port-forwarding.util";
 import { WebStorage } from "./utils/web-storage";
-import { GB } from "./utils/constants";
 
 class CodexDataMock extends CodexData {
 
