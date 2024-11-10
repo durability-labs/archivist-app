@@ -199,12 +199,8 @@
     text-decoration: none;
     z-index: 1;
 
-    @media (min-width: 1000px) {
-      & {
-        right: 6rem;
-        bottom: 3rem;
-      }
-    }
+    right: 6rem;
+    bottom: 3rem;
 
     &:hover {
       animation-name: example;
@@ -237,4 +233,8 @@
   100% {
     opacity: 0.4;
   }
+}
+
+#sentry-feedback {
+  right: 128px;
 }
