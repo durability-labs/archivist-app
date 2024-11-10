@@ -1,91 +1,94 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Files } from "../../components/Files/Files.tsx";
-import { Alert, Card, Upload } from "@codex-storage/marketplace-ui-components";
-import { CodexSdk } from "../../sdk/codex";
-import { Welcome } from "../../components/Welcome/Welcome.tsx";
-import { ErrorPlaceholder } from "../../components/ErrorPlaceholder/ErrorPlaceholder.tsx";
-import { ErrorBoundary } from "@sentry/react";
-import { useQueryClient } from "@tanstack/react-query";
+import { WelcomeCard } from "../../components/Welcome/WelcomeCard.tsx";
 import { Download } from "../../components/Download/Download.tsx";
+import "./index.css";
+import { Versions } from "../../components/Versions/Versions.tsx";
+import { WebStorage } from "../../utils/web-storage.ts";
+import { ConnectedAccount } from "../../components/ConnectedAccount/ConnectedAccount.tsx";
+import { NodeSpace } from "../../components/NodeSpace/NodeSpace.tsx";
+import { UploadCard } from "../../components/UploadCard/UploadCard.tsx";
+import { PeersCard } from "../../components/Peers/PeersCard.tsx";
+import { Card } from "../../components/Card/Card.tsx";
+import NodesIcon from "../../assets/icons/nodes.svg?react";
+import WalletIcon from "../../assets/icons/wallet.svg?react";
+import PlusIcon from "../../assets/icons/plus.svg?react";
+import PeersIcon from "../../assets/icons/peers.svg?react";
+import UploadIcon from "../../assets/icons/upload.svg?react";
+import DownloadIcon from "../../assets/icons/download.svg?react";
+import FetchIcon from "../../assets/icons/fetch.svg?react";
+import { ManifestFetch } from "../../components/ManifestFetch/ManifestFetch.tsx";
+import FilesIconOutline from "../../assets/icons/files-outline.svg?react";
 
 export const Route = createFileRoute("/dashboard/")({
-  component: About,
+  component: Dashboard,
 });
 
-function About() {
-  const queryClient = useQueryClient();
+function Dashboard() {
+  const username = WebStorage.onBoarding.getDisplayName();
 
-  const onSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ["cids"] });
-  };
+  const emoji = WebStorage.onBoarding.getEmoji();
 
   return (
-    <>
-      <div className="dashboard">
-        <div>
-          <ErrorBoundary
-            fallback={({ error }) => (
-              <ErrorPlaceholder
-                error={error}
-                subtitle="Cannot retrieve the data."
-              />
-            )}>
-            <Card title="Upload a file">
-              <Upload
-                multiple
-                codexData={CodexSdk.data()}
-                onSuccess={onSuccess}
-              />
-            </Card>
-          </ErrorBoundary>
+    <div className="dashboard">
+      <header>
+        <div className="row gap">
+          <div className="emoji">{emoji}</div>
+          <div>
+            <h3>Welcome back,</h3>
+            <h4>{username}</h4>
+          </div>
+        </div>
+        <Versions />
+      </header>
+      <main>
+        <Card
+          icon={<WalletIcon width={24}></WalletIcon>}
+          className="card--main"
+          title="Connected Account"
+          buttonLabel="Add Wallet"
+          buttonIcon={() => <PlusIcon width={20} />}>
+          <ConnectedAccount></ConnectedAccount>
+        </Card>
 
-          <ErrorBoundary
-            fallback={({ error }) => (
-              <ErrorPlaceholder
-                error={error}
-                subtitle="Cannot retrieve the data."
-              />
-            )}>
-            <Card title="Download a file" className="dashboard-download">
-              <Download></Download>
-            </Card>
-          </ErrorBoundary>
+        <div className="column">
+          <Card
+            icon={<NodesIcon width={24}></NodesIcon>}
+            title="Storage"
+            buttonLabel="Details">
+            <NodeSpace></NodeSpace>
+          </Card>
+          <Card
+            icon={<PeersIcon width={20}></PeersIcon>}
+            title="Peers"
+            buttonLabel="Details">
+            <PeersCard></PeersCard>
+          </Card>
         </div>
 
-        <ErrorBoundary
-          fallback={({ error }) => (
-            <ErrorPlaceholder
-              error={error}
-              subtitle="Cannot retrieve the data."
-            />
-          )}>
-          <div className="dashboard-welcome">
-            <Welcome />
+        <WelcomeCard />
 
-            <Alert
-              variant="warning"
-              title="Disclaimer"
-              className="welcome-disclaimer dashboard-alert">
-              The website and the content herein is not intended for public use
-              and is for informational and demonstration purposes only.
-            </Alert>
-          </div>
-        </ErrorBoundary>
-      </div>
+        <div className="column">
+          <Card icon={<UploadIcon width={24}></UploadIcon>} title="Upload">
+            <UploadCard />
+          </Card>
 
-      <div className="container-fluid">
-        <ErrorBoundary
-          fallback={({ error }) => (
-            <Card title="Error">
-              <ErrorPlaceholder
-                error={error}
-                subtitle="Cannot retrieve the data."
-              />
-            </Card>
-          )}>
-          <Files />
-        </ErrorBoundary>
-      </div>
-    </>
+          <Card icon={<DownloadIcon></DownloadIcon>} title="Download">
+            <Download />
+          </Card>
+
+          <Card icon={<FetchIcon></FetchIcon>} title="Fetch manifest">
+            <ManifestFetch />
+          </Card>
+        </div>
+
+        <Card
+          icon={<FilesIconOutline width={24}></FilesIconOutline>}
+          className="card--main card--main--files"
+          title="Files">
+          <Files limit={4} />
+        </Card>
+      </main>
+    </div>
   );
 }

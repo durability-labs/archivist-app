@@ -9,6 +9,8 @@ import {
   Toast,
 } from "@codex-storage/marketplace-ui-components";
 import { Promises } from "../../utils/promises";
+import LogsIcon from "../../assets/icons/logs.svg?react";
+import SaveIcon from "../../assets/icons/save.svg?react";
 
 export function LogLevel() {
   const queryClient = useQueryClient();
@@ -37,7 +39,7 @@ export function LogLevel() {
   const [toast, setToast] = useState({
     time: 0,
     message: "",
-    variant: "success" as "success" | "error" | "default",
+    variant: "success" as "success" | "error",
   });
 
   function onChange(e: React.FormEvent<HTMLSelectElement>) {
@@ -52,34 +54,40 @@ export function LogLevel() {
   };
 
   const levels = [
-    ["DEBUG", "DEBUG"],
-    ["TRACE", "TRACE"],
-    ["INFO", "INFO"],
-    ["NOTICE", "NOTICE"],
-    ["WARN", "WARN"],
-    ["ERROR", "ERROR"],
-    ["FATAL", "FATAL"],
+    ["DEBUG", "Debug"],
+    ["TRACE", "Trace"],
+    ["INFO", "Info"],
+    ["NOTICE", "Notice"],
+    ["WARN", "Warn"],
+    ["ERROR", "Error"],
+    ["FATAL", "Fatal"],
   ] satisfies [string, string][];
 
   return (
-    <>
-      <Select
-        className="logLevel-select"
-        id="level"
-        label="Log level"
-        options={levels}
-        value={level}
-        onChange={onChange}></Select>
+    <div className="log-level">
+      <div>
+        <Select
+          id="level"
+          label=""
+          options={levels}
+          value={level}
+          onChange={onChange}></Select>
+        <LogsIcon width={20}></LogsIcon>
+      </div>
+
       <Button
-        variant="primary"
-        label="Save changes"
+        variant="outline"
+        label="Save"
+        Icon={SaveIcon}
         fetching={isPending}
+        size="small"
         onClick={onClick}></Button>
       <Toast
         message={toast.message}
         time={toast.time}
         variant={toast.variant}
+        duration={400000000}
       />
-    </>
+    </div>
   );
 }

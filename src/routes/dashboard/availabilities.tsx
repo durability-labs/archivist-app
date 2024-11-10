@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ErrorBoundary } from "@sentry/react";
 import { ErrorPlaceholder } from "../../components/ErrorPlaceholder/ErrorPlaceholder";
 import {
+  Button,
   SpaceAllocationItem,
   Spinner,
 } from "@codex-storage/marketplace-ui-components";
@@ -13,11 +14,15 @@ import { AvailabilitiesTable } from "../../components/Availability/Availabilitie
 import { AvailabilityEdit } from "../../components/Availability/AvailabilityEdit";
 import { Strings } from "../../utils/strings";
 import { PrettyBytes } from "../../utils/bytes";
-import { AvailabilitySunburst } from "../../components/Availability/AvailabilitySunburst";
+import { Sunburst } from "../../components/Availability/Sunburst";
 import { Errors } from "../../utils/errors";
 import { availabilityColors } from "../../components/Availability/availability.colors";
-import { AvailabilityStorage } from "../../utils/availabilities-storage";
 import { AvailabilityWithSlots } from "../../components/Availability/types";
+import { WebStorage } from "../../utils/web-storage";
+import { NodeSpace } from "../../components/NodeSpace/NodeSpace";
+import PlusIcon from "../../assets/icons/plus-circle.svg?react";
+import UploadIcon from "../../assets/icons/upload.svg?react";
+import { AvailabilityUtils } from "../../components/Availability/availability.utils";
 
 const defaultSpace = {
   quotaMaxBytes: 0,
@@ -51,7 +56,7 @@ export function Availabilities() {
                     return { ...a, slots: res.data };
                   })
                   .then((data) =>
-                    AvailabilityStorage.get(data.id).then((n) => ({
+                    WebStorage.availabilities.get(data.id).then((n) => ({
                       ...data,
                       name: n || "",
                     }))
@@ -117,43 +122,63 @@ export function Availabilities() {
 
     allocation.push({
       title: "Space remaining",
-      // TODO move this to domain
-      size:
-        space.quotaMaxBytes - space.quotaReservedBytes - space.quotaUsedBytes,
+      size: AvailabilityUtils.maxValue(space),
       color: "transparent",
     });
 
-    return (
-      <div className="container">
-        <div className="availabilities-content">
-          {isPending ? (
-            <div className="purchases-loader">
-              <Spinner width="3rem" />
-            </div>
-          ) : (
-            <>
-              <div className="availabilities-header">
-                <AvailabilitySunburst
-                  availabilities={availabilities}
-                  space={space}></AvailabilitySunburst>
-
-                <AvailabilityEdit
-                  space={space}
-                  className="availabilities-create"
-                  hasLabel={false}
-                />
-              </div>
-
-              <div className="availabilities-table">
-                <AvailabilitiesTable
-                  space={space}
-                  // onEdit={onOpen}
-                  availabilities={availabilities}
-                />
-              </div>
-            </>
-          )}
+    if (isPending) {
+      return (
+        <div className="purchases-loader">
+          <Spinner width="3rem" />
         </div>
+      );
+    }
+
+    const onOpenAvailabilities = () =>
+      document.dispatchEvent(new CustomEvent("codexavailabilitycreate", {}));
+
+    return (
+      <div className="availabilities">
+        <div className="card">
+          <AvailabilitiesTable
+            space={space}
+            // onEdit={onOpen}
+            availabilities={availabilities}
+          />
+        </div>
+        <aside>
+          <div className="card">
+            <header>
+              <div>
+                <UploadIcon width={18}></UploadIcon>
+                <h5>Host</h5>
+              </div>
+            </header>
+            <main>
+              <div>
+                <Sunburst
+                  availabilities={availabilities}
+                  space={space}></Sunburst>
+
+                <AvailabilityEdit space={space} hasLabel={false} />
+              </div>
+
+              <Button
+                onClick={onOpenAvailabilities}
+                Icon={() => <PlusIcon width={20} />}
+                label="Create Availability"
+                variant="outline"></Button>
+
+              <NodeSpace></NodeSpace>
+            </main>
+            <footer>
+              <b>Node</b>
+              <small>
+                {PrettyBytes(space.quotaMaxBytes)} allocated for the node
+              </small>
+            </footer>
+          </div>
+        </aside>
       </div>
     );
   }

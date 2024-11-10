@@ -1,0 +1,16 @@
+.manifest-fetch {
+  display: flex;
+  gap: 16px;
+
+  .input {
+    flex: 1;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  .button {
+    width: 105px;
+  }
+}

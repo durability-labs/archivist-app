@@ -14,15 +14,15 @@ export function Download() {
     setCid(e.currentTarget.value);
 
   return (
-    <div className="download">
-      <div className="download-inputContainer">
-        <Input
-          id="cid"
-          placeholder="CID"
-          inputClassName="download-input"
-          onChange={onCidChange}></Input>
-      </div>
-      <Button label="Download" onClick={onDownload}></Button>
-    </div>
+    <main className="row gap download">
+      <Input
+        id="cid"
+        placeholder="CID"
+        inputClassName="download-input"
+        size={"medium" as any}
+        autoComplete="off"
+        onChange={onCidChange}></Input>
+      <Button label="Download" onClick={onDownload} variant="outline"></Button>
+    </main>
   );
 }

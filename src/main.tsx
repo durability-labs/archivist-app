@@ -25,6 +25,7 @@ if (import.meta.env.PROD && !import.meta.env.CI) {
       Sentry.feedbackIntegration({
         // Additional SDK configuration goes in here, for example:
         colorScheme: "dark",
+        triggerLabel: "",
       }),
     ],
     // Tracing
@@ -40,6 +41,7 @@ if (import.meta.env.PROD && !import.meta.env.CI) {
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  defaultPreload: "viewport",
   defaultNotFoundComponent: () => {
     return (
       <Failure

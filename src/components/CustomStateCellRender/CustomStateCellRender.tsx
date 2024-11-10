@@ -1,20 +1,21 @@
-import { CheckCircle, CircleDashed, ShieldAlert } from "lucide-react";
-import "./CustomStateCellRender.css";
-import { Cell, Tooltip } from "@codex-storage/marketplace-ui-components";
+import { Cell } from "@codex-storage/marketplace-ui-components";
+import PurchaseStateIcon from "../../assets/icons/purchases-state-pending.svg?react";
+import SuccessCircleIcon from "../../assets/icons/success-circle.svg?react";
+import ErrorCircleIcon from "../../assets/icons/error-circle.svg?react";
 
 type Props = {
   state: string;
   message: string | undefined;
 };
 
-export const CustomStateCellRender = ({ state, message }: Props) => {
+export const CustomStateCellRender = ({ state }: Props) => {
   const icons = {
-    pending: CircleDashed,
-    submitted: CircleDashed,
-    started: CircleDashed,
-    finished: CheckCircle,
-    cancelled: ShieldAlert,
-    errored: ShieldAlert,
+    pending: PurchaseStateIcon,
+    submitted: PurchaseStateIcon,
+    started: PurchaseStateIcon,
+    finished: SuccessCircleIcon,
+    cancelled: ErrorCircleIcon,
+    errored: ErrorCircleIcon,
   };
 
   const states = {
@@ -26,24 +27,19 @@ export const CustomStateCellRender = ({ state, message }: Props) => {
     finished: "success",
   };
 
-  const Icon = icons[state as keyof typeof icons] || CircleDashed;
+  const Icon = icons[state as keyof typeof icons] || PurchaseStateIcon;
 
   return (
     <Cell>
-      <p
-        className={
-          "cell-state cell-state--custom cell-state--" +
-          states[state as keyof typeof states]
-        }>
-        {message ? (
+      <p className={"cell-state" + states[state as keyof typeof states]}>
+        {/* {message ? (
           <Tooltip message={message}>
-            <Icon size={"1rem"} className="cell-stateIcon" />
+            <Icon width={32} className="cell-stateIcon" />
           </Tooltip>
         ) : (
-          <Icon size={"1rem"} className="cell-stateIcon" />
-        )}
-
-        <span>{state}</span>
+          <Icon width={32} className="cell-stateIcon" />
+        )} */}
+        <Icon width={20} />
       </p>
     </Cell>
   );
