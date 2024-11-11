@@ -47,8 +47,7 @@ function Dashboard() {
           className="card--main"
           title="Connected Account"
           buttonLabel="Add Wallet"
-          buttonIcon={() => <PlusIcon width={20} />}
-          buttonAction={() => naviguate({ to: "/dashboard/availabilities" })}>
+          buttonIcon={() => <PlusIcon width={20} />}>
           <ConnectedAccount></ConnectedAccount>
         </Card>
 
@@ -57,13 +56,14 @@ function Dashboard() {
             icon={<NodesIcon width={24}></NodesIcon>}
             title="Storage"
             buttonLabel="Details"
-            buttonAction={() => naviguate({ to: "/dashboard/peers" })}>
+            buttonAction={() => naviguate({ to: "/dashboard/availabilities" })}>
             <NodeSpace></NodeSpace>
           </Card>
           <Card
             icon={<PeersIcon width={20}></PeersIcon>}
             title="Peers"
-            buttonLabel="Details">
+            buttonLabel="Details"
+            buttonAction={() => naviguate({ to: "/dashboard/peers" })}>
             <PeersCard></PeersCard>
           </Card>
         </div>
