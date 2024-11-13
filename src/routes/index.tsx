@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal } from "@codex-storage/marketplace-ui-components";
 import { ArrowRight } from "lucide-react";
 import { OnBoardingLayout } from "../components/OnBoarding/OnBoardingLayout";

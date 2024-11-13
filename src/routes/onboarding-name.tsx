@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { OnBoardingLayout } from "../components/OnBoarding/OnBoardingLayout";
 import { attributes } from "../utils/attributes";
 import ArrowRightCircle from "../assets/icons/arrow-circle.svg?react";
