@@ -26,18 +26,18 @@ function Index() {
 
   const onNextStep = () => navigate({ to: "/onboarding-name" });
 
-  useEffect(() => {
-    const onKeyPress = (event: Event) => {
-      const e = event as KeyboardEvent;
-      if (e.key === "ArrowRight") {
-        navigate({ to: "/onboarding-name" });
-      }
-    };
+  // useEffect(() => {
+  //   const onKeyPress = (event: Event) => {
+  //     const e = event as KeyboardEvent;
+  //     if (e.key === "ArrowRight") {
+  //       navigate({ to: "/onboarding-name" });
+  //     }
+  //   };
 
-    document.addEventListener("keydown", onKeyPress);
+  //   document.addEventListener("keydown", onKeyPress);
 
-    return () => document.removeEventListener("keydown", onKeyPress);
-  }, [navigate]);
+  //   return () => document.removeEventListener("keydown", onKeyPress);
+  // }, [navigate]);
 
   return (
     <>

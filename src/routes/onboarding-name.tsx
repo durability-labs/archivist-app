@@ -21,20 +21,20 @@ const OnBoardingName = () => {
     }
   };
 
-  useEffect(() => {
-    const onKeyPress = (event: Event) => {
-      const e = event as KeyboardEvent;
-      if (e.key === "ArrowRight") {
-        navigate({ to: "/onboarding-checks" });
-      } else if (e.key === "ArrowLeft") {
-        navigate({ to: "/" });
-      }
-    };
+  // useEffect(() => {
+  //   const onKeyPress = (event: Event) => {
+  //     const e = event as KeyboardEvent;
+  //     if (e.key === "ArrowRight") {
+  //       navigate({ to: "/onboarding-checks" });
+  //     } else if (e.key === "ArrowLeft") {
+  //       navigate({ to: "/" });
+  //     }
+  //   };
 
-    document.addEventListener("keydown", onKeyPress);
+  //   document.addEventListener("keydown", onKeyPress);
 
-    return () => document.removeEventListener("keydown", onKeyPress);
-  }, [navigate]);
+  //   return () => document.removeEventListener("keydown", onKeyPress);
+  // }, [navigate]);
 
   return (
     <OnBoardingLayout defaultIsStepValid={false} step={1}>

@@ -14,20 +14,20 @@ const OnBoardingChecks = () => {
   const [isStepValid, setIsStepValid] = useState(false);
   const navigate = useNavigate({ from: "/onboarding-checks" });
 
-  useEffect(() => {
-    const onKeyPress = (event: Event) => {
-      const e = event as KeyboardEvent;
-      if (e.key === "ArrowRight" && isStepValid) {
-        navigate({ to: "/dashboard" });
-      } else if (e.key === "ArrowLeft") {
-        navigate({ to: "/onboarding-name" });
-      }
-    };
+  // useEffect(() => {
+  //   const onKeyPress = (event: Event) => {
+  //     const e = event as KeyboardEvent;
+  //     if (e.key === "ArrowRight" && isStepValid) {
+  //       navigate({ to: "/dashboard" });
+  //     } else if (e.key === "ArrowLeft") {
+  //       navigate({ to: "/onboarding-name" });
+  //     }
+  //   };
 
-    document.addEventListener("keydown", onKeyPress);
+  //   document.addEventListener("keydown", onKeyPress);
 
-    return () => document.removeEventListener("keydown", onKeyPress);
-  }, [navigate, isStepValid]);
+  //   return () => document.removeEventListener("keydown", onKeyPress);
+  // }, [navigate, isStepValid]);
 
   const onNextStep = () => {
     if (isStepValid) {
