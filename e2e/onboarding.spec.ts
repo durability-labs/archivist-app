@@ -19,8 +19,8 @@ test('onboarding steps', async ({ page }) => {
   await expect(page.locator(".health-checks ul li").nth(2).getByTestId("icon-success")).toBeVisible()
 
   // Codex node
-  await expect(page.locator(".health-checks ul li").nth(3).getByTestId("icon-error")).not.toBeVisible()
-  await expect(page.locator(".health-checks ul li").nth(3).getByTestId("icon-success")).toBeVisible()
+  await expect(page.locator(".health-checks ul li").nth(2).getByTestId("icon-error")).not.toBeVisible()
+  await expect(page.locator(".health-checks ul li").nth(2).getByTestId("icon-success")).toBeVisible()
 
   // Marketplace
   await expect(page.locator(".health-checks ul li").nth(4).getByTestId("icon-error")).not.toBeVisible()

@@ -18,26 +18,25 @@ export const CustomStateCellRender = ({ state, message }: Props) => {
     errored: ErrorCircleIcon,
   };
 
-  const states = {
-    cancelled: "error",
-    errored: "error",
-    pending: "warning",
-    started: "loading",
-    submitted: "loading",
-    finished: "success",
-  };
-
   const Icon = icons[state as keyof typeof icons] || PurchaseStateIcon;
 
   return (
     <Cell>
-      <p className={"cell-state" + states[state as keyof typeof states]}>
+      <p className={"cell-state"}>
         {message ? (
           <Tooltip message={message}>
-            <Icon width={20} className="cell-stateIcon" />
+            <Icon
+              width={20}
+              className="cell-stateIcon"
+              data-testid={"cell-" + state}
+            />
           </Tooltip>
         ) : (
-          <Icon width={20} className="cell-stateIcon" />
+          <Icon
+            width={20}
+            className="cell-stateIcon"
+            data-testid={"cell-" + state}
+          />
         )}
       </p>
     </Cell>
