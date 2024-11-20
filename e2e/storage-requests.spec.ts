@@ -20,7 +20,7 @@ test('create a storage request', async ({ page }) => {
     await expect(page.getByText('Your request is being processed.')).toBeVisible();
     await page.getByRole('button', { name: 'Finish' }).click();
     await expect(page.getByText('No data.')).not.toBeVisible();
-    await expect(page.getByTestId('cell-submitted').first()).toBeVisible();
+    await expect(page.getByTestId('cell-pending').first()).toBeVisible();
 })
 
 test('select a uploaded cid when creating a storage request', async ({ page }) => {
