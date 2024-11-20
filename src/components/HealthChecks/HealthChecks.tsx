@@ -54,12 +54,16 @@ export function HealthChecks({ online, onStepValid }: Props) {
 
     setIsAddressInvalid(!element.checkValidity());
 
-    const address = HealthCheckUtil.removePort(value);
-    setAddress(address);
+    setAddress(value);
 
     if (HealthCheckUtil.containsPort(value)) {
+      const address = HealthCheckUtil.removePort(value);
+      setAddress(address);
+
       const p = HealthCheckUtil.getPort(value);
       setPort(p);
+    } else {
+      setAddress(value);
     }
   };
 
@@ -91,6 +95,8 @@ export function HealthChecks({ online, onStepValid }: Props) {
       forwardingPortValue = port.data;
     }
   }
+
+  console.info("address", address);
 
   return (
     <div className="health-checks">

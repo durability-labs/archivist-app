@@ -35,7 +35,16 @@ test('onboarding steps', async ({ page }) => {
   await page.context().setOffline(false)
 });
 
-// await expect(page.locator('#root')).toContainText('Network connected');
-// await page.locator('a').nth(2).click();
-// await page.context().setOffline(true)
-// await expect(page.locator('#root')).toContainText('Network disconnected');
+
+test('does not display undefined when delete the url value', async ({ page }) => {
+  await page.goto('/onboarding-checks');
+  await page.locator('#url').focus()
+
+  for (let i = 0; i < "http://localhost:8080".length; i++) {
+    await page.keyboard.press('Backspace');
+  }
+
+  await expect(page.locator('#url')).toHaveValue("");
+  await expect(page.locator('#url')).toHaveAttribute("aria-invalid")
+  await expect(page.locator('.refresh svg')).toHaveAttribute("color", "#494949")
+});
