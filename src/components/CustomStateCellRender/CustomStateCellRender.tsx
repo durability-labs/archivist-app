@@ -25,18 +25,10 @@ export const CustomStateCellRender = ({ state, message }: Props) => {
       <p className={"cell-state"}>
         {message ? (
           <Tooltip message={message}>
-            <Icon
-              width={20}
-              className="cell-stateIcon"
-              data-testid={"cell-" + state}
-            />
+            <Icon width={20} data-testid={"cell-" + state} />
           </Tooltip>
         ) : (
-          <Icon
-            width={20}
-            className="cell-stateIcon"
-            data-testid={"cell-" + state}
-          />
+          <Icon width={20} data-testid={"cell-" + state} />
         )}
       </p>
     </Cell>

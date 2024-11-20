@@ -18,9 +18,9 @@ export function StorageRequestSuccess({
   return (
     <Placeholder
       Icon={<CircleCheck size="4rem" className="storageRequestDone-icon" />}
-      className="storageRequestDone"
+      className=".storage-success"
       title="Your request is being processed."
-      message=" Processing your request may take some time. Once completed, it will
+      message="Processing your request may take some time. Once completed, it will
         appear in your purchase list. You can safely close this dialog."></Placeholder>
   );
 }

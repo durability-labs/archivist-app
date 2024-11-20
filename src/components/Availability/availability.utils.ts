@@ -48,5 +48,27 @@ export const AvailabilityUtils = {
         availability: AvailabilityState,
         max: number
     ) => availability.totalSize > 0 && availability.totalSize <= max
+    ,
+    toggle: <T>(arr: Array<T>, value: T) =>
+        arr.includes(value) ? arr.filter(i => i !== value) : [...arr, value],
 
+    availabilityColors: [
+        "#34A0FFFF",
+        "#34A0FFEE",
+        "#34A0FFDD",
+        "#34A0FFCC",
+        "#34A0FFBB",
+        "#34A0FFAA",
+        "#34A0FF99",
+    ],
+
+    slotColors: [
+        "#D2493CFF",
+        "#D2493CEE",
+        "#D2493CDD",
+        "#D2493CCC",
+        "#D2493CBB",
+        "#D2493CAA",
+        "#D2493C99",
+    ]
 }

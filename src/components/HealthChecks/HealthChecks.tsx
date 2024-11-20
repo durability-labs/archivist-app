@@ -96,8 +96,6 @@ export function HealthChecks({ online, onStepValid }: Props) {
     }
   }
 
-  console.info("address", address);
-
   return (
     <div className="health-checks">
       <div

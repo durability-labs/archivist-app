@@ -5,9 +5,9 @@ import { PrettyBytes } from "../../utils/bytes";
 import { useEffect, useRef, useState } from "react";
 import { CallbackDataParams, ECBasicOption } from "echarts/types/dist/shared";
 import * as echarts from "echarts";
-import { availabilityColors, slotColors } from "./availability.colors";
 import { AvailabilityWithSlots } from "./types";
 import "./Sunburst.css";
+import { AvailabilityUtils } from "./availability.utils";
 
 type Props = {
   availabilities: AvailabilityWithSlots[];
@@ -33,7 +33,7 @@ export function Sunburst({ availabilities, space }: Props) {
       name: Strings.shortId(a.id),
       value: a.totalSize,
       itemStyle: {
-        color: availabilityColors[index],
+        color: AvailabilityUtils.availabilityColors[index],
         borderColor: "transparent",
       },
       tooltip: {
@@ -66,7 +66,7 @@ export function Sunburst({ availabilities, space }: Props) {
         value: parseFloat(slot.size),
         children: [],
         itemStyle: {
-          color: slotColors[index],
+          color: AvailabilityUtils.slotColors[index],
           borderColor: "transparent",
         },
         tooltip: {

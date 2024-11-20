@@ -26,6 +26,7 @@ const Logs = () => {
     };
   }, []);
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const { table, ...rest } = data ?? {};
 
   return (

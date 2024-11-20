@@ -16,7 +16,6 @@ import { Strings } from "../../utils/strings";
 import { PrettyBytes } from "../../utils/bytes";
 import { Sunburst } from "../../components/Availability/Sunburst";
 import { Errors } from "../../utils/errors";
-import { availabilityColors } from "../../components/Availability/availability.colors";
 import { AvailabilityWithSlots } from "../../components/Availability/types";
 import { WebStorage } from "../../utils/web-storage";
 import { NodeSpace } from "../../components/NodeSpace/NodeSpace";
@@ -116,7 +115,7 @@ export function Availabilities() {
         title: Strings.shortId(a.id),
         size: a.totalSize,
         tooltip: a.id + "\u000D\u000A" + PrettyBytes(a.totalSize),
-        color: availabilityColors[index],
+        color: AvailabilityUtils.availabilityColors[index],
       })
     );
 
@@ -128,7 +127,7 @@ export function Availabilities() {
 
     if (isPending) {
       return (
-        <div className="purchases-loader">
+        <div>
           <Spinner width="3rem" />
         </div>
       );

@@ -54,15 +54,15 @@ export function AvailabilityConfirm({
           },
         ]}></SpaceAllocation>
 
-      <div className="availabilitConfirm-bottom">
-        <div className="availabilitConfirm-iconContainer">
-          <Info className="availabilitConfirm-icon" />
+      <div>
+        <div>
+          <Info />
         </div>
 
         <div>
-          <b className="availabilitConfirm-subtitle">Confirm your new sale</b>
+          <b>Confirm your new sale</b>
 
-          <p className="availabilitConfirm-message">
+          <p>
             By clicking 'Next', you will establish a new sale based on the space
             allocation specified above. Do you want to confirm ?
           </p>

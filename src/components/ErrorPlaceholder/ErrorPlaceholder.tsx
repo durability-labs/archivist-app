@@ -1,5 +1,5 @@
 import { Placeholder } from "@codex-storage/marketplace-ui-components";
-import { ErrorIcon } from "../ErrorIcon/ErrorIcon";
+import ErrorCircleIcon from "../../assets/icons/error-circle.svg?react";
 
 type Props = {
   subtitle?: string;
@@ -13,7 +13,7 @@ export function ErrorPlaceholder({ subtitle, error }: Props) {
 
   return (
     <Placeholder
-      Icon={<ErrorIcon />}
+      Icon={<ErrorCircleIcon />}
       title="Error"
       subtitle={subtitle}
       message={message}></Placeholder>

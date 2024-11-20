@@ -12,14 +12,3 @@
     }
   }
 }
-
-.purchases-loader {
-  margin: auto;
-  display: block;
-}
-
-@media (max-width: 800px) {
-  .purchases-modal {
-    width: calc(100% - 2rem);
-  }
-}
