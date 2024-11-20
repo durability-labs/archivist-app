@@ -295,7 +295,7 @@ describe("files", () => {
 
     it("formats date", async () => {
 
-        assert.equal(FilesUtils.formatDate(1732102577), "20 Nov 2024, 12:36");
+        assert.equal(FilesUtils.formatDate(1732102577), "20 Nov 2024, 11:36");
 
     })
 })
