@@ -42,7 +42,6 @@ export default defineConfig({
     alias: {
       "../sdk/codex": "../proxy",
       "../../sdk/codex": "../../proxy",
-      "./port-forwarding.util": "../proxy",
       react: 'preact/compat',
       'react-dom': 'preact/compat'
     },

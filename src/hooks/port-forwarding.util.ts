@@ -1,7 +1,7 @@
 import { CodexDebugInfo, SafeValue, CodexError } from "@codex-storage/sdk-js"
 
 export const PortForwardingUtil = {
-    check: ([ip, port]: [string, number]) => {
+    check: (ip: string, port: number) => {
         const headers = {
             "X-Real-IP-Custom": ip
         }

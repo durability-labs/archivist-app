@@ -23,7 +23,7 @@ export function usePortForwarding(info: CodexDebugInfo | undefined) {
           return Promise.resolve({ reachable: false });
         }
 
-        return PortForwardingUtil.check([ip.data, port.data]).catch(
+        return PortForwardingUtil.check(ip.data, port.data).catch(
           Errors.report
         );
       }
