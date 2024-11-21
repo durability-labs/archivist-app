@@ -7,7 +7,7 @@ import { Input, Spinner } from "@codex-storage/marketplace-ui-components";
 import { classnames } from "../../utils/classnames";
 import "./HealthChecks.css";
 import { CodexSdk } from "../../sdk/codex";
-import { HealthCheckUtil } from "./health-check.utils";
+import { HealthCheckUtils } from "./health-check.utils";
 import { PortForwardingUtil } from "../../hooks/port-forwarding.util";
 import SuccessCircleIcon from "../../assets/icons/success-circle.svg?react";
 import ErrorCircleIcon from "../../assets/icons/error-circle.svg?react";
@@ -30,9 +30,9 @@ export function HealthChecks({ online, onStepValid }: Props) {
   const [isAddressInvalid, setIsAddressInvalid] = useState(false);
   const [isPortInvalid, setIsPortInvalid] = useState(false);
   const [address, setAddress] = useState(
-    HealthCheckUtil.removePort(CodexSdk.url())
+    HealthCheckUtils.removePort(CodexSdk.url())
   );
-  const [port, setPort] = useState(HealthCheckUtil.getPort(CodexSdk.url()));
+  const [port, setPort] = useState(HealthCheckUtils.getPort(CodexSdk.url()));
   const queryClient = useQueryClient();
 
   useEffect(
@@ -56,11 +56,11 @@ export function HealthChecks({ online, onStepValid }: Props) {
 
     setAddress(value);
 
-    if (HealthCheckUtil.containsPort(value)) {
-      const address = HealthCheckUtil.removePort(value);
+    if (HealthCheckUtils.containsPort(value)) {
+      const address = HealthCheckUtils.removePort(value);
       setAddress(address);
 
-      const p = HealthCheckUtil.getPort(value);
+      const p = HealthCheckUtils.getPort(value);
       setPort(p);
     } else {
       setAddress(value);
@@ -78,7 +78,7 @@ export function HealthChecks({ online, onStepValid }: Props) {
   const onSave = () => {
     const url = address + ":" + port;
 
-    if (HealthCheckUtil.isUrlInvalid(url)) {
+    if (HealthCheckUtils.isUrlInvalid(url)) {
       return;
     }
 
