@@ -1,15 +1,11 @@
-import {
-  createFileRoute,
-  Outlet,
-  ScrollRestoration,
-} from "@tanstack/react-router";
-import "./layout.css";
+import "./root.css";
 import { Menu } from "../components/Menu/Menu";
 import { useState } from "react";
 import { AppBar } from "../components/AppBar/AppBar";
 import { Backdrop } from "@codex-storage/marketplace-ui-components";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 
-const Layout = () => {
+export const Root = () => {
   const [hasMobileMenu, setHasMobileMenu] = useState(false);
 
   const onIconClick = () => {
@@ -36,7 +32,3 @@ const Layout = () => {
     </div>
   );
 };
-
-export const Route = createFileRoute("/dashboard")({
-  component: Layout,
-});

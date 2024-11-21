@@ -1,4 +1,3 @@
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
@@ -6,7 +5,7 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [TanStackRouterVite(), react(), svgr({
+  plugins: [react(), svgr({
     svgrOptions: {
       plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
       svgoConfig: {
@@ -44,6 +43,8 @@ export default defineConfig({
       "../sdk/codex": "../proxy",
       "../../sdk/codex": "../../proxy",
       "./port-forwarding.util": "../proxy",
+      react: 'preact/compat',
+      'react-dom': 'preact/compat'
     },
   },
 });

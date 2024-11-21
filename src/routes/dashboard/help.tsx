@@ -1,10 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
 import "./help.css";
 import { HelpCircle } from "lucide-react";
 import { useEffect } from "react";
 import * as Sentry from "@sentry/react";
 
-const Help = () => {
+export const HelpRoute = () => {
   useEffect(() => {
     const feedback = Sentry.feedbackIntegration({
       // Additional SDK configuration goes in here, for example:
@@ -103,7 +102,3 @@ const Help = () => {
     </div>
   );
 };
-
-export const Route = createFileRoute("/dashboard/help")({
-  component: Help,
-});

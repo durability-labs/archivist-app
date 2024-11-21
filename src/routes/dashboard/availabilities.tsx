@@ -1,6 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ErrorBoundary } from "@sentry/react";
-import { ErrorPlaceholder } from "../../components/ErrorPlaceholder/ErrorPlaceholder";
 import {
   Button,
   SpaceAllocationItem,
@@ -30,7 +27,7 @@ const defaultSpace = {
   totalBlocks: 0,
 };
 
-export function Availabilities() {
+export function AvailabilitiesRoute() {
   {
     // Error will be catched in ErrorBounday
     const { data: availabilities = [], isPending } = useQuery<
@@ -182,14 +179,3 @@ export function Availabilities() {
     );
   }
 }
-
-export const Route = createFileRoute("/dashboard/availabilities")({
-  component: () => (
-    <ErrorBoundary
-      fallback={({ error }) => (
-        <ErrorPlaceholder error={error} subtitle="Cannot retrieve the data." />
-      )}>
-      <Availabilities />
-    </ErrorBoundary>
-  ),
-});

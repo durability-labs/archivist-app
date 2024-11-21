@@ -34,6 +34,8 @@ test.describe('onboarding', () => {
       // Network
       await expect(page.locator(".health-checks ul li").nth(1).getByTestId("icon-error")).toBeVisible()
       await expect(page.locator(".health-checks ul li").nth(1).getByTestId("icon-success")).not.toBeVisible()
+
+      await page.context().setOffline(false)
     }
   });
 

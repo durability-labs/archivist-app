@@ -4,7 +4,11 @@ import { Strings } from "../../utils/strings";
 import { PrettyBytes } from "../../utils/bytes";
 import { useEffect, useRef, useState } from "react";
 import { CallbackDataParams, ECBasicOption } from "echarts/types/dist/shared";
-import * as echarts from "echarts";
+// Import the echarts core module, which provides the necessary interfaces for using echarts.
+import * as echarts from "echarts/core";
+
+// Import bar charts, all suffixed with Chart
+import { SunburstChart } from "echarts/charts";
 import { AvailabilityWithSlots } from "./types";
 import "./Sunburst.css";
 import { AvailabilityUtils } from "./availability.utils";
@@ -13,6 +17,12 @@ type Props = {
   availabilities: AvailabilityWithSlots[];
   space: CodexNodeSpace;
 };
+
+import { TooltipComponent } from "echarts/components";
+
+import { SVGRenderer } from "echarts/renderers";
+
+echarts.use([SunburstChart, TooltipComponent, SVGRenderer]);
 
 export function Sunburst({ availabilities, space }: Props) {
   const div = useRef<HTMLDivElement>(null);

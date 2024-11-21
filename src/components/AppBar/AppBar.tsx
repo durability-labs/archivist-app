@@ -5,7 +5,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ReactElement, useEffect } from "react";
 import { useCodexConnection } from "../../hooks/useCodexConnection";
 import { usePersistence } from "../../hooks/usePersistence";
-import { useLocation, useNavigate } from "@tanstack/react-router";
 import DashboardIcon from "../../assets/icons/dashboard.svg?react";
 import PeersIcon from "../../assets/icons/peers.svg?react";
 import NodesIcon from "../../assets/icons/nodes.svg?react";
@@ -19,6 +18,7 @@ import PurchasesIcon from "../../assets/icons/purchase.svg?react";
 import HelpIcon from "../../assets/icons/help.svg?react";
 import DisclaimerIcon from "../../assets/icons/disclaimer.svg?react";
 import { WalletConnect } from "../WalletLogin/WalletLogin";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   onIconClick: () => void;
@@ -55,8 +55,7 @@ export function AppBar({ onIconClick }: Props) {
   const queryClient = useQueryClient();
   const codex = useCodexConnection();
   const persistence = usePersistence(codex.enabled);
-  const location = useLocation();
-  const navigate = useNavigate({ from: location.pathname });
+  const navigate = useNavigate();
 
   useEffect(() => {
     queryClient.invalidateQueries({
@@ -67,7 +66,7 @@ export function AppBar({ onIconClick }: Props) {
 
   const offline = !online || !codex.enabled;
 
-  const onNodeClick = () => navigate({ to: "/dashboard/settings" });
+  const onNodeClick = () => navigate("/dashboard/settings");
 
   const title =
     location.pathname.split("/")[2] || location.pathname.split("/")[1];

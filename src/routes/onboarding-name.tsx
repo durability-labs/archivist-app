@@ -1,4 +1,3 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { OnBoardingLayout } from "../components/OnBoarding/OnBoardingLayout";
 import { attributes } from "../utils/attributes";
@@ -6,18 +5,19 @@ import ArrowRightCircle from "../assets/icons/arrow-circle.svg?react";
 import { UserInfo } from "../components/UserInfo/UserInfo";
 import { WebStorage } from "../utils/web-storage";
 import AlphaIcon from "../assets/icons/alpha.svg?react";
+import { useNavigate } from "react-router-dom";
 
-const OnBoardingName = () => {
+export const OnBoardingNameRoute = () => {
   const [isStepValid, setIsStepValid] = useState(
     !!WebStorage.onBoarding.getDisplayName()
   );
-  const navigate = useNavigate({ from: "/onboarding-name" });
+  const navigate = useNavigate();
 
   const onNameChange = (value: string) => setIsStepValid(!!value);
 
   const onNextStep = () => {
     if (isStepValid) {
-      navigate({ to: "/onboarding-checks" });
+      navigate("/onboarding-checks");
     }
   };
 
@@ -64,7 +64,3 @@ const OnBoardingName = () => {
     </OnBoardingLayout>
   );
 };
-
-export const Route = createFileRoute("/onboarding-name")({
-  component: OnBoardingName,
-});

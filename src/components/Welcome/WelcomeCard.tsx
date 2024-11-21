@@ -1,5 +1,4 @@
 import "./WelcomeCard.css";
-import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Alert } from "@codex-storage/marketplace-ui-components";
 import { useEffect, useRef, useState } from "react";
@@ -9,6 +8,7 @@ import Logo from "../../assets/icons/logo.svg?react";
 import DiscordIcon from "../../assets/icons/discord.svg?react";
 import WarningIcon from "../../assets/icons/warning.svg?react";
 import { WelcomeImage } from "./WelcomeImage";
+import { Link } from "react-router-dom";
 
 export function WelcomeCard() {
   const ref = useRef<HTMLDivElement>(null);

@@ -60,6 +60,15 @@ export const AvailabilityUtils = {
         "#34A0FFBB",
         "#34A0FFAA",
         "#34A0FF99",
+        "#34A0FF88",
+        "#34A0FF77",
+        "#34A0FF66",
+        "#34A0FF55",
+        "#34A0FF44",
+        "#34A0FF33",
+        "#34A0FF22",
+        "#34A0FF11",
+        "#34A0FF00",
     ],
 
     slotColors: [
@@ -70,5 +79,14 @@ export const AvailabilityUtils = {
         "#D2493CBB",
         "#D2493CAA",
         "#D2493C99",
+        "#D2493C88",
+        "#D2493C77",
+        "#D2493C66",
+        "#D2493C55",
+        "#D2493C44",
+        "#D2493C33",
+        "#D2493C22",
+        "#D2493C11",
+        "#D2493C00",
     ]
 }
