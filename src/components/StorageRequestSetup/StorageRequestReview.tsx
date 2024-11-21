@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import "./StorageRequestReview.css";
 import { Alert } from "@codex-storage/marketplace-ui-components";
 import { CardNumbers } from "../CardNumbers/CardNumbers";
-import { FileWarning } from "lucide-react";
+import WarningIcon from "../../assets/icons/warning-circle.svg?react";
 import { StorageRequest, StorageRequestComponentProps } from "./types";
 import DurabilityIcon from "../../assets/icons/durability.svg?react";
 import AlphaIcon from "../../assets/icons/alpha.svg?react";
@@ -325,7 +325,7 @@ export function StorageRequestReview({
             onValidation={isInvalidNumber}
             title="Request expiration in minutes"></CardNumbers>
           <Alert
-            Icon={<FileWarning />}
+            Icon={<WarningIcon />}
             title="Warning"
             variant="warning"
             className="storageRequestReview-alert">

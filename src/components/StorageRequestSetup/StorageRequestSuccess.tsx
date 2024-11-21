@@ -1,8 +1,8 @@
 import { Placeholder } from "@codex-storage/marketplace-ui-components";
-import { CircleCheck } from "lucide-react";
 import "./StorageRequestSuccess.css";
 import { StorageRequestComponentProps } from "./types";
 import { useEffect } from "react";
+import SuccessCircleIcon from "../../assets/icons/success-circle.svg?react";
 
 export function StorageRequestSuccess({
   dispatch,
@@ -17,8 +17,8 @@ export function StorageRequestSuccess({
 
   return (
     <Placeholder
-      Icon={<CircleCheck size="4rem" className="storageRequestDone-icon" />}
-      className=".storage-success"
+      Icon={<SuccessCircleIcon />}
+      className="storage-success"
       title="Your request is being processed."
       message="Processing your request may take some time. Once completed, it will
         appear in your purchase list. You can safely close this dialog."></Placeholder>
