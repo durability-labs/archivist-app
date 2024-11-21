@@ -144,11 +144,11 @@ export const CodexSdk = {
 
 export const PortForwardingUtil = {
   ...PUtil,
-  check: (port: number) => {
+  check: (ip: string, port: number) => {
     if (import.meta.env.CI) {
       return Promise.resolve({ reachable: true })
     }
 
-    return PUtil.check(port)
+    return PUtil.check([ip, port])
   }
 }
