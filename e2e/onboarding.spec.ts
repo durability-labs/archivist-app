@@ -37,7 +37,7 @@ test.describe('onboarding', () => {
     }
   });
 
-  test.beforeEach(async ({ page }, testInfo) => {
+  test.beforeEach(async ({ page }) => {
     await page.context().setOffline(false)
   });
 })
