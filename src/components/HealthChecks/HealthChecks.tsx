@@ -156,9 +156,9 @@ export function HealthChecks({ online, onStepValid }: Props) {
         <li>
           <span>
             {online ? (
-              <SuccessCircleIcon></SuccessCircleIcon>
+              <SuccessCircleIcon width={16} height={16}></SuccessCircleIcon>
             ) : (
-              <ErrorCircleIcon width={16} />
+              <ErrorCircleIcon width={16} height={16} />
             )}
           </span>
           Internet connection
@@ -168,9 +168,9 @@ export function HealthChecks({ online, onStepValid }: Props) {
             {codex.isFetching ? (
               <Spinner></Spinner>
             ) : codex.isSuccess ? (
-              <SuccessCircleIcon></SuccessCircleIcon>
+              <SuccessCircleIcon width={16} height={16}></SuccessCircleIcon>
             ) : (
-              <ErrorCircleIcon width={16} />
+              <ErrorCircleIcon width={16} height={16} />
             )}
           </span>
           Codex connection
@@ -180,9 +180,9 @@ export function HealthChecks({ online, onStepValid }: Props) {
             {portForwarding.isFetching ? (
               <Spinner></Spinner>
             ) : portForwarding.enabled ? (
-              <SuccessCircleIcon></SuccessCircleIcon>
+              <SuccessCircleIcon width={16} height={16}></SuccessCircleIcon>
             ) : (
-              <WarningIcon />
+              <WarningIcon width={16} height={16} />
             )}
           </span>
           Port forwarding
@@ -192,9 +192,9 @@ export function HealthChecks({ online, onStepValid }: Props) {
             {persistence.isFetching ? (
               <Spinner></Spinner>
             ) : persistence.enabled ? (
-              <SuccessCircleIcon></SuccessCircleIcon>
+              <SuccessCircleIcon width={16} height={16}></SuccessCircleIcon>
             ) : (
-              <WarningIcon />
+              <WarningIcon width={16} height={16} />
             )}
           </span>
           Marketplace
