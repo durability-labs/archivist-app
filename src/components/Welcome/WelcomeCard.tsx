@@ -1,5 +1,4 @@
 import "./WelcomeCard.css";
-import { ArrowRight } from "lucide-react";
 import { Alert } from "@codex-storage/marketplace-ui-components";
 import { useEffect, useRef, useState } from "react";
 import { classnames } from "../../utils/classnames";
@@ -47,7 +46,7 @@ export function WelcomeCard() {
           </p>
           <div>
             <Link to="/dashboard/help" className="welcome-link">
-              Learn more<ArrowRight></ArrowRight>
+              Learn more →
             </Link>
             <a href={import.meta.env.VITE_DISCORD_LINK}>
               <DiscordIcon></DiscordIcon>

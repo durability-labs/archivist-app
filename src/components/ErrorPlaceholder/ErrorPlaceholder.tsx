@@ -13,7 +13,7 @@ export function ErrorPlaceholder({ subtitle, error }: Props) {
 
   return (
     <Placeholder
-      Icon={<ErrorCircleIcon />}
+      Icon={<ErrorCircleIcon width={30} />}
       title="Error"
       subtitle={subtitle}
       message={message}></Placeholder>

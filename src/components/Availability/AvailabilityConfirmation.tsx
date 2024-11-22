@@ -1,10 +1,10 @@
 import "./AvailabilityConfirm.css";
 import { AvailabilityComponentProps } from "./types";
 import "./AvailabilityConfirm.css";
-import { Info } from "lucide-react";
 import { useEffect } from "react";
 import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
 import NodesIcon from "../../assets/icons/nodes.svg?react";
+import InfoIcon from "../../assets/icons/info.svg?react";
 
 export function AvailabilityConfirm({
   dispatch,
@@ -56,7 +56,7 @@ export function AvailabilityConfirm({
 
       <div>
         <div>
-          <Info />
+          <InfoIcon />
         </div>
 
         <div>

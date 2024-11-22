@@ -1,7 +1,7 @@
 import "./help.css";
-import { HelpCircle } from "lucide-react";
 import { useEffect } from "react";
 import * as Sentry from "@sentry/react";
+import HelpIcon from "../../assets/icons/help.svg?react";
 
 export const HelpRoute = () => {
   useEffect(() => {
@@ -21,7 +21,7 @@ export const HelpRoute = () => {
       <h1>You might be wondering...</h1>
 
       <div>
-        <HelpCircle size={"1.5rem"} />
+        <HelpIcon />
         <div>
           <h2>What's Codex?</h2>
           <p>
@@ -33,7 +33,7 @@ export const HelpRoute = () => {
       </div>
 
       <div>
-        <HelpCircle size={"1rem"} />
+        <HelpIcon />
         <div>
           <h2>What is the purpose of this web application?</h2>
           <p>
@@ -44,7 +44,7 @@ export const HelpRoute = () => {
       </div>
 
       <div>
-        <HelpCircle size={"1rem"} />
+        <HelpIcon />
         <div>
           <h2>Can Codex handle big files ?</h2>
           <p>
@@ -55,7 +55,7 @@ export const HelpRoute = () => {
       </div>
 
       <div>
-        <HelpCircle size={"1rem"} />
+        <HelpIcon />
         <div>
           <h2>Is it production ready ?</h2>
           <p>
@@ -67,7 +67,7 @@ export const HelpRoute = () => {
       </div>
 
       <div>
-        <HelpCircle size={"1rem"} />
+        <HelpIcon />
         <div>
           <h2>How can I reach you if I am stuck ?</h2>
           <p>
@@ -84,7 +84,7 @@ export const HelpRoute = () => {
       </div>
 
       <div>
-        <HelpCircle size={"1rem"} />
+        <HelpIcon />
         <div>
           <h2>How can I build and run Codex ?</h2>
           <p>

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Modal } from "@codex-storage/marketplace-ui-components";
-import { ArrowRight } from "lucide-react";
 import { OnBoardingLayout } from "../components/OnBoarding/OnBoardingLayout";
 import AlphaIcon from "../assets/icons/alpha.svg?react";
 import AlphaText from "../assets/icons/alphatext.svg?react";
-import ArrowRightCircle from "../assets/icons/arrow-circle.svg?react";
+import ArrowCircleIcon from "../assets/icons/arrow-circle.svg?react";
+import ArrowRightIcon from "../assets/icons/arrow-onboarding.svg?react";
 import { useNavigate } from "react-router-dom";
 
 export function OnBoardingRoute() {
@@ -43,9 +43,7 @@ export function OnBoardingRoute() {
             </p>
           </section>
           <section className="get-started">
-            <a onClick={onNextStep}>
-              Let’s get started <ArrowRight></ArrowRight>
-            </a>
+            <a onClick={onNextStep}>Let’s get started →</a>
 
             <Modal
               onClose={onLegalDisclaimerClose}
@@ -83,7 +81,7 @@ export function OnBoardingRoute() {
             </Modal>
           </section>
           <a className="navigation" onClick={onNextStep}>
-            <ArrowRightCircle></ArrowRightCircle>
+            <ArrowCircleIcon></ArrowCircleIcon>
           </a>
         </>
       </OnBoardingLayout>
