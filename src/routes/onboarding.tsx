@@ -4,7 +4,6 @@ import { OnBoardingLayout } from "../components/OnBoarding/OnBoardingLayout";
 import AlphaIcon from "../assets/icons/alpha.svg?react";
 import AlphaText from "../assets/icons/alphatext.svg?react";
 import ArrowCircleIcon from "../assets/icons/arrow-circle.svg?react";
-import ArrowRightIcon from "../assets/icons/arrow-onboarding.svg?react";
 import { useNavigate } from "react-router-dom";
 
 export function OnBoardingRoute() {
