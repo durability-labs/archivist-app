@@ -17,7 +17,7 @@ export function StorageRequestSuccess({
 
   return (
     <Placeholder
-      Icon={<SuccessCircleIcon />}
+      Icon={<SuccessCircleIcon width={40} height={40} />}
       className="storage-success"
       title="Your request is being processed."
       message="Processing your request may take some time. Once completed, it will

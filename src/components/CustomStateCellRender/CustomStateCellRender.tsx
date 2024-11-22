@@ -13,7 +13,7 @@ export const CustomStateCellRender = ({ state, message }: Props) => {
     pending: PurchaseStateIcon,
     submitted: PurchaseStateIcon,
     started: PurchaseStateIcon,
-    finished: SuccessCircleIcon,
+    finished: () => <SuccessCircleIcon width={20} />,
     cancelled: ErrorCircleIcon,
     errored: ErrorCircleIcon,
   };

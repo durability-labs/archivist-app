@@ -4,31 +4,35 @@ import { useState } from "react";
 import { AppBar } from "../components/AppBar/AppBar";
 import { Backdrop } from "@codex-storage/marketplace-ui-components";
 import { Outlet, ScrollRestoration } from "react-router-dom";
+import { useIsMobile } from "../hooks/useMobile";
 
 export const Root = () => {
-  const [hasMobileMenu, setHasMobileMenu] = useState(false);
+  const isMobile = useIsMobile();
+  const [isExpanded, setIsExpanded] = useState(!isMobile);
+
+  const onExpanded = (val: boolean) => setIsExpanded(val);
 
   const onIconClick = () => {
-    if (window.innerWidth <= 999) {
-      setHasMobileMenu(true);
+    if (isMobile) {
+      setIsExpanded(true);
     }
   };
 
-  const onClose = () => setHasMobileMenu(false);
+  const onClose = () => setIsExpanded(false);
 
   return (
     <div className="layout">
-      <Menu></Menu>
+      <Menu isExpanded={isExpanded} onExpanded={onExpanded}></Menu>
 
       <main>
-        <AppBar onIconClick={onIconClick} />
+        <AppBar onIconClick={onIconClick} onExpanded={onExpanded} />
         <div>
           <ScrollRestoration></ScrollRestoration>
           <Outlet />
         </div>
       </main>
 
-      <Backdrop onClose={onClose} open={hasMobileMenu}></Backdrop>
+      <Backdrop onClose={onClose} open={isExpanded && isMobile}></Backdrop>
     </div>
   );
 };

@@ -4,15 +4,24 @@
   flex-wrap: wrap;
   gap: 16px;
 
-  dialog {
-    width: 80%;
-  }
-
   > .card {
     flex: 1 1 50%;
   }
 
   .table {
+    @media (max-width: 800px) {
+      th:nth-child(3),
+      td:nth-child(3),
+      th:nth-child(4),
+      td:nth-child(4),
+      th:nth-child(5),
+      td:nth-child(5),
+      th:nth-child(6),
+      td:nth-child(6) {
+        display: none;
+      }
+    }
+
     table thead tr th {
       background-color: #14141499;
     }
@@ -61,7 +70,6 @@
 
   aside {
     display: flex;
-    width: 400px;
     flex: 1 1 30%;
 
     .card {

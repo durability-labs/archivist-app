@@ -14,7 +14,7 @@ export function AvailabilitySuccess({ dispatch }: AvailabilityComponentProps) {
 
   return (
     <Placeholder
-      Icon={<SuccessCircleIcon />}
+      Icon={<SuccessCircleIcon width={40} height={40} />}
       title="Success"
       message="The new sale will appear in your sale list. You can safely close this dialog."></Placeholder>
   );

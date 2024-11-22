@@ -42,7 +42,7 @@ export function FolderButton({ folders, onFolderToggle }: Props) {
           {folders.map(([folder, isActive]) => (
             <div key={folder} onClick={() => onFolderToggle(folder)}>
               <span>{folder}</span>
-              {isActive && <SuccessCircleIcon></SuccessCircleIcon>}
+              {isActive && <SuccessCircleIcon width={20}></SuccessCircleIcon>}
             </div>
           ))}
         </div>

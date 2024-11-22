@@ -19,9 +19,12 @@ import HelpIcon from "../../assets/icons/help.svg?react";
 import DisclaimerIcon from "../../assets/icons/disclaimer.svg?react";
 import { WalletConnect } from "../WalletLogin/WalletLogin";
 import { useNavigate } from "react-router-dom";
+import Logo from "../../assets/icons/logo.svg?react";
+import { useIsMobile } from "../../hooks/useMobile";
 
 type Props = {
   onIconClick: () => void;
+  onExpanded: (val: boolean) => void;
 };
 
 const icons: Record<string, ReactElement> = {
@@ -50,12 +53,13 @@ const descriptions: Record<string, string> = {
   disclaimer: "Important information.",
 };
 
-export function AppBar({ onIconClick }: Props) {
+export function AppBar({ onIconClick, onExpanded }: Props) {
   const online = useNetwork();
   const queryClient = useQueryClient();
   const codex = useCodexConnection();
   const persistence = usePersistence(codex.enabled);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     queryClient.invalidateQueries({
@@ -80,6 +84,12 @@ export function AppBar({ onIconClick }: Props) {
         ? "#3EE089"
         : "var(--codex-input-color-warning)";
 
+  const icon = isMobile ? (
+    <Logo onClick={() => onExpanded(true)}></Logo>
+  ) : (
+    icons[title]
+  );
+
   return (
     <>
       <div
@@ -89,7 +99,7 @@ export function AppBar({ onIconClick }: Props) {
           ["app-bar--no-persistence", !persistence.enabled]
         )}>
         <div className="row gap">
-          <span onClick={onIconClick}>{icons[title]}</span>
+          <span onClick={onIconClick}>{icon}</span>
 
           <div>
             <h1>{title}</h1>

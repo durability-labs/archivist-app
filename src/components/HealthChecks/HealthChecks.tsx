@@ -116,7 +116,7 @@ export function HealthChecks({ online, onStepValid }: Props) {
           {isAddressInvalid ? (
             <ErrorCircleIcon width={16} />
           ) : (
-            <SuccessCircleIcon />
+            <SuccessCircleIcon width={20} />
           )}
         </div>
 
@@ -129,7 +129,7 @@ export function HealthChecks({ online, onStepValid }: Props) {
             value={port}
             isInvalid={isPortInvalid}
             placeholder="8080"></Input>
-          <SuccessCircleIcon></SuccessCircleIcon>
+          <SuccessCircleIcon width={20}></SuccessCircleIcon>
         </div>
 
         <div className="refresh">

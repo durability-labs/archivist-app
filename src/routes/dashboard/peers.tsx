@@ -63,7 +63,7 @@ export const PeersRoute = () => {
           <Cell>
             {node.seen ? (
               <div className="status--active">
-                <SuccessCircleIcon /> Active
+                <SuccessCircleIcon width={20} /> Active
               </div>
             ) : (
               <div className="status--inactive">
@@ -76,7 +76,7 @@ export const PeersRoute = () => {
   });
 
   const actives = PeerUtils.countActives(sorted);
-  const degrees = PeerUtils.calculareDegrees(sorted);
+  const percent = PeerUtils.calcularePercent(sorted);
   const good = PeerUtils.isGoodQuality(actives);
 
   return (
@@ -96,7 +96,7 @@ export const PeersRoute = () => {
               <span>Connections</span>
             </header>
             <main>
-              <PeersChart actives={actives} degrees={degrees}></PeersChart>
+              <PeersChart actives={actives} percent={percent}></PeersChart>
             </main>
             <footer>
               <PeersQuality good={good}></PeersQuality>
