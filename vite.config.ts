@@ -1,11 +1,12 @@
-import react from "@vitejs/plugin-react";
+// import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
 import svgr from "vite-plugin-svgr";
+import preact from '@preact/preset-vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), svgr({
+  plugins: [preact(), svgr({
     svgrOptions: {
       plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
       svgoConfig: {
