@@ -202,4 +202,9 @@
       top: 10px;
     }
   }
+
+  .lines {
+    height: 200;
+    transform: scale(1.25);
+  }
 }
