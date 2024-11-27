@@ -14,6 +14,8 @@ type Props = {
   onValidation?: (value: string) => string;
 };
 
+const TESTNET_MAX_VALUE = 7;
+
 export function Commitment({ unit, value, onValidation, onChange }: Props) {
   const [error, setError] = useState("");
 
@@ -50,9 +52,11 @@ export function Commitment({ unit, value, onValidation, onChange }: Props) {
         onChange={onValueChange}
         onGroupChange={onUnitChange}
         value={value}
+        min={0}
+        max={TESTNET_MAX_VALUE}
         group={[
           ["days", "days"],
-          ["months", "months"],
+          // ["months", "months"],
         ]}
         groupValue={unit}
       />

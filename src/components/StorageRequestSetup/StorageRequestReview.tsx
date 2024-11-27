@@ -28,6 +28,8 @@ const durabilities = [
   { nodes: 5, tolerance: 2, proofProbability: 4 },
 ];
 
+const TESTNET_MAX_VALUE = 7;
+
 const findDurabilityIndex = (d: Durability) => {
   const s = JSON.stringify({
     nodes: d.nodes,
@@ -58,10 +60,10 @@ export function StorageRequestReview({
   );
 
   useEffect(() => {
-    const invalid = isInvalidConstrainst(
-      storageRequest.nodes,
-      storageRequest.tolerance
-    );
+    const invalid =
+      isInvalidConstrainst(storageRequest.nodes, storageRequest.tolerance) ||
+      storageRequest.availability > TESTNET_MAX_VALUE ||
+      storageRequest.availability == 0;
 
     dispatch({
       type: "toggle-buttons",
@@ -134,7 +136,10 @@ export function StorageRequestReview({
   const isInvalidAvailability = (data: string) => {
     const [value] = data.split(" ");
 
-    const error = isInvalidNumber(value);
+    const error =
+      isInvalidNumber(value) ||
+      isInvalidAvailabilityNumber(value) ||
+      isRequiredNumber(value);
 
     if (error) {
       return error;
@@ -145,6 +150,14 @@ export function StorageRequestReview({
 
   const isInvalidNumber = (value: string) =>
     isNaN(Number(value)) ? "The value is not a number" : "";
+
+  const isRequiredNumber = (value: string) =>
+    value == "0" ? "The value has to be more than 0." : "";
+
+  const isInvalidAvailabilityNumber = (value: string) =>
+    parseInt(value, 10) > TESTNET_MAX_VALUE
+      ? "The maximum value is on the current Testnet is 7 days"
+      : "";
 
   const onNodesChange = (value: string) =>
     onUpdateDurability({ nodes: Number(value) });
