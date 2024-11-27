@@ -39,11 +39,18 @@ export function WalletCard({ tab }: Props) {
 
     if (value === "USD") {
       setTokenValue(1540);
-    } else {
+    } else if (["BTC", "ETH"].includes(value) === false) {
       const json = await fetch(
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
       ).then((res) => res.json());
-      setTokenValue(defaultTokenValue * json.usd.eur);
+      setTokenValue(defaultTokenValue * json.usd[value.toLocaleLowerCase()]);
+    } else {
+      const json = await fetch(
+        "https://api.coinbase.com/v2/prices/" +
+          value.toLocaleLowerCase() +
+          "-USD/spot.json"
+      ).then((res) => res.json());
+      setTokenValue(defaultTokenValue / json.data.amount);
     }
   };
 
@@ -135,14 +142,20 @@ export function WalletCard({ tab }: Props) {
           <span>TOKEN</span>
           <div className="row">
             <var>
-              {tokenValue.toFixed(2)} {currency}
+              {tokenValue.toFixed(["BTC", "ETH"].includes(currency) ? 8 : 2)}{" "}
+              {currency}
             </var>
             <small>+ 5%</small>
           </div>
         </div>
         <select defaultValue={currency} onChange={onCurrencyChange}>
           <option value={"USD"}>USD</option>
+          <option value={"BTC"}>BTC</option>
+          <option value={"ETH"}>ETH</option>
           <option value={"EUR"}>EUR</option>
+          <option value={"AUD"}>AUD</option>
+          <option value={"CAD"}>CAD</option>
+          <option value={"CNY"}>CNY</option>
         </select>
       </footer>
     </div>
