@@ -178,11 +178,13 @@ describe("files", () => {
 
     it("checks the availability max value", async () => {
         const availability = {
-            totalSize: GB
+            totalSizeUnit: "gb",
+            totalSize: 1
         } as AvailabilityState
+
         assert.deepEqual(AvailabilityUtils.isValid(availability, GB * 2), true);
         assert.deepEqual(AvailabilityUtils.isValid({ ...availability, totalSize: -1 }, GB), false);
-        assert.deepEqual(AvailabilityUtils.isValid({ ...availability, totalSize: 2 * GB }, GB), false);
+        assert.deepEqual(AvailabilityUtils.isValid({ ...availability, totalSize: GB }, 2 * GB), false);
     })
 
     it("toggles item in array", async () => {
