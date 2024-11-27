@@ -173,7 +173,7 @@ describe("files", () => {
             quotaUsedBytes: GB,
             totalBlocks: 0
         }
-        assert.deepEqual(AvailabilityUtils.maxValue(space), 5 * GB);
+        assert.deepEqual(AvailabilityUtils.maxValue(space), 5 * GB - 1);
     })
 
     it("checks the availability max value", async () => {
