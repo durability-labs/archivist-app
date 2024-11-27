@@ -20,10 +20,10 @@ export type StorageAvailabilityValue = {
   value: number;
 };
 
-
 export type StorageRequest = {
   cid: string;
   availability: number;
+  availabilityUnit: "months" | "days";
   tolerance: number;
   proofProbability: number;
   nodes: number;

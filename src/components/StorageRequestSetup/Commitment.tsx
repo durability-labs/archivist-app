@@ -6,34 +6,26 @@ import { ChangeEvent, useState } from "react";
 import { classnames } from "../../utils/classnames";
 import InfoIcon from "../../assets/icons/info.svg?react";
 import { attributes } from "../../utils/attributes";
-import { Times } from "../../utils/times";
 
 type Props = {
+  unit: "months" | "days";
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string, unit: "months" | "days") => void;
   onValidation?: (value: string) => string;
 };
 
-export function Commitment({ value, onValidation, onChange }: Props) {
+export function Commitment({ unit, value, onValidation, onChange }: Props) {
   const [error, setError] = useState("");
 
-  const unitValue = Times.unit(parseFloat(value));
-  const val = parseFloat(value) / Times.value(unitValue);
-
   const onValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.info("e.currentTarget.value", e.currentTarget.value);
-    onValueOrUnitChange(
-      (parseFloat(e.currentTarget.value) * Times.value(unitValue)).toFixed(1)
-    );
+    onValueOrUnitChange(e.currentTarget.value, unit);
   };
   const onUnitChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    onValueOrUnitChange(
-      Times.value(e.currentTarget.value as "days" | "months").toFixed(1)
-    );
+    onValueOrUnitChange(value, e.currentTarget.value as "months" | "days");
   };
 
-  const onValueOrUnitChange = (val: string) => {
-    onChange(val);
+  const onValueOrUnitChange = (val: string, unit: "months" | "days") => {
+    onChange(val, unit);
 
     const msg = onValidation?.(val);
 
@@ -44,8 +36,6 @@ export function Commitment({ value, onValidation, onChange }: Props) {
 
     setError("");
   };
-
-  console.info(val);
 
   return (
     <div
@@ -59,12 +49,12 @@ export function Commitment({ value, onValidation, onChange }: Props) {
         isInvalid={!!error}
         onChange={onValueChange}
         onGroupChange={onUnitChange}
-        value={Number.isInteger(val) ? val.toString() : val.toFixed(1)}
+        value={value}
         group={[
           ["days", "days"],
           ["months", "months"],
         ]}
-        groupValue={unitValue}
+        groupValue={unit}
       />
 
       <Tooltip message={error || "The duration of the request in months"}>

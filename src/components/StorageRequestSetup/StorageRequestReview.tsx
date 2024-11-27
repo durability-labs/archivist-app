@@ -155,11 +155,12 @@ export function StorageRequestReview({
   const onProofProbabilityChange = (value: string) =>
     onUpdateDurability({ proofProbability: Number(value) });
 
-  const onAvailabilityChange = (value: string) => {
+  const onAvailabilityChange = (value: string, unit: "days" | "months") => {
     const [availability] = value.split(" ");
 
     onStorageRequestChange({
       availability: Number(availability),
+      availabilityUnit: unit,
     });
   };
 
@@ -263,6 +264,7 @@ export function StorageRequestReview({
 
         <div className="grid">
           <Commitment
+            unit={storageRequest.availabilityUnit}
             value={availability.toString()}
             onChange={onAvailabilityChange}
             onValidation={isInvalidAvailability}></Commitment>

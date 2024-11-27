@@ -89,8 +89,10 @@ test('create a storage request by using decimal values', async ({ page }) => {
     await expect(page.getByText('Success, the CID has been')).toBeVisible();
     await page.getByRole('button', { name: 'Next' }).click();
 
+    await expect(page.getByRole('combobox')).toHaveValue("days");
     const value = (Math.random() * 10);
     await page.getByLabel("Full period of the contract").fill(value.toFixed(1))
+    await expect(page.getByRole('combobox')).toHaveValue("days");
 
     await page.getByRole('button', { name: 'Next' }).click();
     await expect(page.getByText('Your request is being processed.')).toBeVisible();
@@ -113,12 +115,11 @@ test('create a storage request by using months', async ({ page }) => {
 
     await page.getByLabel("Full period of the contract").fill("3")
     await page.getByRole('combobox').selectOption('months');
-    await expect(page.getByLabel("Full period of the contract")).toHaveValue("1")
-    await page.getByLabel("Full period of the contract").fill("2")
+    await expect(page.getByLabel("Full period of the contract")).toHaveValue("3")
 
     await page.getByRole('button', { name: 'Next' }).click();
     await expect(page.getByText('Your request is being processed.')).toBeVisible();
     await page.getByRole('button', { name: 'Finish' }).click();
     await expect(page.getByText('No data.')).not.toBeVisible();
-    await expect(page.getByText("2 months").first()).toBeVisible();
+    await expect(page.getByText("3 months").first()).toBeVisible();
 })
