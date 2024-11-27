@@ -88,5 +88,5 @@ export const AvailabilityUtils = {
         "#D2493C22",
         "#D2493C11",
         "#D2493C00",
-    ]
+    ],
 }

@@ -14,6 +14,7 @@ import CommitmentIcon from "../../assets/icons/commitment.svg?react";
 import RequestDurationIcon from "../../assets/icons/request-duration.svg?react";
 import { attributes } from "../../utils/attributes";
 import { Strings } from "../../utils/strings";
+import { Commitment } from "./Commitment";
 
 type Durability = {
   nodes: number;
@@ -139,14 +140,6 @@ export function StorageRequestReview({
       return error;
     }
 
-    // if (!unit.endsWith("s")) {
-    //   unit += "s";
-    // }
-
-    // if (!units.includes(unit)) {
-    //   return "Invalid unit must one of: minutes, hours, days, months, years";
-    // }
-
     return "";
   };
 
@@ -165,13 +158,8 @@ export function StorageRequestReview({
   const onAvailabilityChange = (value: string) => {
     const [availability] = value.split(" ");
 
-    // if (!availabilityUnit.endsWith("s")) {
-    //   availabilityUnit += "s";
-    // }
-
     onStorageRequestChange({
       availability: Number(availability),
-      availabilityUnit: "months",
     });
   };
 
@@ -183,18 +171,6 @@ export function StorageRequestReview({
 
   const onCollateralChange = (value: string) =>
     onStorageRequestChange({ collateral: Number(value) });
-
-  // const pluralizeUnit = () => {
-  //   if (data.availability > 1 && !data.availabilityUnit.endsWith("s")) {
-  //     return data.availability + " " +data.availabilityUnit + "s";
-  //   }
-
-  //   if (data.availability <= 1 && data.availabilityUnit.endsWith("s")) {
-  //     return data.availabilityUnit.slice(0, -1);
-  //   }
-
-  //   return data.availabilityUnit;
-  // };
 
   const availability = storageRequest.availability;
 
@@ -286,14 +262,10 @@ export function StorageRequestReview({
         </div>
 
         <div className="grid">
-          <CardNumbers
-            helper="The duration of the request in months"
-            id="duration"
-            title={"Full period of the contract"}
+          <Commitment
             value={availability.toString()}
             onChange={onAvailabilityChange}
-            onValidation={isInvalidAvailability}
-            unit="Contract duration"></CardNumbers>
+            onValidation={isInvalidAvailability}></Commitment>
           <CardNumbers
             helper="Represents how much collateral is asked from hosts that wants to fill a slots"
             id="collateral"

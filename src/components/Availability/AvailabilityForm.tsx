@@ -46,7 +46,7 @@ export function AvailabilityForm({
 
   const onDurationChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
-    const unitValue = Times.unitValue(availability.durationUnit);
+    const unitValue = Times.value(availability.durationUnit);
 
     onAvailabilityChange({
       duration: parseInt(element.value) * unitValue,
@@ -56,7 +56,7 @@ export function AvailabilityForm({
   const onDurationUnitChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget;
     const unit = element.value as "hours" | "days" | "months";
-    const unitValue = Times.unitValue(unit);
+    const unitValue = Times.value(unit);
 
     onAvailabilityChange({
       duration: unitValue,
@@ -108,7 +108,7 @@ export function AvailabilityForm({
     availability.totalSizeUnit
   ).toFixed(2);
 
-  const unitValue = Times.unitValue(availability.durationUnit);
+  const unitValue = Times.value(availability.durationUnit);
   const duration = availability.duration / unitValue;
 
   return (

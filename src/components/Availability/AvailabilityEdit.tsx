@@ -29,7 +29,7 @@ const CONFIRM_STATE = 2;
 
 const defaultAvailabilityData: AvailabilityState = {
   totalSize: 0.5 * GB,
-  duration: Times.unitValue("days"),
+  duration: Times.value("days"),
   minPrice: 0,
   maxCollateral: 0,
   totalSizeUnit: "gb",
@@ -62,7 +62,7 @@ export function AvailabilityEdit({
       }
 
       if (a) {
-        setAvailability(a);
+        setAvailability({ ...defaultAvailabilityData, ...a });
       }
     });
   }, [dispatch]);

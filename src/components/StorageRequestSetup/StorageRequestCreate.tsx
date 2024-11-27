@@ -22,8 +22,7 @@ const CONFIRM_STATE = 2;
 
 const defaultStorageRequest: StorageRequest = {
   cid: "",
-  availabilityUnit: "months",
-  availability: 1,
+  availability: Times.value("days"),
   tolerance: 1,
   proofProbability: 1,
   nodes: 3,
@@ -43,7 +42,7 @@ export function StorageRequestCreate() {
   useEffect(() => {
     Promise.all([
       WebStorage.get<number>("storage-request-step"),
-      WebStorage.get<StorageRequest>("storage-request"),
+      WebStorage.get<StorageRequest>("storage-request-2"),
     ]).then(([s, data]) => {
       if (s) {
         dispatch({
@@ -83,11 +82,10 @@ export function StorageRequestCreate() {
     WebStorage.set("storage-request-step", step);
 
     if (step == CONFIRM_STATE) {
-      const { availabilityUnit, availability, expiration, ...rest } =
-        storageRequest;
+      const { availability, expiration, ...rest } = storageRequest;
       mutateAsync({
         ...rest,
-        duration: Times.toSeconds(availability, availabilityUnit),
+        duration: availability,
         expiry: expiration * 60,
       });
     } else {
@@ -101,7 +99,7 @@ export function StorageRequestCreate() {
   const onStorageRequestChange = (data: Partial<StorageRequest>) => {
     const val = { ...storageRequest, ...data };
 
-    WebStorage.set("storage-request", val);
+    WebStorage.set("storage-request-2", val);
 
     setStorageRequest(val);
   };
