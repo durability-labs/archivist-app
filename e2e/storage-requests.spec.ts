@@ -98,7 +98,7 @@ test('create a storage request by using decimal values', async ({ page }) => {
     await page.getByLabel("Full period of the contract").fill("0")
     await expect(page.locator('footer .button--primary')).toHaveAttribute("disabled");
 
-    const value = (Math.random() * 10);
+    const value = (Math.random() * 7);
     await page.getByLabel("Full period of the contract").fill(value.toFixed(1))
     await expect(page.locator('footer .button--primary')).not.toHaveAttribute("disabled");
 
