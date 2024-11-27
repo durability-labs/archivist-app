@@ -48,9 +48,20 @@ export function WalletCard({ tab }: Props) {
   };
 
   if (chart.current) {
+    const today = new Date();
+    const startOfWeek = today.getDate() - today.getDay() + 1;
+    const startDates = [];
+
+    today.setDate(startOfWeek);
+
+    for (let i = 0; i < 5; i++) {
+      startDates.push(today.toISOString().split("T")[0]);
+      today.setDate(today.getDate() + 7);
+    }
+
     const data = {
       daily: ["MON", "TUE", "WED", "THU", "WED", "SAT", "SUN"],
-      weekly: ["1", "2", "3", "4", "5", "6"],
+      weekly: startDates,
       monthly: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN"],
     }[tab];
 
