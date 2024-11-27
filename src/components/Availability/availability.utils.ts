@@ -39,7 +39,8 @@ export const AvailabilityUtils = {
         return bytes / this.unitValue(unit || "gb")
     },
     maxValue(space: CodexNodeSpace) {
-        return space.quotaMaxBytes - space.quotaReservedBytes - space.quotaUsedBytes
+        // Remove 1 byte to allow to create an availability with the max space possible
+        return space.quotaMaxBytes - space.quotaReservedBytes - space.quotaUsedBytes - 1
     },
     unitValue(unit: "gb" | "tb") {
         return unit === "tb" ? TB : GB
