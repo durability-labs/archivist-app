@@ -48,7 +48,7 @@ export const AvailabilityUtils = {
     isValid: (
         availability: AvailabilityState,
         max: number
-    ) => availability.totalSize > 0 && availability.totalSize <= max
+    ) => availability.totalSize > 0 && availability.totalSize * AvailabilityUtils.unitValue(availability.totalSizeUnit) <= max
     ,
     toggle: <T>(arr: Array<T>, value: T) =>
         arr.includes(value) ? arr.filter(i => i !== value) : [...arr, value],

@@ -8,9 +8,9 @@ test('create an availability', async ({ page }) => {
     await page.locator('.availability-edit button').first().click();
     await page.getByLabel('Total size').click();
 
-    const value = (Math.random() * 0.5);
+    const value = (Math.random() * 0.5) + 0.1;
 
-    await page.getByLabel('Total size').fill(value.toFixed(2));
+    await page.getByLabel('Total size').fill(value.toFixed(1));
     await page.getByLabel('Duration').click();
     await page.getByLabel('Duration').fill('30');
     await page.getByLabel('Min price').click();
