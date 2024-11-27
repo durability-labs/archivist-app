@@ -1,7 +1,7 @@
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { Times } from "../../utils/times";
 import { Strings } from "../../utils/strings";
-import { PrettyBytes } from "../../utils/bytes";
+import { Bytes } from "../../utils/bytes";
 import { useEffect, useRef, useState } from "react";
 import { CallbackDataParams, ECBasicOption } from "echarts/types/dist/shared";
 import * as echarts from "echarts/core";
@@ -65,7 +65,7 @@ export function Sunburst({ availabilities, space }: Props) {
             a.minPrice +
             "<br/>" +
             "Size " +
-            PrettyBytes(a.totalSize)
+            Bytes.pretty(a.totalSize)
           );
         },
       },
@@ -87,7 +87,7 @@ export function Sunburst({ availabilities, space }: Props) {
               params.marker +
               "Slot " +
               slot.id +
-              PrettyBytes(parseFloat(slot.size))
+              Bytes.pretty(parseFloat(slot.size))
             );
           },
         },
@@ -121,7 +121,7 @@ export function Sunburst({ availabilities, space }: Props) {
                 return (
                   params.marker +
                   " Space remaining " +
-                  PrettyBytes(
+                  Bytes.pretty(
                     space.quotaMaxBytes -
                       space.quotaReservedBytes -
                       space.quotaUsedBytes
