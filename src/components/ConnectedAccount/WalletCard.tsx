@@ -41,7 +41,7 @@ export function WalletCard({ tab }: Props) {
     return () => {
       window.removeEventListener("resize", refresh);
     };
-  }, [chart.current]);
+  }, []);
 
   const onCurrencyChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.currentTarget.value;

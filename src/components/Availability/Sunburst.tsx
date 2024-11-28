@@ -44,7 +44,7 @@ export function Sunburst({ availabilities, space }: Props) {
     return () => {
       window.removeEventListener("resize", refresh);
     };
-  }, [chart.current]);
+  }, []);
 
   const data = availabilities.map((a, index) => {
     return {
