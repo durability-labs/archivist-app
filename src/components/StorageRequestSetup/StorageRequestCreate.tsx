@@ -87,7 +87,7 @@ export function StorageRequestCreate() {
         storageRequest;
       mutateAsync({
         ...rest,
-        duration: availability * Times.value(availabilityUnit),
+        duration: Math.trunc(availability * Times.value(availabilityUnit)),
         expiry: expiration * 60,
       });
     } else {
