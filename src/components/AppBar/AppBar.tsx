@@ -28,7 +28,7 @@ type Props = {
 };
 
 const icons: Record<string, ReactElement> = {
-  dashboard: <DashboardIcon />,
+  dashboard: <DashboardIcon width={24} />,
   peers: <PeersIcon width={24} />,
   settings: <SettingsIcon width={24} />,
   files: <FilesIcon width={24} />,
@@ -83,7 +83,7 @@ export function AppBar({ onIconClick, onExpanded }: Props) {
         : "var(--codex-input-color-warning)";
 
   const icon = isMobile ? (
-    <Logo onClick={() => onExpanded(true)}></Logo>
+    <Logo onClick={() => onExpanded(true)} width={30}></Logo>
   ) : (
     icons[title]
   );

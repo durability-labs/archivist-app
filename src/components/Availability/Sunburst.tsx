@@ -36,6 +36,16 @@ export function Sunburst({ availabilities, space }: Props) {
     }
   }, [chart, div]);
 
+  useEffect(() => {
+    const refresh = () => chart.current?.resize();
+
+    window.addEventListener("resize", refresh);
+
+    return () => {
+      window.removeEventListener("resize", refresh);
+    };
+  }, [chart.current]);
+
   const data = availabilities.map((a, index) => {
     return {
       name: Strings.shortId(a.id),
@@ -170,6 +180,8 @@ export function Sunburst({ availabilities, space }: Props) {
     };
 
     chart.current.setOption(option);
+    chart.current?.resize();
+
     // chart.current.off("click");
     // chart.current.on("click", function (params) {
     //   // console.info(params.componentIndex);
@@ -196,7 +208,6 @@ export function Sunburst({ availabilities, space }: Props) {
       ref={div}
       className="sunburst"
       style={{
-        width: size,
         height: size,
       }}></div>
   );

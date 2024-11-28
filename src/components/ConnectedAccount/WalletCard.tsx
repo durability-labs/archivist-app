@@ -33,6 +33,16 @@ export function WalletCard({ tab }: Props) {
     }
   }, [chart, div]);
 
+  useEffect(() => {
+    const refresh = () => chart.current?.resize();
+
+    window.addEventListener("resize", refresh);
+
+    return () => {
+      window.removeEventListener("resize", refresh);
+    };
+  }, [chart.current]);
+
   const onCurrencyChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.currentTarget.value;
     setCurrency(value);
@@ -90,6 +100,14 @@ export function WalletCard({ tab }: Props) {
         type: "value",
         show: false,
       },
+      grid: [
+        {
+          left: 0,
+          right: 0,
+          top: 50,
+          bottom: 50,
+        },
+      ],
       series: [
         {
           data: [220, 932, 401, 934, 1290, 1330, 1450].slice(0, data.length),
@@ -107,7 +125,7 @@ export function WalletCard({ tab }: Props) {
       },
     };
 
-    chart.current.setOption(option);
+    chart.current.setOption(option, true);
   }
 
   return (
@@ -133,7 +151,10 @@ export function WalletCard({ tab }: Props) {
         <section>
           {/* <WalletChart></WalletChart> */}
           {/* <WalletLines></WalletLines> */}
-          <div className="lines" ref={div} style={{ height: 200 }}></div>
+          <div
+            className="lines"
+            ref={div}
+            style={{ height: 200, width: "100%" }}></div>
         </section>
       </main>
 
