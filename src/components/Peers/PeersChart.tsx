@@ -15,9 +15,11 @@ export function PeersChart({ actives, degrees }: Props) {
   };
 
   return (
-    <div style={style} className="peers-chart">
-      <div></div>
-      <span>{actives}</span>
-    </div>
+    <>
+      <div style={style} className="peers-chart">
+        <div></div>
+        <span>{actives}</span>
+      </div>
+    </>
   );
 }

@@ -1,18 +1,26 @@
 import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { Times } from "../../utils/times";
 import { Strings } from "../../utils/strings";
-import { PrettyBytes } from "../../utils/bytes";
+import { Bytes } from "../../utils/bytes";
 import { useEffect, useRef, useState } from "react";
 import { CallbackDataParams, ECBasicOption } from "echarts/types/dist/shared";
-import * as echarts from "echarts";
-import { availabilityColors, slotColors } from "./availability.colors";
+import * as echarts from "echarts/core";
+
+// Import bar charts, all suffixed with Chart
+import { SunburstChart } from "echarts/charts";
 import { AvailabilityWithSlots } from "./types";
 import "./Sunburst.css";
+import { AvailabilityUtils } from "./availability.utils";
 
 type Props = {
   availabilities: AvailabilityWithSlots[];
   space: CodexNodeSpace;
 };
+
+import { TooltipComponent } from "echarts/components";
+import { SVGRenderer } from "echarts/renderers";
+
+echarts.use([SunburstChart, TooltipComponent, SVGRenderer]);
 
 export function Sunburst({ availabilities, space }: Props) {
   const div = useRef<HTMLDivElement>(null);
@@ -28,12 +36,22 @@ export function Sunburst({ availabilities, space }: Props) {
     }
   }, [chart, div]);
 
+  useEffect(() => {
+    const refresh = () => chart.current?.resize();
+
+    window.addEventListener("resize", refresh);
+
+    return () => {
+      window.removeEventListener("resize", refresh);
+    };
+  }, []);
+
   const data = availabilities.map((a, index) => {
     return {
       name: Strings.shortId(a.id),
       value: a.totalSize,
       itemStyle: {
-        color: availabilityColors[index],
+        color: AvailabilityUtils.availabilityColors[index],
         borderColor: "transparent",
       },
       tooltip: {
@@ -57,7 +75,7 @@ export function Sunburst({ availabilities, space }: Props) {
             a.minPrice +
             "<br/>" +
             "Size " +
-            PrettyBytes(a.totalSize)
+            Bytes.pretty(a.totalSize)
           );
         },
       },
@@ -66,7 +84,7 @@ export function Sunburst({ availabilities, space }: Props) {
         value: parseFloat(slot.size),
         children: [],
         itemStyle: {
-          color: slotColors[index],
+          color: AvailabilityUtils.slotColors[index],
           borderColor: "transparent",
         },
         tooltip: {
@@ -79,7 +97,7 @@ export function Sunburst({ availabilities, space }: Props) {
               params.marker +
               "Slot " +
               slot.id +
-              PrettyBytes(parseFloat(slot.size))
+              Bytes.pretty(parseFloat(slot.size))
             );
           },
         },
@@ -87,81 +105,83 @@ export function Sunburst({ availabilities, space }: Props) {
     };
   });
 
-  const option: ECBasicOption = {
-    series: {
-      type: "sunburst",
-      data: [
-        ...data,
-        {
-          name: "Space remaining",
-          value:
-            space.quotaMaxBytes -
-            space.quotaReservedBytes -
-            space.quotaUsedBytes,
-          children: [],
-          itemStyle: {
-            color: "#2F2F2F",
-            borderColor: "transparent",
-          },
-          tooltip: {
-            backgroundColor: "#333",
-            textStyle: {
-              color: "#fff",
-            },
-            formatter: (params: CallbackDataParams) => {
-              return (
-                params.marker +
-                " Space remaining " +
-                PrettyBytes(
-                  space.quotaMaxBytes -
-                    space.quotaReservedBytes -
-                    space.quotaUsedBytes
-                )
-              );
-            },
-          },
-        },
-      ],
-      radius: [60, "90%"],
-      itemStyle: {
-        borderWidth: 1,
-      },
-      label: {
-        show: false,
-      },
-      levels: [
-        {},
-        {
-          r0: "35%",
-          r: "70%",
-          label: {
-            align: "right",
-          },
-        },
-        {
-          r0: "75%",
-          r: "85%",
-          itemStyle: {},
-          label: {
-            position: "outside",
-            textShadowBlur: 5,
-            textShadowColor: "#333",
-          },
-          downplay: {
-            label: {
-              opacity: 1,
-            },
-          },
-        },
-      ],
-    },
-    tooltip: {
-      // type: "item",
-    },
-  };
-
   if (chart.current) {
+    const option: ECBasicOption = {
+      series: {
+        type: "sunburst",
+        data: [
+          ...data,
+          {
+            name: "Space remaining",
+            value:
+              space.quotaMaxBytes -
+              space.quotaReservedBytes -
+              space.quotaUsedBytes,
+            children: [],
+            itemStyle: {
+              color: "#2F2F2F",
+              borderColor: "transparent",
+            },
+            tooltip: {
+              backgroundColor: "#333",
+              textStyle: {
+                color: "#fff",
+              },
+              formatter: (params: CallbackDataParams) => {
+                return (
+                  params.marker +
+                  " Space remaining " +
+                  Bytes.pretty(
+                    space.quotaMaxBytes -
+                      space.quotaReservedBytes -
+                      space.quotaUsedBytes
+                  )
+                );
+              },
+            },
+          },
+        ],
+        radius: [60, "90%"],
+        itemStyle: {
+          borderWidth: 1,
+        },
+        label: {
+          show: false,
+        },
+        levels: [
+          {},
+          {
+            r0: "35%",
+            r: "70%",
+            label: {
+              align: "right",
+            },
+          },
+          {
+            r0: "75%",
+            r: "85%",
+            itemStyle: {},
+            label: {
+              position: "outside",
+              textShadowBlur: 5,
+              textShadowColor: "#333",
+            },
+            downplay: {
+              label: {
+                opacity: 1,
+              },
+            },
+          },
+        ],
+      },
+      tooltip: {
+        // type: "item",
+      },
+    };
+
     chart.current.setOption(option);
+    chart.current?.resize();
+
     // chart.current.off("click");
     // chart.current.on("click", function (params) {
     //   // console.info(params.componentIndex);
@@ -180,5 +200,15 @@ export function Sunburst({ availabilities, space }: Props) {
     // });
   }
 
-  return <div id="chart" ref={div} className="sunburst"></div>;
+  const size = window.innerWidth > 500 ? 350 : 300;
+
+  return (
+    <div
+      id="chart"
+      ref={div}
+      className="sunburst"
+      style={{
+        height: size,
+      }}></div>
+  );
 }

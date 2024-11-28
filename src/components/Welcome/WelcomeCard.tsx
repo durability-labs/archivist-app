@@ -1,6 +1,4 @@
 import "./WelcomeCard.css";
-import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { Alert } from "@codex-storage/marketplace-ui-components";
 import { useEffect, useRef, useState } from "react";
 import { classnames } from "../../utils/classnames";
@@ -8,7 +6,9 @@ import Logotype from "../../assets/icons/logotype.svg?react";
 import Logo from "../../assets/icons/logo.svg?react";
 import DiscordIcon from "../../assets/icons/discord.svg?react";
 import WarningIcon from "../../assets/icons/warning.svg?react";
+import ArrowIcon from "../../assets/icons/arrow-onboarding.svg?react";
 import { WelcomeImage } from "./WelcomeImage";
+import { Link } from "react-router-dom";
 
 export function WelcomeCard() {
   const ref = useRef<HTMLDivElement>(null);
@@ -47,11 +47,11 @@ export function WelcomeCard() {
           </p>
           <div>
             <Link to="/dashboard/help" className="welcome-link">
-              Learn more<ArrowRight></ArrowRight>
+              Learn more <ArrowIcon width={14} height={14}></ArrowIcon>
             </Link>
             <a href={import.meta.env.VITE_DISCORD_LINK}>
               <DiscordIcon></DiscordIcon>
-              Join Codex Discord
+              <span>Join Codex Discord</span>
             </a>
           </div>
         </main>

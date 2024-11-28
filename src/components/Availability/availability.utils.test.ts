@@ -1,5 +1,8 @@
 import { assert, describe, it } from "vitest";
 import { AvailabilityUtils } from "./availability.utils";
+import { GB, TB } from "../../utils/constants";
+import { CodexNodeSpace } from "@codex-storage/sdk-js";
+import { AvailabilityState } from "./types";
 
 describe("files", () => {
     it("sorts by id", async () => {
@@ -156,4 +159,37 @@ describe("files", () => {
 
         assert.deepEqual(ascSorted, [a, b]);
     });
+
+    it("returns the number of bytes per unit", async () => {
+        assert.deepEqual(AvailabilityUtils.toUnit(GB, "gb"), 1);
+        assert.deepEqual(AvailabilityUtils.toUnit(TB, "tb"), 1);
+    })
+
+
+    it("returns the max value possible for an availability", async () => {
+        const space: CodexNodeSpace = {
+            quotaMaxBytes: 8 * GB,
+            quotaReservedBytes: 2 * GB,
+            quotaUsedBytes: GB,
+            totalBlocks: 0
+        }
+        assert.deepEqual(AvailabilityUtils.maxValue(space), 5 * GB - 1);
+    })
+
+    it("checks the availability max value", async () => {
+        const availability = {
+            totalSizeUnit: "gb",
+            totalSize: 1
+        } as AvailabilityState
+
+        assert.deepEqual(AvailabilityUtils.isValid(availability, GB * 2), true);
+        assert.deepEqual(AvailabilityUtils.isValid({ ...availability, totalSize: -1 }, GB), false);
+        assert.deepEqual(AvailabilityUtils.isValid({ ...availability, totalSize: GB }, 2 * GB), false);
+    })
+
+    it("toggles item in array", async () => {
+        const array: string[] = []
+        assert.deepEqual(AvailabilityUtils.toggle(array, "1"), ["1"]);
+        assert.deepEqual(AvailabilityUtils.toggle(AvailabilityUtils.toggle(array, "1"), "1"), []);
+    })
 })

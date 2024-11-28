@@ -1,19 +1,26 @@
-import {
-  ErrorComponentProps,
-  RouterProvider,
-  createRouter,
-} from "@tanstack/react-router";
 import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
 import "./index.css";
-
+import { render } from "preact";
 // Import the generated route tree
-import App from "./App.tsx";
-import { routeTree } from "./routeTree.gen";
-import { Failure } from "@codex-storage/marketplace-ui-components";
 import * as Sentry from "@sentry/react";
 import { CodexSdk } from "./sdk/codex";
-import { ErrorPlaceholder } from "./components/ErrorPlaceholder/ErrorPlaceholder.tsx";
+import { OnBoardingRoute } from "./routes/onboarding.tsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { OnBoardingNameRoute } from "./routes/onboarding-name.tsx";
+import { OnBoardingChecksRoute } from "./routes/onboarding-checks.tsx";
+import { Root } from "./routes/root.tsx";
+import { DashboardRoute } from "./routes/dashboard/dashboard.tsx";
+import { WalletRoute } from "./routes/dashboard/wallet.tsx";
+import { FilesRoute } from "./routes/dashboard/files.tsx";
+import { PurchasesRoute } from "./routes/dashboard/purchases.tsx";
+import { AvailabilitiesRoute } from "./routes/dashboard/availabilities.tsx";
+import { PeersRoute } from "./routes/dashboard/peers.tsx";
+import { LogsRoute } from "./routes/dashboard/logs.tsx";
+import { SettingsRoute } from "./routes/dashboard/settings.tsx";
+import { HelpRoute } from "./routes/dashboard/help.tsx";
+import { DisclaimerRoute } from "./routes/dashboard/disclaimer.tsx";
+import { RouteErrorBoundary } from "./components/RouteErrorBoundary/RouteErrorBoundary.tsx";
 
 if (import.meta.env.PROD && !import.meta.env.CI) {
   Sentry.init({
@@ -39,48 +46,85 @@ if (import.meta.env.PROD && !import.meta.env.CI) {
   });
 }
 
-// Create a new router instance
-const router = createRouter({
-  routeTree,
-  defaultPreload: "viewport",
-  defaultNotFoundComponent: () => {
-    return (
-      <Failure
-        title="Page not found"
-        code={404}
-        message="The page is not found"
-        button="Go back to home"
-        onClick={() => {}}
-      />
-    );
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <OnBoardingRoute />,
+    errorElement: <RouteErrorBoundary />,
   },
-  defaultErrorComponent:
-    () =>
-    ({ error }: ErrorComponentProps) => (
-      <ErrorPlaceholder error={error} subtitle="Cannot retrieve the data." />
-    ),
-});
+  {
+    path: "/onboarding-name",
+    element: <OnBoardingNameRoute />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/onboarding-checks",
+    element: <OnBoardingChecksRoute />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/dashboard",
+    element: <Root />,
+    errorElement: <RouteErrorBoundary />,
+    children: [
+      {
+        path: "",
+        element: <DashboardRoute />,
+      },
+      {
+        path: "wallet",
+        element: <WalletRoute />,
+      },
+      {
+        path: "files",
+        element: <FilesRoute />,
+      },
+      {
+        path: "purchases",
+        element: <PurchasesRoute />,
+      },
+      {
+        path: "availabilities",
+        element: <AvailabilitiesRoute />,
+      },
+      {
+        path: "peers",
+        element: <PeersRoute />,
+      },
+      {
+        path: "logs",
+        element: <LogsRoute />,
+      },
+      {
+        path: "settings",
+        element: <SettingsRoute />,
+      },
+      {
+        path: "help",
+        element: <HelpRoute />,
+      },
+      {
+        path: "disclaimer",
+        element: <DisclaimerRoute />,
+      },
+    ],
+  },
+]);
 
-// Register the router instance for type safety
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
+const queryClient = new QueryClient();
 
 // Render the app
 const rootElement = document.getElementById("root")!;
 
 if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-
   CodexSdk.load().then(() => {
-    root.render(
+    render(
       <StrictMode>
-        <App>
+        <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
-        </App>
-      </StrictMode>
+        </QueryClientProvider>
+      </StrictMode>,
+      rootElement
     );
   });
 }

@@ -1,6 +1,6 @@
 .request-review {
   > header {
-    border-bottom: 1px solid #96969633;
+    border-bottom: 1px solid rgba(150, 150, 150, 0.2);
     padding-bottom: 16px;
 
     div {
@@ -12,6 +12,13 @@
     display: flex;
     gap: 16px;
     margin-bottom: 16px;
+
+    @media screen and (max-width: 801px) {
+      & {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
 
     > div {
       height: 74px;
@@ -40,13 +47,13 @@
         font-weight: 500;
         line-height: 18px;
         letter-spacing: -0.011em;
-        color: #969696cc;
+        color: rgba(150, 150, 150, 0.8);
       }
     }
 
     > div:nth-child(n + 2) {
-      --codex-preset-border-color: #494949;
-      --codex-preset-color: #969696;
+      --codex-preset-border-color: rgb(73, 73, 73);
+      --codex-preset-color: rgba(150, 150, 150, 1);
       border: 1px solid var(--codex-preset-border-color);
       border-radius: 12px;
       padding: 16px;
@@ -58,19 +65,25 @@
       cursor: pointer;
       transition: 0.35s box-shadow;
 
+      @media screen and (max-width: 801px) {
+        & {
+          width: 100%;
+        }
+      }
+
       &:hover {
         box-shadow: 0 0 0 2px var(--codex-preset-border-color);
       }
 
       &[aria-selected] {
-        --codex-preset-border-color: #6fcb94;
-        --codex-preset-color: #6fcb94;
+        --codex-preset-border-color: var(--codex-color-primary);
+        --codex-preset-color: var(--codex-color-primary);
       }
 
       svg {
         position: absolute;
-        right: 0;
-        top: 0;
+        right: -16px;
+        top: -7px;
         color: var(--codex-preset-color);
       }
 
@@ -83,14 +96,14 @@
         color: var(--codex-preset-color);
 
         + span {
-          background: #6fcb9433;
+          background: var(--codex-color-primary) 33;
           padding: 2px 8px;
           font-family: Inter;
           font-size: 11px;
           font-weight: 500;
           line-height: 12px;
           letter-spacing: 0.02em;
-          color: #6fcb94;
+          color: var(--codex-color-primary);
           border-radius: 16px;
           margin-left: 4px;
         }
@@ -99,7 +112,7 @@
   }
 
   .row {
-    border-top: 1px solid #96969633;
+    border-top: 1px solid rgba(150, 150, 150, 0.2);
     margin-top: 16px;
     margin-bottom: 16px;
     padding-top: 16px;
@@ -127,6 +140,12 @@
     display: flex;
     gap: 16px;
     margin-bottom: 16px;
+
+    @media screen and (max-width: 801px) {
+      & {
+        flex-direction: column;
+      }
+    }
 
     > * {
       flex: 1;

@@ -10,7 +10,7 @@
 
   background-repeat: no-repeat;
   background-size: cover;
-  border: 1px solid #96969633;
+  border: 1px solid rgba(150, 150, 150, 0.2);
   border-radius: 16px;
   padding: 16px;
   box-sizing: border-box;
@@ -36,8 +36,8 @@
     align-items: center;
 
     button {
-      background-color: #161616;
-      border: 1px solid #96969633;
+      background-color: rgb(22, 22, 22);
+      border: 1px solid rgba(150, 150, 150, 0.2);
       height: 24px;
       width: 24px;
       cursor: pointer;
@@ -47,7 +47,7 @@
       align-items: center;
 
       &:hover {
-        box-shadow: 0 0 0 3px var(--codex-border-color);
+        box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.2);
       }
 
       &:first-child {
@@ -84,7 +84,7 @@
     line-height: 20px;
     letter-spacing: -0.006em;
     text-align: left;
-    color: #ffffffb2;
+    color: rgb(255, 255, 255, 0.7);
   }
 
   var {
@@ -92,7 +92,7 @@
     font-weight: 500;
     line-height: 40px;
     letter-spacing: -0.005em;
-    color: var(--text-strong-950, #ffffff);
+    color: rgb(255, 255, 255);
     display: block;
     font-style: normal;
   }
@@ -130,30 +130,60 @@
     }
 
     select {
-      background-color: #161616;
+      background-color: rgb(22, 22, 22);
       border-radius: 8px;
-      border: 1px solid #96969633;
-      padding: 6px 6px 6px 44px;
+      border: 1px solid rgba(150, 150, 150, 0.2);
+      padding: 6px 24px 6px 34px;
       outline: none;
       -moz-appearance: none; /* Firefox */
       -webkit-appearance: none; /* Safari and Chrome */
       appearance: none;
       position: relative;
       transition: box-shadow 0.35s;
+      height: 31px;
+      font-size: 0;
 
       &:hover {
-        box-shadow: 0 0 0 3px var(--codex-border-color);
+        box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.2);
       }
 
-      &:has(option[value="US"]:checked) {
-        background-image: url(/icons/us-flag.svg);
+      &:has(option:checked) {
         background-position: 10px;
         background-repeat: no-repeat;
         background-size: 16px;
       }
 
+      &:has(option[value="USD"]:checked) {
+        background-image: url(/icons/us-flag.svg);
+      }
+
+      &:has(option[value="EUR"]:checked) {
+        background-image: url(/icons/euro-flag.svg);
+      }
+
+      &:has(option[value="AUD"]:checked) {
+        background-image: url(/icons/aud-flag.svg);
+      }
+
+      &:has(option[value="CAD"]:checked) {
+        background-image: url(/icons/cad-flag.svg);
+      }
+
+      &:has(option[value="CNY"]:checked) {
+        background-image: url(/icons/cny-flag.svg);
+      }
+
+      &:has(option[value="BTC"]:checked) {
+        background-image: url(/icons/btc-flag.svg);
+      }
+
+      &:has(option[value="ETH"]:checked) {
+        background-image: url(/icons/eth-flag.svg);
+      }
+
       option {
         border-radius: 32px;
+        font-size: 16px;
       }
     }
 
@@ -166,11 +196,11 @@
     }
 
     small {
-      color: #3ee089;
+      color: rgb(62, 224, 137);
       height: 20px;
       width: 42px;
       border-radius: 16px;
-      background-color: #1fc16b29;
+      background-color: rgb(31, 193, 107, 0.16);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -191,5 +221,9 @@
       left: 0;
       top: 10px;
     }
+  }
+
+  .lines {
+    height: 200;
   }
 }

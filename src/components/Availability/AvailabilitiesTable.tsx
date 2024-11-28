@@ -4,14 +4,13 @@ import {
   Table,
   TabSortState,
 } from "@codex-storage/marketplace-ui-components";
-import { PrettyBytes } from "../../utils/bytes";
+import { Bytes } from "../../utils/bytes";
 import { AvailabilityActionsCell } from "./AvailabilityActionsCell";
 import { CodexAvailability, CodexNodeSpace } from "@codex-storage/sdk-js/async";
 import { Times } from "../../utils/times";
 import { Fragment, useState } from "react";
 import { AvailabilityReservations } from "./AvailabilityReservations";
 import { AvailabilityIdCell } from "./AvailabilityIdCell";
-import { Arrays } from "../../utils/arrays";
 import { SlotRow } from "./SlotRow";
 import { AvailabilityWithSlots } from "./types";
 import { AvailabilityDiskRow } from "./AvailabilityDiskRow";
@@ -68,7 +67,8 @@ export function AvailabilitiesTable({ availabilities, space }: Props) {
   const rows = sorted.map((a) => {
     const showDetails = details.includes(a.id);
 
-    const onShowDetails = () => setDetails(Arrays.toggle(details, a.id));
+    const onShowDetails = () =>
+      setDetails(AvailabilityUtils.toggle(details, a.id));
     const hasSlots = a.slots.length > 0;
 
     return (
@@ -86,7 +86,7 @@ export function AvailabilitiesTable({ availabilities, space }: Props) {
               )}
             </Cell>,
             <AvailabilityIdCell value={a} />,
-            <Cell>{PrettyBytes(a.totalSize)}</Cell>,
+            <Cell>{Bytes.pretty(a.totalSize)}</Cell>,
             <Cell>{Times.pretty(a.duration)}</Cell>,
             <Cell>{a.minPrice.toString()}</Cell>,
             <Cell>{a.maxCollateral.toString()}</Cell>,

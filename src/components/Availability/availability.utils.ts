@@ -39,7 +39,8 @@ export const AvailabilityUtils = {
         return bytes / this.unitValue(unit || "gb")
     },
     maxValue(space: CodexNodeSpace) {
-        return space.quotaMaxBytes - space.quotaReservedBytes - space.quotaUsedBytes
+        // Remove 1 byte to allow to create an availability with the max space possible
+        return space.quotaMaxBytes - space.quotaReservedBytes - space.quotaUsedBytes - 1
     },
     unitValue(unit: "gb" | "tb") {
         return unit === "tb" ? TB : GB
@@ -47,6 +48,46 @@ export const AvailabilityUtils = {
     isValid: (
         availability: AvailabilityState,
         max: number
-    ) => availability.totalSize > 0 && availability.totalSize <= max
+    ) => availability.totalSize > 0 && availability.totalSize * AvailabilityUtils.unitValue(availability.totalSizeUnit) <= max
+    ,
+    toggle: <T>(arr: Array<T>, value: T) =>
+        arr.includes(value) ? arr.filter(i => i !== value) : [...arr, value],
 
+    availabilityColors: [
+        "#34A0FFFF",
+        "#34A0FFEE",
+        "#34A0FFDD",
+        "#34A0FFCC",
+        "#34A0FFBB",
+        "#34A0FFAA",
+        "#34A0FF99",
+        "#34A0FF88",
+        "#34A0FF77",
+        "#34A0FF66",
+        "#34A0FF55",
+        "#34A0FF44",
+        "#34A0FF33",
+        "#34A0FF22",
+        "#34A0FF11",
+        "#34A0FF00",
+    ],
+
+    slotColors: [
+        "#D2493CFF",
+        "#D2493CEE",
+        "#D2493CDD",
+        "#D2493CCC",
+        "#D2493CBB",
+        "#D2493CAA",
+        "#D2493C99",
+        "#D2493C88",
+        "#D2493C77",
+        "#D2493C66",
+        "#D2493C55",
+        "#D2493C44",
+        "#D2493C33",
+        "#D2493C22",
+        "#D2493C11",
+        "#D2493C00",
+    ],
 }

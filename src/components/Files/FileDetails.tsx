@@ -5,8 +5,7 @@ import {
   WebFileIcon,
 } from "@codex-storage/marketplace-ui-components";
 import { CodexDataContent, CodexPurchase } from "@codex-storage/sdk-js";
-import { PrettyBytes } from "../../utils/bytes";
-import { Dates } from "../../utils/dates";
+import { Bytes } from "../../utils/bytes";
 import { CidCopyButton } from "./CidCopyButton";
 import "./FileDetails.css";
 import { CodexSdk } from "../../sdk/codex";
@@ -43,7 +42,8 @@ export function FileDetails({ onClose, details }: Props) {
           }
 
           return {
-            error: false as any,
+            /* eslint-disable @typescript-eslint/prefer-as-const */
+            error: false as false,
             data: all,
           };
         })
@@ -115,7 +115,11 @@ export function FileDetails({ onClose, details }: Props) {
 
               <li>
                 <p>Date:</p>
-                <p>{Dates.format(details.manifest.uploadedAt).toString()}</p>
+                <p>
+                  {FilesUtils.formatDate(
+                    details.manifest.uploadedAt
+                  ).toString()}
+                </p>
               </li>
 
               <li>
@@ -125,7 +129,7 @@ export function FileDetails({ onClose, details }: Props) {
 
               <li>
                 <p>Size:</p>
-                <p>{PrettyBytes(details.manifest.datasetSize)}</p>
+                <p>{Bytes.pretty(details.manifest.datasetSize)}</p>
               </li>
 
               <li>

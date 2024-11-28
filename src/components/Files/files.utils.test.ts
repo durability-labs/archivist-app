@@ -292,4 +292,10 @@ describe("files", () => {
 
         assert.deepEqual(FilesUtils.applyFilters(files, ["archive"]), [files[1]]);
     });
+
+    it("formats date", async () => {
+        const utcDate = new Date(Date.UTC(2024, 10, 20, 11, 36));
+
+        assert.equal(FilesUtils.formatDate(1732102577), "20 Nov 2024, " + utcDate.getHours() + ":" + utcDate.getMinutes());
+    })
 })
