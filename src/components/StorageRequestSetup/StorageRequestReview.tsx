@@ -282,13 +282,13 @@ export function StorageRequestReview({
             onChange={onAvailabilityChange}
             onValidation={isInvalidAvailability}></Commitment>
           <CardNumbers
-            helper="Represents how much collateral is asked from hosts that wants to fill a slots"
+            helper="Represents how much collateral is asked from hosts if they don't fulfill the contract."
             id="collateral"
             unit={"Collateral"}
             value={storageRequest.collateral.toString()}
             onChange={onCollateralChange}
             onValidation={isInvalidNumber}
-            title="Reward tokens for hosts"></CardNumbers>
+            title="Penality tokens"></CardNumbers>
           <CardNumbers
             helper="The maximum amount of tokens paid per second per slot to hosts the client is willing to pay."
             id="reward"
@@ -296,7 +296,7 @@ export function StorageRequestReview({
             value={storageRequest.reward.toString()}
             onChange={onRewardChange}
             onValidation={isInvalidNumber}
-            title="Penality tokens"></CardNumbers>
+            title="Reward tokens for hosts"></CardNumbers>
         </div>
 
         <div className="row">
