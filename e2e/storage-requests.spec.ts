@@ -1,6 +1,7 @@
 import test, { expect } from "@playwright/test";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import { Times } from "../src/utils/times";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -103,6 +104,9 @@ test("remove the CID when the file is deleted", async ({ page }) => {
 
 test("create a storage request by using decimal values", async ({ page }) => {
   await page.goto("/dashboard");
+  await page.locator("a").filter({ hasText: "Settings" }).click();
+  await page.getByLabel("Address").fill("http://127.0.0.1:8080");
+  await page.locator(".refresh").click();
   await page.locator("a").filter({ hasText: "Purchases" }).click();
   await page.getByRole("button", { name: "Storage Request" }).click();
 
@@ -131,8 +135,6 @@ test("create a storage request by using decimal values", async ({ page }) => {
 
   const days = Math.random() * 7;
 
-  console.debug("Got days", days, days.toFixed(1));
-
   await page.getByLabel("Full period of the contract").fill(days.toFixed(1));
   await expect(page.locator("footer .button--primary")).not.toHaveAttribute(
     "disabled"
@@ -144,7 +146,12 @@ test("create a storage request by using decimal values", async ({ page }) => {
   ).toBeVisible();
   await page.getByRole("button", { name: "Finish" }).click();
   await expect(page.getByText("No data.")).not.toBeVisible();
-  await expect(page.getByText(days.toFixed(1) + " days").first()).toBeVisible();
+
+  const oneDay = 24 * 60 * 60;
+
+  await expect(
+    page.getByText(Times.pretty(days * oneDay)).first()
+  ).toBeVisible();
 });
 
 // test('create a storage request by using months', async ({ page }) => {
