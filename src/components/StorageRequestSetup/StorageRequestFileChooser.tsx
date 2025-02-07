@@ -40,7 +40,7 @@ export function StorageRequestFileChooser({
   };
 
   const onSuccess = (data: string) => {
-    FilesUtils.setUploadedAt(data, Date.now());
+    FilesUtils.setUploadedAt(data, Date.now() / 1000);
 
     queryClient.invalidateQueries({ queryKey: ["cids"] });
 

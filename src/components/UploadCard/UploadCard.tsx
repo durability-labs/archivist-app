@@ -8,7 +8,7 @@ export function UploadCard() {
   const queryClient = useQueryClient();
 
   const onSuccess = (cid: string) => {
-    FilesUtils.setUploadedAt(cid, Date.now());
+    FilesUtils.setUploadedAt(cid, Date.now() / 1000);
     queryClient.invalidateQueries({ queryKey: ["cids"] });
   };
 

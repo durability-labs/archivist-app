@@ -7,7 +7,7 @@ export type TimesUnit =
   | "seconds";
 
 const plural = (value: number, unit: TimesUnit) => {
-  const val = value.toFixed(1);
+  const val = Number.isInteger(value) ? value : value.toFixed(1);
   return value > 1 ? val + ` ${unit}` : val + ` ${unit.slice(0, -1)}`;
 };
 
