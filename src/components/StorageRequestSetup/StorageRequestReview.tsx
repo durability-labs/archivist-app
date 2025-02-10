@@ -290,13 +290,13 @@ export function StorageRequestReview({
             onValidation={isInvalidNumber}
             title="Penality tokens"></CardNumbers>
           <CardNumbers
-            helper="The maximum amount of tokens paid per second per slot to hosts the client is willing to pay."
+            helper="The maximum amount of tokens paid per second per byte to hosts the client is willing to pay."
             id="reward"
             unit={"Reward"}
             value={storageRequest.reward.toString()}
             onChange={onRewardChange}
             onValidation={isInvalidNumber}
-            title="Reward tokens for hosts"></CardNumbers>
+            title="Price per byte"></CardNumbers>
         </div>
 
         <div className="row">
