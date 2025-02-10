@@ -282,7 +282,7 @@ export function StorageRequestReview({
             onChange={onAvailabilityChange}
             onValidation={isInvalidAvailability}></Commitment>
           <CardNumbers
-            helper="Represents how much collateral is asked from hosts if they don't fulfill the contract."
+            helper="Represents how much collateral is asked from hosts per byte if they don't fulfill the contract."
             id="collateral"
             unit={"Collateral"}
             value={storageRequest.collateral.toString()}

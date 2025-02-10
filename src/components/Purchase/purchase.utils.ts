@@ -21,12 +21,11 @@ export const PurchaseUtils = {
         ? Number(b.request.ask.duration) - Number(a.request.ask.duration)
         : Number(a.request.ask.duration) - Number(b.request.ask.duration),
   sortByReward:
-    (state: TabSortState) => (a: CodexPurchase, b: CodexPurchase) =>
-      state === "desc"
-        ? PurchaseUtils.calculatePrice(b.request) -
-          PurchaseUtils.calculatePrice(a.request)
-        : PurchaseUtils.calculatePrice(a.request) -
-          PurchaseUtils.calculatePrice(b.request),
+    (state: TabSortState) => (a: CodexPurchase, b: CodexPurchase) => {
+      const aPrice = parseInt(a.request.ask.pricePerBytePerSecond, 10);
+      const bPrice = parseInt(b.request.ask.pricePerBytePerSecond, 10);
+      return state === "desc" ? bPrice - aPrice : aPrice - bPrice;
+    },
   sortByUploadedAt:
     (state: TabSortState, table: Record<string, number>) =>
     (a: CodexPurchase, b: CodexPurchase) => {

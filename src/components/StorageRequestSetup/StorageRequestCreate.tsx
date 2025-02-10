@@ -83,13 +83,26 @@ export function StorageRequestCreate() {
     WebStorage.set("storage-request-step", step);
 
     if (step == CONFIRM_STATE) {
-      const { availability, availabilityUnit, expiration, reward, ...rest } =
-        storageRequest;
+      const {
+        availability,
+        availabilityUnit,
+        expiration,
+        reward,
+        collateral,
+        proofProbability,
+        cid,
+        nodes,
+        tolerance,
+      } = storageRequest;
       mutateAsync({
-        ...rest,
-        pricePerBytePerSecond: reward,
         duration: Math.trunc(availability * Times.value(availabilityUnit)),
+        pricePerBytePerSecond: reward,
+        proofProbability,
+        collateralPerByte: collateral,
         expiry: expiration * 60,
+        cid,
+        nodes,
+        tolerance,
       });
     } else {
       dispatch({

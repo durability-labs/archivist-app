@@ -80,7 +80,7 @@ export function PurchasesTable() {
     ["request id"],
     ["duration", onSortByDuration],
     ["slots"],
-    ["reward", onSortByReward],
+    ["price per byte", onSortByReward],
     ["proof probability"],
     ["state", onSortByState],
   ] satisfies [string, ((state: TabSortState) => void)?][];
@@ -92,7 +92,6 @@ export function PurchasesTable() {
     const ask = p.request.ask;
     const duration = parseInt(ask.duration, 10);
     const pf = parseInt(ask.proofProbability, 10);
-    const reward = PurchaseUtils.calculatePrice(p.request);
     return (
       <Row
         cells={[
@@ -105,7 +104,7 @@ export function PurchasesTable() {
           <TruncateCell value={r.id} />,
           <Cell>{Times.pretty(duration)}</Cell>,
           <Cell>{ask.slots.toString()}</Cell>,
-          <Cell>{reward + " CDX"}</Cell>,
+          <Cell>{p.request.ask.pricePerBytePerSecond + " CDX"}</Cell>,
           <Cell>{pf.toString()}</Cell>,
           <CustomStateCellRender state={p.state} message={p.error} />,
         ]}></Row>
