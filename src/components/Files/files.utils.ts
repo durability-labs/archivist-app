@@ -66,7 +66,7 @@ export const FilesUtils = {
 
       return state === "desc"
         ? new Date(bUploadedAt).getTime() - new Date(aUploadedAt).getTime()
-        : new Date(bUploadedAt).getTime() - new Date(aUploadedAt).getTime();
+        : new Date(aUploadedAt).getTime() - new Date(bUploadedAt).getTime();
     },
 
   removeCidFromFolder(
