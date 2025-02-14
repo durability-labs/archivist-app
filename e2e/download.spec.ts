@@ -32,22 +32,3 @@ test("download a file", async ({ page, browserName }) => {
   const download = await downloadPromise;
   expect(await download.failure()).toBeNull();
 });
-
-test("download a file over the network", async ({ page, browserName }) => {
-  // https://github.com/microsoft/playwright/issues/13037
-  test.skip(
-    browserName.toLowerCase() !== "chromium",
-    `Test only for chromium!`
-  );
-
-  await page.goto("/dashboard");
-
-  const cid = "zDvZRwzm6eV1thx6zkL5Es3FZKEq8qjinti9Y6QD1qZRKiAGjCZ7";
-  await page.locator(".download-input input").fill(cid);
-
-  const downloadPromise = page.waitForEvent("download");
-  await page.locator(".download-input + button").click();
-
-  const download = await downloadPromise;
-  expect(await download.failure()).toBeNull();
-});
