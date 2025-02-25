@@ -91,7 +91,7 @@ jobs:
 
       - name: Check Codex API
         run: |
-          curl --max-time 5 --fail localhost:8080/api/codex/v1/debug/info -w "\n"
+          curl --max-time 10 --fail localhost:8080/api/codex/v1/debug/info -w "\n"
           [[ $? -eq 0 ]] && { echo "Codex node is up"; } || { echo "Please check Codex node"; exit 1; }
 
       - uses: actions/checkout@v4
