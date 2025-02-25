@@ -15,8 +15,8 @@ test("create an availability", async ({ page }) => {
   await page.getByLabel("Duration").fill("30");
   await page.getByLabel("Min price").click();
   await page.getByLabel("Min price").fill("5");
-  await page.getByLabel("Max collateral").click();
-  await page.getByLabel("Max collateral").fill("30");
+  await page.getByLabel("Total collateral").click();
+  await page.getByLabel("Total collateral").fill("30");
   await page.getByLabel("Min price").fill("5");
   await page.getByLabel("Nickname").click();
   await page.getByLabel("Nickname").fill("test");
@@ -91,8 +91,8 @@ test("create an availability with changing the duration to months", async ({
 
   await page.getByLabel("Min price").click();
   await page.getByLabel("Min price").fill("5");
-  await page.getByLabel("Max collateral").click();
-  await page.getByLabel("Max collateral").fill("30");
+  await page.getByLabel("Total collateral").click();
+  await page.getByLabel("Total collateral").fill("30");
   await page.getByLabel("Min price").fill("5");
   await page.getByLabel("Nickname").click();
   await page.getByLabel("Nickname").fill("test");
@@ -127,8 +127,8 @@ test("create an availability after checking max size and invalid input", async (
   await page.getByLabel("Duration").fill("30");
   await page.getByLabel("Min price").click();
   await page.getByLabel("Min price").fill("5");
-  await page.getByLabel("Max collateral").click();
-  await page.getByLabel("Max collateral").fill("30");
+  await page.getByLabel("Total collateral").click();
+  await page.getByLabel("Total collateral").fill("30");
   await page.getByLabel("Min price").fill("5");
   await page.getByLabel("Nickname").click();
   await page.getByLabel("Nickname").fill("test");
