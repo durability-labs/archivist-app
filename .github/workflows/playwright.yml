@@ -12,6 +12,7 @@ env:
   circuit_version: v0.2.0
   marketplace_address: "0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed"
   eth_provider: "https://rpc.testnet.codex.storage"
+  bootstrap_node: "spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P"
   VITE_CODEX_API_URL: ${{ secrets.VITE_CODEX_API_URL }}
   VITE_GEO_IP_URL: ${{ secrets.VITE_GEO_IP_URL }}
 jobs:
@@ -87,7 +88,7 @@ jobs:
           ls -ltr ./datadir/circuits
 
           # Run 
-          ./codex-${codex_version}-${platform}-${architecture} --data-dir=./datadir --nat=any --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
+          ./codex-${codex_version}-${platform}-${architecture} --data-dir=./datadir --bootstrap-node=${bootstrap_node} --nat=any --disc-port=8090 --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
 
           sleep 15
 
