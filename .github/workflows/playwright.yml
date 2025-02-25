@@ -28,13 +28,13 @@ jobs:
           echo "platform=${RUNNER_OS,,}" >> $GITHUB_ENV
           echo "architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})" >> $GITHUB_ENV
 
-      # - name: Restore cached circuits
-      #   id: circuits-cache-restore
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     path: |
-      #       datadir/circuits
-      #     key: ${{ env.circuit_version }}-circuits
+      - name: Restore cached circuits
+        id: circuits-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            datadir/circuits
+          key: ${{ env.circuit_version }}-circuits
 
       - name: Download circuits
         # if: steps.circuits-cache-restore.outputs.cache-hit != 'true'
@@ -46,20 +46,20 @@ jobs:
           tar -xvf cirdl-${circuit_version}-${platform}-${architecture}.tar.gz
           chmod +x cirdl-${circuit_version}-${platform}-${architecture}
           ./cirdl-${circuit_version}-${platform}-${architecture} ./datadir/circuits ${eth_provider} ${marketplace_address}
-          ls -ltr datadir/circuits
-      # - name: Cache circuits
-      #   id: circuits-cache
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     path: datadir/circuits
-      #     key: ${{ steps.circuits-cache-restore.outputs.cache-primary-key }}
 
-      # - name: Restore cached codex
-      #   id: codex-cache-restore
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
-      #     key: ${{ env.codex_version }}-codex
+      - name: Cache circuits
+        id: circuits-cache
+        uses: actions/cache/save@v4
+        with:
+          path: datadir/circuits
+          key: ${{ steps.circuits-cache-restore.outputs.cache-primary-key }}
+
+      - name: Restore cached codex
+        id: codex-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
+          key: ${{ env.codex_version }}-codex
 
       - name: Download codex
         if: steps.codex-cache-restore.outputs.cache-hit != 'true'
@@ -70,12 +70,12 @@ jobs:
           [[ $? -eq 0 ]] && { echo "Checksum is OK"; } || { echo "Checksum failed"; exit 1; }
           tar -zxvf codex-${codex_version}-${platform}-${architecture}.tar.gz
 
-      # - name: Cache codex
-      #   id: codex-cache
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
-      #     key: ${{ steps.codex-cache-restore.outputs.cache-primary-key }}
+      - name: Cache codex
+        id: codex-cache
+        uses: actions/cache/save@v4
+        with:
+          path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
+          key: ${{ steps.codex-cache-restore.outputs.cache-primary-key }}
 
       - name: Run Codex node
         run: |
@@ -85,8 +85,6 @@ jobs:
           awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
           chmod 600 eth.key
 
-          ls -ltr ./datadir/circuits
-          echo "./codex-${codex_version}-${platform}-${architecture} --data-dir=./datadir --bootstrap-node=${bootstrap_node} --nat=any --disc-port=8090 --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &"
           # Run 
           ./codex-${codex_version}-${platform}-${architecture} --data-dir=./datadir --bootstrap-node=${bootstrap_node} --nat=any --disc-port=8090 --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} &
 
