@@ -10,7 +10,7 @@ import { CodexNodeSpace } from "@codex-storage/sdk-js";
 import { AvailabilityConfirm } from "./AvailabilityConfirmation";
 import { WebStorage } from "../../utils/web-storage";
 import { AvailabilityState } from "./types";
-import { STEPPER_DURATION } from "../../utils/constants";
+import { GB, STEPPER_DURATION } from "../../utils/constants";
 import { useAvailabilityMutation } from "./useAvailabilityMutation";
 import { AvailabilitySuccess } from "./AvailabilitySuccess";
 import { AvailabilityError } from "./AvailabilityError";
@@ -143,6 +143,9 @@ export function AvailabilityEdit({
 
       setAvailability({
         ...a,
+        totalSize: a.totalSize / GB,
+        totalSizeUnit: "gb",
+        duration: a.duration / Times.value(unit),
         durationUnit: unit as "hours" | "days" | "months",
       });
 

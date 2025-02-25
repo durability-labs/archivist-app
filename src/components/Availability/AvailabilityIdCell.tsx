@@ -22,8 +22,8 @@ export function AvailabilityIdCell({ value }: Props) {
           </small>
           <br />
           <small className="text--light">
-            Total remaining collateral {value.totalCollateral} | Min price per
-            byte per second {value.minPricePerBytePerSecond}
+            Collateral {value.totalCollateral} | Min price{" "}
+            {value.minPricePerBytePerSecond}
           </small>
         </div>
       </div>
