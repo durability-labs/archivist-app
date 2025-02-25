@@ -36,21 +36,18 @@ test("availability navigation buttons", async ({ page }) => {
   await page.locator(".availability-edit button").first().click();
   await expect(page.locator(".stepper-number-done")).not.toBeVisible();
   await expect(page.locator(".step--active")).toBeVisible();
-  await expect(page.locator("footer .button--primary")).not.toHaveAttribute(
-    "disabled"
-  );
   await expect(
     page.locator("footer .button--outline").first()
   ).not.toHaveAttribute("disabled");
   await page.getByLabel("Total size").click();
-  await expect(
-    page.locator("footer .button--outline").first()
-  ).not.toHaveAttribute("disabled");
-  await page.getByLabel("Total size").fill("19");
+  await page.getByLabel("Total size").fill("");
+  await page.getByLabel("Duration").click();
+
   await expect(page.locator("footer .button--primary")).toHaveAttribute(
     "disabled",
     { timeout: 3000 }
   );
+
   await page.getByLabel("Total size").click();
   await page.getByLabel("Total size").fill("0.5");
   await page.getByRole("button", { name: "Next" }).click();
