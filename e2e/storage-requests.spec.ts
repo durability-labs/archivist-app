@@ -133,7 +133,7 @@ test("create a storage request by using decimal values", async ({ page }) => {
     "disabled"
   );
 
-  const days = Math.random() * 7;
+  const days = 4;
 
   await page.getByLabel("Full period of the contract").fill(days.toFixed(1));
   await expect(page.locator("footer .button--primary")).not.toHaveAttribute(
