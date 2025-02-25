@@ -71,7 +71,7 @@ export function Sunburst({ availabilities, space }: Props) {
             "Total remaining collateral " +
             a.totalRemainingCollateral +
             "<br/>" +
-            "Min price per byte per second" +
+            "Min price per byte per second " +
             a.minPricePerBytePerSecond +
             "<br/>" +
             "Size " +
