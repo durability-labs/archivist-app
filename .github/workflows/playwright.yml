@@ -84,12 +84,12 @@ jobs:
           awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
           chmod 600 eth.key
 
+          ls -ltr ./datadir/circuits
+
           # Run 
-          ./codex-${codex_version}-${platform}-${architecture} --data-dir=datadir --nat=any --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=datadir/circuits &
+          ./codex-${codex_version}-${platform}-${architecture} --data-dir=datadir --nat=any --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
 
           sleep 15
-
-          ls -ltr datadir/circuits
 
       - name: Check Codex API
         run: |
