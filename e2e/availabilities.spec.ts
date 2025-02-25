@@ -47,7 +47,7 @@ test("availability navigation buttons", async ({ page }) => {
   await expect(
     page.locator("footer .button--outline").first()
   ).not.toHaveAttribute("disabled");
-  await page.locator("footer .button--outline").blur();
+  await page.getByLabel("Duration").click();
   await expect(page.locator("footer .button--primary")).toHaveAttribute(
     "disabled"
   );
