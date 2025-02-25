@@ -30,8 +30,8 @@ const CONFIRM_STATE = 2;
 const defaultAvailabilityData: AvailabilityState = {
   totalSize: 0.5,
   duration: 1,
-  minPrice: 0,
-  maxCollateral: 0,
+  minPricePerBytePerSecond: 0,
+  totalCollateral: 0,
   totalSizeUnit: "gb",
   durationUnit: "days",
 };
