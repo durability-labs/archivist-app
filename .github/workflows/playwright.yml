@@ -27,16 +27,16 @@ jobs:
           echo "platform=${RUNNER_OS,,}" >> $GITHUB_ENV
           echo "architecture=$([[ $RUNNER_ARCH == 'X64' ]] && echo amd64 || echo ${RUNNER_ARCH,,})" >> $GITHUB_ENV
 
-      - name: Restore cached circuits
-        id: circuits-cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            datadir/circuits
-          key: ${{ env.circuit_version }}-circuits
+      # - name: Restore cached circuits
+      #   id: circuits-cache-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       datadir/circuits
+      #     key: ${{ env.circuit_version }}-circuits
 
       - name: Download circuits
-        if: steps.circuits-cache-restore.outputs.cache-hit != 'true'
+        # if: steps.circuits-cache-restore.outputs.cache-hit != 'true'
         run: |
           mkdir -p datadir/circuits
           chmod 700 datadir
@@ -46,12 +46,12 @@ jobs:
           chmod +x cirdl-${circuit_version}-${platform}-${architecture}
           ./cirdl-${circuit_version}-${platform}-${architecture} ./datadir/circuits ${eth_provider} ${marketplace_address}
 
-      - name: Cache circuits
-        id: circuits-cache
-        uses: actions/cache/save@v4
-        with:
-          path: datadir/circuits
-          key: ${{ steps.circuits-cache-restore.outputs.cache-primary-key }}
+      # - name: Cache circuits
+      #   id: circuits-cache
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     path: datadir/circuits
+      #     key: ${{ steps.circuits-cache-restore.outputs.cache-primary-key }}
 
       - name: Restore cached codex
         id: codex-cache-restore
