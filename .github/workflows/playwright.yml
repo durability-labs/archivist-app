@@ -53,12 +53,12 @@ jobs:
       #     path: datadir/circuits
       #     key: ${{ steps.circuits-cache-restore.outputs.cache-primary-key }}
 
-      - name: Restore cached codex
-        id: codex-cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
-          key: ${{ env.codex_version }}-codex
+      # - name: Restore cached codex
+      #   id: codex-cache-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
+      #     key: ${{ env.codex_version }}-codex
 
       - name: Download codex
         if: steps.codex-cache-restore.outputs.cache-hit != 'true'
@@ -69,12 +69,12 @@ jobs:
           [[ $? -eq 0 ]] && { echo "Checksum is OK"; } || { echo "Checksum failed"; exit 1; }
           tar -zxvf codex-${codex_version}-${platform}-${architecture}.tar.gz
 
-      - name: Cache codex
-        id: codex-cache
-        uses: actions/cache/save@v4
-        with:
-          path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
-          key: ${{ steps.codex-cache-restore.outputs.cache-primary-key }}
+      # - name: Cache codex
+      #   id: codex-cache
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     path: ./codex-${{ env.codex_version }}-${{ env.platform }}-${{ env.architecture }}
+      #     key: ${{ steps.codex-cache-restore.outputs.cache-primary-key }}
 
       - name: Run Codex node
         run: |
