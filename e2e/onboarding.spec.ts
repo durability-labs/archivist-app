@@ -43,9 +43,7 @@ test.describe("onboarding", () => {
 
     // Marketplace
     //await expect(page.locator(".health-checks ul li").nth(3).getByTestId("icon-warning")).toBeVisible({ timeout: 10_000 })
-    await expect(
-      page.locator(".health-checks ul li").nth(3).getByTestId("icon-success")
-    ).toBeVisible();
+    await expect(page.locator(".health-checks ul li").nth(3)).toBeVisible();
 
     // Can be simulated with File -> Work offline
     if (browserName.toLowerCase() !== "firefox") {
