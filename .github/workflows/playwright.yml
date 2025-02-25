@@ -88,7 +88,7 @@ jobs:
           ls -ltr ./datadir/circuits
           echo "./codex-${codex_version}-${platform}-${architecture} --data-dir=./datadir --bootstrap-node=${bootstrap_node} --nat=any --disc-port=8090 --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &"
           # Run 
-          ./codex-${codex_version}-${platform}-${architecture} --data-dir=./datadir --bootstrap-node=${bootstrap_node} --nat=any --disc-port=8090 --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} prover --circuit-dir=./datadir/circuits &
+          ./codex-${codex_version}-${platform}-${architecture} --data-dir=./datadir --bootstrap-node=${bootstrap_node} --nat=any --disc-port=8090 --api-cors-origin="*" persistence --eth-provider=${eth_provider} --eth-private-key=./eth.key --marketplace-address=${marketplace_address} &
 
           sleep 15
 
