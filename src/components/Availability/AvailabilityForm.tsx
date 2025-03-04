@@ -4,13 +4,14 @@ import {
   SpaceAllocation,
   Tooltip,
 } from "@codex-storage/marketplace-ui-components";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import "./AvailabilityForm.css";
 import { AvailabilityComponentProps } from "./types";
 import NodesIcon from "../../assets/icons/nodes.svg?react";
 import InfoIcon from "../../assets/icons/info.svg?react";
 import { attributes } from "../../utils/attributes";
 import { AvailabilityUtils } from "./availability.utils";
+import { GB } from "../../utils/constants";
 
 export function AvailabilityForm({
   dispatch,
@@ -19,6 +20,8 @@ export function AvailabilityForm({
   space,
   editAvailabilityValue,
 }: AvailabilityComponentProps) {
+  const [isTotalCollateralDirty, setIsTotalCollateralDirty] = useState(false);
+
   useEffect(() => {
     let max = AvailabilityUtils.maxValue(space);
     if (availability.id && editAvailabilityValue) {
@@ -63,14 +66,22 @@ export function AvailabilityForm({
   const onAvailablityChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
     const v = element.value;
+    const totalSize = parseFloat(v);
 
     onAvailabilityChange({
-      totalSize: parseFloat(v),
+      totalSize: totalSize,
+      totalCollateral: isTotalCollateralDirty
+        ? availability.totalCollateral
+        : Math.round(totalSize * GB),
     });
   };
 
   const onInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
+
+    if (element.name === "totalCollateral") {
+      setIsTotalCollateralDirty(true);
+    }
 
     onAvailabilityChange({
       [element.name]:
@@ -80,14 +91,18 @@ export function AvailabilityForm({
 
   const onMaxSize = () => {
     const available = AvailabilityUtils.maxValue(space);
+    const totalSize =
+      Math.floor(
+        ((available - 1) /
+          AvailabilityUtils.unitValue(availability.totalSizeUnit)) *
+          10
+      ) / 10;
 
     onAvailabilityChange({
-      totalSize:
-        Math.floor(
-          ((available - 1) /
-            AvailabilityUtils.unitValue(availability.totalSizeUnit)) *
-            10
-        ) / 10,
+      totalSize,
+      totalCollateral: isTotalCollateralDirty
+        ? availability.totalCollateral
+        : Math.round(totalSize * GB),
     });
   };
 
@@ -144,12 +159,13 @@ export function AvailabilityForm({
             max={available.toFixed(2)}
             onChange={onAvailablityChange}
             onGroupChange={onTotalSizeUnitChange}
-            value={availability.totalSize.toString()}
+            value={availability.totalSize.toFixed(2)}
             min={"0"}
             group={[
               ["gb", "GB"],
               // ["tb", "TB"],
             ]}
+            step="0.1"
             groupValue={availability.totalSizeUnit}
             extra={<a onClick={onMaxSize}>Use max size</a>}
           />

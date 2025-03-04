@@ -1,3 +1,4 @@
-.sunburst {
+.sunburst,
+.sunburst > div {
   margin: auto;
 }

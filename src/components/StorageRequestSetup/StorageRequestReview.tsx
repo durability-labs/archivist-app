@@ -288,7 +288,7 @@ export function StorageRequestReview({
             value={storageRequest.collateral.toString()}
             onChange={onCollateralChange}
             onValidation={isInvalidNumber}
-            title="Penality tokens"></CardNumbers>
+            title="Penality tokens per byte"></CardNumbers>
           <CardNumbers
             helper="The maximum amount of tokens paid per second per byte to hosts the client is willing to pay."
             id="reward"

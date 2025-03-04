@@ -25,12 +25,18 @@ export const AvailabilityUtils = {
       state === "desc"
         ? b.minPricePerBytePerSecond - a.minPricePerBytePerSecond
         : a.minPricePerBytePerSecond - b.minPricePerBytePerSecond,
-  sortByCollateral:
+  sortByRemainingCollateral:
     (state: TabSortState) =>
     (a: AvailabilityWithSlots, b: AvailabilityWithSlots) =>
       state === "desc"
         ? b.totalRemainingCollateral - a.totalRemainingCollateral
         : a.totalRemainingCollateral - b.totalRemainingCollateral,
+  sortByTotalCollateral:
+    (state: TabSortState) =>
+    (a: AvailabilityWithSlots, b: AvailabilityWithSlots) =>
+      state === "desc"
+        ? b.totalCollateral - a.totalCollateral
+        : a.totalCollateral - b.totalCollateral,
   toUnit(bytes: number, unit: "gb" | "tb") {
     return bytes / this.unitValue(unit || "gb");
   },
@@ -44,7 +50,7 @@ export const AvailabilityUtils = {
     return unit === "tb" ? TB : GB;
   },
   isValid: (availability: AvailabilityState, max: number) =>
-    availability.totalSize > 0 &&
+    availability.totalSize >= 0.1 &&
     availability.totalSize *
       AvailabilityUtils.unitValue(availability.totalSizeUnit) <=
       max,
