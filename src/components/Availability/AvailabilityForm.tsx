@@ -4,7 +4,7 @@ import {
   SpaceAllocation,
   Tooltip,
 } from "@codex-storage/marketplace-ui-components";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import "./AvailabilityForm.css";
 import { AvailabilityComponentProps } from "./types";
 import NodesIcon from "../../assets/icons/nodes.svg?react";
@@ -20,6 +20,8 @@ export function AvailabilityForm({
   space,
   editAvailabilityValue,
 }: AvailabilityComponentProps) {
+  const [isTotalCollateralDirty, setIsTotalCollateralDirty] = useState(false);
+
   useEffect(() => {
     let max = AvailabilityUtils.maxValue(space);
     if (availability.id && editAvailabilityValue) {
@@ -64,14 +66,22 @@ export function AvailabilityForm({
   const onAvailablityChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
     const v = element.value;
+    const totalSize = parseFloat(v);
 
     onAvailabilityChange({
-      totalSize: parseFloat(v),
+      totalSize: totalSize,
+      totalCollateral: isTotalCollateralDirty
+        ? availability.totalCollateral
+        : Math.round(totalSize * GB),
     });
   };
 
   const onInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.currentTarget;
+
+    if (element.name === "totalCollateral") {
+      setIsTotalCollateralDirty(true);
+    }
 
     onAvailabilityChange({
       [element.name]:
@@ -210,10 +220,7 @@ export function AvailabilityForm({
             label="Total collateral"
             min={0}
             onChange={onInputChange}
-            value={(
-              availability.totalCollateral ||
-              Math.round(availability.totalSize * GB)
-            ).toString()}
+            value={availability.totalCollateral.toString()}
           />
           <Tooltip
             message={
