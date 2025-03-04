@@ -52,6 +52,7 @@ export function CardNumbers({
         value={value}
         type="number"
         isInvalid={!!error}
+        min={0}
         onChange={onInternalChange}></Input>
 
       <Tooltip message={error || helper}>

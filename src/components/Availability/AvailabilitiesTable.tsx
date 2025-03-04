@@ -49,8 +49,11 @@ export function AvailabilitiesTable({ availabilities, space }: Props) {
   const onSortByPrice = (state: TabSortState) =>
     setSortFn(() => AvailabilityUtils.sortByPrice(state));
 
-  const onSortByCollateral = (state: TabSortState) =>
-    setSortFn(() => AvailabilityUtils.sortByCollateral(state));
+  const onSortByRemainingCollateral = (state: TabSortState) =>
+    setSortFn(() => AvailabilityUtils.sortByRemainingCollateral(state));
+
+  const onSortByTotalCollateral = (state: TabSortState) =>
+    setSortFn(() => AvailabilityUtils.sortByTotalCollateral(state));
 
   const headers = [
     [""],
@@ -58,7 +61,8 @@ export function AvailabilitiesTable({ availabilities, space }: Props) {
     ["total size", onSortBySize],
     ["duration", onSortByDuration],
     ["min price per byte", onSortByPrice],
-    ["remaining collateral", onSortByCollateral],
+    ["remaining collateral", onSortByRemainingCollateral],
+    ["total collateral", onSortByTotalCollateral],
     ["actions"],
   ] satisfies [string, ((state: TabSortState) => void)?][];
 
@@ -90,6 +94,7 @@ export function AvailabilitiesTable({ availabilities, space }: Props) {
             <Cell>{Times.pretty(a.duration)}</Cell>,
             <Cell>{a.minPricePerBytePerSecond.toString()}</Cell>,
             <Cell>{a.totalRemainingCollateral.toString()}</Cell>,
+            <Cell>{a.totalCollateral.toString()}</Cell>,
             <AvailabilityActionsCell availability={a} />,
           ]}></Row>
 

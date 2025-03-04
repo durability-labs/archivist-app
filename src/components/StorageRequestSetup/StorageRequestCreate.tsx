@@ -27,8 +27,8 @@ const defaultStorageRequest: StorageRequest = {
   tolerance: 1,
   proofProbability: 1,
   nodes: 3,
-  reward: 10,
-  collateral: 10,
+  reward: 1,
+  collateral: 1,
   expiration: 5,
 };
 

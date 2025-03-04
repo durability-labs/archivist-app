@@ -179,13 +179,13 @@ describe("files", () => {
 
     const descSorted = items
       .slice()
-      .sort(AvailabilityUtils.sortByCollateral("desc"));
+      .sort(AvailabilityUtils.sortByRemainingCollateral("desc"));
 
     assert.deepEqual(descSorted, [b, a]);
 
     const ascSorted = items
       .slice()
-      .sort(AvailabilityUtils.sortByCollateral("asc"));
+      .sort(AvailabilityUtils.sortByRemainingCollateral("asc"));
 
     assert.deepEqual(ascSorted, [a, b]);
   });

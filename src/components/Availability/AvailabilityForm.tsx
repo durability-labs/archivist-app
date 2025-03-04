@@ -11,6 +11,7 @@ import NodesIcon from "../../assets/icons/nodes.svg?react";
 import InfoIcon from "../../assets/icons/info.svg?react";
 import { attributes } from "../../utils/attributes";
 import { AvailabilityUtils } from "./availability.utils";
+import { GB } from "../../utils/constants";
 
 export function AvailabilityForm({
   dispatch,
@@ -144,12 +145,13 @@ export function AvailabilityForm({
             max={available.toFixed(2)}
             onChange={onAvailablityChange}
             onGroupChange={onTotalSizeUnitChange}
-            value={availability.totalSize.toString()}
+            value={availability.totalSize.toFixed(2)}
             min={"0"}
             group={[
               ["gb", "GB"],
               // ["tb", "TB"],
             ]}
+            step="0.1"
             groupValue={availability.totalSizeUnit}
             extra={<a onClick={onMaxSize}>Use max size</a>}
           />
@@ -208,7 +210,10 @@ export function AvailabilityForm({
             label="Total collateral"
             min={0}
             onChange={onInputChange}
-            value={availability.totalCollateral.toString()}
+            value={(
+              availability.totalCollateral ||
+              Math.round(availability.totalSize * GB)
+            ).toString()}
           />
           <Tooltip
             message={
