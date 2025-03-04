@@ -50,7 +50,7 @@ export const AvailabilityUtils = {
     return unit === "tb" ? TB : GB;
   },
   isValid: (availability: AvailabilityState, max: number) =>
-    availability.totalSize > 0 &&
+    availability.totalSize >= 0.1 &&
     availability.totalSize *
       AvailabilityUtils.unitValue(availability.totalSizeUnit) <=
       max,
