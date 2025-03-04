@@ -91,14 +91,18 @@ export function AvailabilityForm({
 
   const onMaxSize = () => {
     const available = AvailabilityUtils.maxValue(space);
+    const totalSize =
+      Math.floor(
+        ((available - 1) /
+          AvailabilityUtils.unitValue(availability.totalSizeUnit)) *
+          10
+      ) / 10;
 
     onAvailabilityChange({
-      totalSize:
-        Math.floor(
-          ((available - 1) /
-            AvailabilityUtils.unitValue(availability.totalSizeUnit)) *
-            10
-        ) / 10,
+      totalSize,
+      totalCollateral: isTotalCollateralDirty
+        ? availability.totalCollateral
+        : Math.round(totalSize * GB),
     });
   };
 
