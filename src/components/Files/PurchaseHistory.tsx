@@ -3,20 +3,20 @@ import {
   Cell,
   Table,
   TabSortState,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { Times } from "../../utils/times";
 import { CustomStateCellRender } from "../CustomStateCellRender/CustomStateCellRender";
 import { TruncateCell } from "../TruncateCell/TruncateCell";
-import { CodexPurchase } from "@codex-storage/sdk-js";
+import { ArchivistPurchase } from "@durability-labs/archivist-sdk-js";
 import PurchaseHistoryIcon from "../../assets/icons/purchase-history-outline.svg?react";
 import { useState } from "react";
 import { PurchaseUtils } from "../Purchase/purchase.utils";
 
 type Props = {
-  purchases: CodexPurchase[];
+  purchases: ArchivistPurchase[];
 };
 
-type SortFn = (a: CodexPurchase, b: CodexPurchase) => number;
+type SortFn = (a: ArchivistPurchase, b: ArchivistPurchase) => number;
 
 export function PurchaseHistory({ purchases }: Props) {
   const [sortFn, setSortFn] = useState<SortFn>(() =>

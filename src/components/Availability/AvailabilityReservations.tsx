@@ -3,18 +3,18 @@ import {
   Modal,
   SpaceAllocation,
   Spinner,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import "./AvailabilityReservations.css";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 import { Promises } from "../../utils/promises";
-import { CodexAvailability } from "@codex-storage/sdk-js";
+import { ArchivistAvailability } from "@durability-labs/archivist-sdk-js";
 import { useEffect } from "react";
 import { ErrorPlaceholder } from "../ErrorPlaceholder/ErrorPlaceholder";
 import { AvailabilityUtils } from "./availability.utils";
 
 type Props = {
-  availability: CodexAvailability | null;
+  availability: ArchivistAvailability | null;
   open: boolean;
   onClose: () => unknown;
 };
@@ -38,7 +38,7 @@ export function AvailabilityReservations({
     error,
   } = useQuery({
     queryFn: () =>
-      CodexSdk.marketplace()
+      ArchivistSdk.marketplace()
         .reservations(availability!.id)
         .then((s) => Promises.rejectOnError(s)),
     queryKey: ["reservations"],

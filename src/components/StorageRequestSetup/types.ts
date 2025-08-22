@@ -1,7 +1,7 @@
 import {
   StepperAction,
   StepperState,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { Dispatch } from "react";
 
 export type StorageDurabilityStepValue = {

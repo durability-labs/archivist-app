@@ -1,23 +1,23 @@
-import { CodexLogLevel } from "@codex-storage/sdk-js";
+import { ArchivistLogLevel } from "@durability-labs/archivist-sdk-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 import "./LogLevel.css";
 import {
   Button,
   Select,
   Toast,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { Promises } from "../../utils/promises";
 import LogsIcon from "../../assets/icons/logs.svg?react";
 import SaveIcon from "../../assets/icons/save.svg?react";
 
 export function LogLevel() {
   const queryClient = useQueryClient();
-  const [level, setLevel] = useState<CodexLogLevel>("DEBUG");
+  const [level, setLevel] = useState<ArchivistLogLevel>("DEBUG");
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (level: CodexLogLevel) =>
-      CodexSdk.debug()
+    mutationFn: (level: ArchivistLogLevel) =>
+      ArchivistSdk.debug()
         .setLogLevel(level)
         .then((s) => Promises.rejectOnError(s)),
     onSuccess: () => {
@@ -45,7 +45,7 @@ export function LogLevel() {
   function onChange(e: React.FormEvent<HTMLSelectElement>) {
     const value = e.currentTarget.value;
     if (value) {
-      setLevel(value as CodexLogLevel);
+      setLevel(value as ArchivistLogLevel);
     }
   }
 

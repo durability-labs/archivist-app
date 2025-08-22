@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { CodexSdk } from "../sdk/codex";
+import { ArchivistSdk } from "../sdk/archivist";
 import { Promises } from "../utils/promises";
 
 export function useDebug(throwOnError: boolean) {
     const { data, isError, isPending, refetch, isSuccess, isFetching } = useQuery({
         queryFn: () =>
-            CodexSdk.debug()
+            ArchivistSdk.debug()
                 .info()
                 .then((s) => Promises.rejectOnError(s)),
 

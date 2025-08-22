@@ -1,4 +1,4 @@
-import { CodexDataContent } from "@codex-storage/sdk-js";
+import { ArchivistDataContent } from "@durability-labs/archivist-sdk-js";
 import { FilesUtils } from "./files.utils";
 import { classnames } from "../../utils/classnames";
 import "./FileFilters.css";
@@ -8,7 +8,7 @@ import ArchiveIcon from "../../assets/icons/archive.svg?react";
 import DocumentIcon from "../../assets/icons/document.svg?react";
 
 type Props = {
-  files: CodexDataContent[];
+  files: ArchivistDataContent[];
   onFilterToggle: (filter: string) => void;
   selected: string[];
 };

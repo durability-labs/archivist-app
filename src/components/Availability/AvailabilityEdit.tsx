@@ -3,10 +3,10 @@ import {
   useStepperReducer,
   Button,
   Modal,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AvailabilityForm } from "./AvailabilityForm";
-import { CodexNodeSpace } from "@codex-storage/sdk-js";
+import { ArchivistNodeSpace } from "@durability-labs/archivist-sdk-js";
 import { AvailabilityConfirm } from "./AvailabilityConfirmation";
 import { WebStorage } from "../../utils/web-storage";
 import { AvailabilityState } from "./types";
@@ -20,7 +20,7 @@ import HostIcon from "../../assets/icons/host.svg?react";
 import { Times } from "../../utils/times";
 
 type Props = {
-  space: CodexNodeSpace;
+  space: ArchivistNodeSpace;
   hasLabel?: boolean;
   className?: string;
 };
@@ -124,10 +124,10 @@ export function AvailabilityEdit({
   }, [editAvailabilityValue, dispatch]);
 
   useEffect(() => {
-    document.addEventListener("codexavailabilitycreate", onOpen, false);
+    document.addEventListener("archivistavailabilitycreate", onOpen, false);
 
     return () =>
-      document.removeEventListener("codexavailabilitycreate", onOpen);
+      document.removeEventListener("archivistavailabilitycreate", onOpen);
   }, [onOpen]);
 
   const onEdit = useCallback(
@@ -162,9 +162,9 @@ export function AvailabilityEdit({
   );
 
   useEffect(() => {
-    document.addEventListener("codexavailabilityedit", onEdit, false);
+    document.addEventListener("archivistavailabilityedit", onEdit, false);
 
-    return () => document.removeEventListener("codexavailabilityedit", onEdit);
+    return () => document.removeEventListener("archivistavailabilityedit", onEdit);
   }, [onEdit, dispatch]);
 
   const onClose = () => dispatch({ type: "close" });

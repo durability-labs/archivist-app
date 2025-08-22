@@ -1,7 +1,7 @@
-import { TabSortState } from "@codex-storage/marketplace-ui-components";
+import { TabSortState } from "@durability-labs/archivist-app-components";
 import { AvailabilityState, AvailabilityWithSlots } from "./types";
 import { GB, TB } from "../../utils/constants";
-import { CodexNodeSpace } from "@codex-storage/sdk-js";
+import { ArchivistNodeSpace } from "@durability-labs/archivist-sdk-js";
 
 export const AvailabilityUtils = {
   sortById:
@@ -40,7 +40,7 @@ export const AvailabilityUtils = {
   toUnit(bytes: number, unit: "gb" | "tb") {
     return bytes / this.unitValue(unit || "gb");
   },
-  maxValue(space: CodexNodeSpace) {
+  maxValue(space: ArchivistNodeSpace) {
     // Remove 1 byte to allow to create an availability with the max space possible
     return (
       space.quotaMaxBytes - space.quotaReservedBytes - space.quotaUsedBytes - 1

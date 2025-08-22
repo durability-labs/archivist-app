@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import "./UserInfo.css";
-import { Input } from "@codex-storage/marketplace-ui-components";
+import { Input } from "@durability-labs/archivist-app-components";
 import EmojiPicker, {
   EmojiClickData,
   EmojiStyle,

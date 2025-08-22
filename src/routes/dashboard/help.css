@@ -38,7 +38,7 @@
   }
 
   a {
-    color: var(--codex-color-primary);
+    color: var(--archivist-color-primary);
     text-decoration: underline;
   }
 }

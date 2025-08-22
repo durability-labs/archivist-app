@@ -1,4 +1,4 @@
-import { Placeholder } from "@codex-storage/marketplace-ui-components";
+import { Placeholder } from "@durability-labs/archivist-app-components";
 import { AvailabilityComponentProps } from "./types";
 import { useEffect } from "react";
 import SuccessCircleIcon from "../../assets/icons/success-circle.svg?react";

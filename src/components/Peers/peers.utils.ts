@@ -1,4 +1,4 @@
-import { TabSortState } from "@codex-storage/marketplace-ui-components";
+import { TabSortState } from "@durability-labs/archivist-app-components";
 
 export type PeerNode = {
     nodeId: string;

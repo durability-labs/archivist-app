@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { CodexSdk } from "../sdk/codex";
+import { ArchivistSdk } from "../sdk/archivist";
 import { Promises } from "../utils/promises";
 
 const report = false;
 
-export function usePersistence(isCodexOnline: boolean) {
+export function usePersistence(isArchivistOnline: boolean) {
   const { data, isError, isFetching, refetch } = useQuery({
     queryKey: [],
     queryFn: async () => {
-      return CodexSdk.marketplace()
+      return ArchivistSdk.marketplace()
         .activeSlots()
         .then((data) => Promises.rejectOnError(data, report));
     },
@@ -16,7 +16,7 @@ export function usePersistence(isCodexOnline: boolean) {
     refetchInterval: 5000,
 
     // Enable only when the use has an internet connection
-    enabled: !!isCodexOnline,
+    enabled: !!isArchivistOnline,
 
     // No need to retry because we defined a refetch interval
     retry: false,

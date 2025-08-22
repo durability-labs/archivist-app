@@ -2,7 +2,7 @@ import "./root.css";
 import { Menu } from "../components/Menu/Menu";
 import { useCallback, useState } from "react";
 import { AppBar } from "../components/AppBar/AppBar";
-import { Backdrop } from "@codex-storage/marketplace-ui-components";
+import { Backdrop } from "@durability-labs/archivist-app-components";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import { useIsMobile } from "../hooks/useMobile";
 

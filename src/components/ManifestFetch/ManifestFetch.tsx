@@ -1,7 +1,7 @@
-import { Button, Input } from "@codex-storage/marketplace-ui-components";
+import { Button, Input } from "@durability-labs/archivist-app-components";
 import "./ManifestFetch.css";
 import { ChangeEvent, useState } from "react";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Promises } from "../../utils/promises";
 
@@ -11,7 +11,7 @@ export function ManifestFetch() {
 
   const { refetch } = useQuery({
     queryFn: () => {
-      CodexSdk.data()
+      ArchivistSdk.data()
         .networkDownload(cid)
         .then((s) => {
           if (s.error === false) {
@@ -22,7 +22,7 @@ export function ManifestFetch() {
           return Promises.rejectOnError(s);
         });
 
-      return CodexSdk.data()
+      return ArchivistSdk.data()
         .fetchManifest(cid)
         .then((s) => {
           if (s.error === false) {

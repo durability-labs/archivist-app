@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { CodexSdk } from "../sdk/codex";
+import { ArchivistSdk } from "../sdk/archivist";
 import { Promises } from "../utils/promises";
 
 const report = false;
 
-export function useCodexConnection() {
+export function useArchivistConnection() {
   const { data, isError, isFetching, refetch } = useQuery({
     queryKey: ["spr"],
     queryFn: async () => {
-      return CodexSdk.node()
+      return ArchivistSdk.node()
         .spr()
         .then((data) => Promises.rejectOnError(data, report));
     },

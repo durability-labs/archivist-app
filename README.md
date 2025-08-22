@@ -1,6 +1,6 @@
-# Codex Marketplace UI
+# Archivist App
 
-This project provide Marketplace UI for Codex.
+This project provide Marketplace UI for Archivist.
 
 ## Philosophy
 
@@ -21,5 +21,7 @@ npm install
 ## Run
 
 ```
+export VITE_ARCHIVIST_API_URL="http://127.0.0.1:8080"
+
 npm run dev
 ```

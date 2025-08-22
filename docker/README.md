@@ -1,8 +1,8 @@
-# Codex Marketplace UI Docker images
+# Archivist App Docker images
 
 ## Description
 
- We are shipping Codex Marketplace UI as a Docker image as well.
+ We are shipping Archivist App as a Docker image as well.
 
  [Dockerfile](Dockerfile) is using multi-stage build and we use `alpine` image to speed up the build and to minimize the final Docker image size we are using a lightweight Nginx image.
 
@@ -14,23 +14,23 @@
 
  2. Clone repository
     ```shell
-    git clone https://github.com/codex-storage/codex-marketplace-ui
-    cd codex-marketplace-ui
+    git clone https://github.com/durability-labs/archivist-app
+    cd archivist-app
     ```
 
  3. Build the image
     ```shell
     # Variables
-    VITE_CODEX_API_URL=<Default Codex API URL>
+    VITE_ARCHIVIST_API_URL=<Default Archivist API URL>
     VITE_GEO_IP_URL=<GeoIP API URL>
 
     # Build
     docker build \
-      --build-arg VITE_CODEX_API_URL=${VITE_CODEX_API_URL} \
+      --build-arg VITE_ARCHIVIST_API_URL=${VITE_ARCHIVIST_API_URL} \
       --build-arg VITE_GEO_IP_URL=${VITE_GEO_IP_URL} \
       --no-cache \
       -f docker/Dockerfile \
-      -t codex-marketplace-ui:local .
+      -t archivist-app:local .
     ```
 
 
@@ -40,9 +40,9 @@
  ```shell
  docker run \
    --rm \
-   --name codex-marketplace-ui \
+   --name archivist-app \
    -p 3000:80 \
-   codexstorage/codex-marketplace-ui:latest
+   durabilitylabs/archivist-app:latest
  ```
 
  Access UI on http://localhost:3000.
@@ -51,8 +51,8 @@
  ```shell
  docker run \
    --rm \
-   --name codex-marketplace-ui \
+   --name archivist-app \
    --net=host \
    -e 'APP_PORT=3000' \
-   codexstorage/codex-marketplace-ui:latest
+   durabilitylabs/archivist-app:latest
  ```

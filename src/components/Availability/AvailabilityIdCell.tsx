@@ -1,5 +1,5 @@
 import { Strings } from "../../utils/strings";
-import { Cell } from "@codex-storage/marketplace-ui-components";
+import { Cell } from "@durability-labs/archivist-app-components";
 import { Bytes } from "../../utils/bytes";
 import { AvailabilityWithSlots } from "./types";
 import AvailbilityIcon from "../../assets/icons/availability.svg?react";

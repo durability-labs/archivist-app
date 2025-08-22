@@ -10,16 +10,14 @@ on:
   workflow_dispatch:
 
 env:
-  VITE_CODEX_API_URL: ${{ secrets.VITE_CODEX_API_URL }}
+  VITE_ARCHIVIST_API_URL: ${{ secrets.VITE_ARCHIVIST_API_URL }}
   VITE_GEO_IP_URL: ${{ secrets.VITE_GEO_IP_URL }}
+
 jobs:
   tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        run: sudo apt update
-
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4

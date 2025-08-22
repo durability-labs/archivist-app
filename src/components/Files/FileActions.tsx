@@ -2,10 +2,10 @@ import {
   Backdrop,
   ButtonIcon,
   Cell,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { FolderButton } from "./FolderButton";
-import { CodexDataContent } from "@codex-storage/sdk-js";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistDataContent } from "@durability-labs/archivist-sdk-js";
+import { ArchivistSdk } from "../../sdk/archivist";
 import "./FileActions.css";
 import DownloadIcon from "../../assets/icons/download-file.svg?react";
 import InfoFileIcon from "../../assets/icons/info-file.svg?react";
@@ -16,7 +16,7 @@ import { attributes } from "../../utils/attributes";
 import CopyIcon from "../../assets/icons/copy.svg?react";
 
 type Props = {
-  content: CodexDataContent;
+  content: ArchivistDataContent;
   folders: [string, string[]][];
   onFolderToggle: (cid: string, folder: string) => void;
   onDetails: (cid: string) => void;
@@ -29,7 +29,7 @@ export function FileActions({
   onDetails,
 }: Props) {
   const isMobile = useIsMobile();
-  const url = CodexSdk.url() + "/api/codex/v1/data/";
+  const url = ArchivistSdk.url() + "/api/archivist/v1/data/";
   const [isExpanded, setIsExpanded] = useState(false);
 
   const onClose = () => setIsExpanded(false);

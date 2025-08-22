@@ -3,10 +3,10 @@ import {
   Row,
   Table,
   TabSortState,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { Bytes } from "../../utils/bytes";
 import { AvailabilityActionsCell } from "./AvailabilityActionsCell";
-import { CodexAvailability, CodexNodeSpace } from "@codex-storage/sdk-js/async";
+import { ArchivistAvailability, ArchivistNodeSpace } from "@durability-labs/archivist-sdk-js/async";
 import { Times } from "../../utils/times";
 import { Fragment, useState } from "react";
 import { AvailabilityReservations } from "./AvailabilityReservations";
@@ -20,14 +20,14 @@ import { AvailabilityUtils } from "./availability.utils";
 
 type Props = {
   // onEdit: () => void;
-  space: CodexNodeSpace;
+  space: ArchivistNodeSpace;
   availabilities: AvailabilityWithSlots[];
 };
 
 type SortFn = (a: AvailabilityWithSlots, b: AvailabilityWithSlots) => number;
 
 export function AvailabilitiesTable({ availabilities, space }: Props) {
-  const [availability, setAvailability] = useState<CodexAvailability | null>(
+  const [availability, setAvailability] = useState<ArchivistAvailability | null>(
     null
   );
   const [details, setDetails] = useState<string[]>([]);

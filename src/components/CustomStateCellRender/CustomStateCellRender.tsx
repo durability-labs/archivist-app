@@ -1,4 +1,4 @@
-import { Cell, Tooltip } from "@codex-storage/marketplace-ui-components";
+import { Cell, Tooltip } from "@durability-labs/archivist-app-components";
 import PurchaseStateIcon from "../../assets/icons/purchases-state-pending.svg?react";
 import SuccessCircleIcon from "../../assets/icons/success-circle.svg?react";
 import ErrorCircleIcon from "../../assets/icons/error-circle.svg?react";

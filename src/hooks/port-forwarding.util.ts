@@ -1,4 +1,4 @@
-import { CodexDebugInfo, SafeValue, CodexError } from "@codex-storage/sdk-js"
+import { ArchivistDebugInfo, SafeValue, ArchivistError } from "@durability-labs/archivist-sdk-js"
 
 export const PortForwardingUtil = {
     check: (ip: string, port: number) => {
@@ -10,21 +10,21 @@ export const PortForwardingUtil = {
             .then((res) => res.json())
     },
 
-    getTcpPort(info: CodexDebugInfo): SafeValue<number> {
+    getTcpPort(info: ArchivistDebugInfo): SafeValue<number> {
         if (info.addrs.length === 0) {
-            return { error: true, data: new CodexError("Not existing address") }
+            return { error: true, data: new ArchivistError("Not existing address") }
         }
 
         const parts = info.addrs[0].split("/")
 
         if (parts.length < 2) {
-            return { error: true, data: new CodexError("Address misformated") }
+            return { error: true, data: new ArchivistError("Address misformatted") }
         }
 
         const port = parseInt(parts[parts.length - 1], 10)
 
         if (isNaN(port)) {
-            return { error: true, data: new CodexError("Port misformated") }
+            return { error: true, data: new ArchivistError("Port misformatted") }
         }
 
         return { error: false, data: port }

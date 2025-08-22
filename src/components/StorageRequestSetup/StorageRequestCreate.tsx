@@ -9,7 +9,7 @@ import {
   Modal,
   Stepper,
   useStepperReducer,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { StorageRequestSuccess } from "./StorageRequestSuccess";
 import { Times } from "../../utils/times";
 import { useStorageRequestMutation } from "./useStorageRequestMutation";

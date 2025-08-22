@@ -1,4 +1,4 @@
-import { Backdrop, ButtonIcon } from "@codex-storage/marketplace-ui-components";
+import { Backdrop, ButtonIcon } from "@durability-labs/archivist-app-components";
 import "./FolderButton.css";
 import { useState } from "react";
 import { attributes } from "../../utils/attributes";

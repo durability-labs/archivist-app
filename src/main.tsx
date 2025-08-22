@@ -3,7 +3,7 @@ import "./index.css";
 import { render } from "preact";
 // Import the generated route tree
 import * as Sentry from "@sentry/react";
-import { CodexSdk } from "./sdk/codex";
+import { ArchivistSdk } from "./sdk/archivist";
 import { OnBoardingRoute } from "./routes/onboarding.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -25,8 +25,8 @@ import { HealthCheckUtils } from "./components/HealthChecks/health-check.utils.t
 
 if (import.meta.env.PROD && !import.meta.env.CI) {
   Sentry.init({
-    release: "codex-storage-marketplace-ui@" + import.meta.env.PACKAGE_VERSION,
-    dsn: "https://22d77c59a27b8d5efc07132188b505b9@o4507855852011520.ingest.de.sentry.io/4507866758512720",
+    release: "durability-labs-archivist-app@" + import.meta.env.PACKAGE_VERSION,
+    dsn: "https://29635860c3ccdf54f0f0128f6c6051d1@o4509853564076032.ingest.us.sentry.io/4509887045566464",
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
@@ -118,7 +118,7 @@ const queryClient = new QueryClient();
 const rootElement = document.getElementById("root")!;
 
 if (rootElement) {
-  CodexSdk.load()
+  ArchivistSdk.load()
     .then(() => {
       const queryString = window.location.search;
       if (queryString) {
@@ -127,7 +127,7 @@ if (rootElement) {
         if (param) {
           const port = parseInt(param, 10);
           if (!isNaN(port)) {
-            const address = HealthCheckUtils.removePort(CodexSdk.url());
+            const address = HealthCheckUtils.removePort(ArchivistSdk.url());
 
             const url = address + ":" + port;
 
@@ -135,7 +135,7 @@ if (rootElement) {
               return;
             }
 
-            return CodexSdk.updateURL(url);
+            return ArchivistSdk.updateURL(url);
           }
         }
       }

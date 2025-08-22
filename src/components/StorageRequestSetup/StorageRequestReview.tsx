@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import "./StorageRequestReview.css";
-import { Alert } from "@codex-storage/marketplace-ui-components";
+import { Alert } from "@durability-labs/archivist-app-components";
 import { CardNumbers } from "../CardNumbers/CardNumbers";
 import WarningIcon from "../../assets/icons/warning.svg?react";
 import { StorageRequest, StorageRequestComponentProps } from "./types";
@@ -107,7 +107,7 @@ export function StorageRequestReview({
     const n = Number(nodes);
 
     if (isInvalidConstrainst(n, storageRequest.tolerance)) {
-      return "The data does not match Codex contrainst";
+      return "The data does not match Archivist constraint";
     }
 
     return "";
@@ -127,7 +127,7 @@ export function StorageRequestReview({
     }
 
     if (isInvalidConstrainst(storageRequest.nodes, n)) {
-      return "The data does not match Codex contrainst.";
+      return "The data does not match Archivist constraint.";
     }
 
     return "";

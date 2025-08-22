@@ -1,12 +1,12 @@
-import { CodexCreateStorageRequestInput } from "@codex-storage/sdk-js";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistCreateStorageRequestInput } from "@durability-labs/archivist-sdk-js";
+import { ArchivistSdk } from "../../sdk/archivist";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Promises } from "../../utils/promises";
 import { WebStorage } from "../../utils/web-storage";
 import {
   StepperAction,
   StepperState,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { Dispatch, useState } from "react";
 
 export function useStorageRequestMutation(
@@ -17,8 +17,8 @@ export function useStorageRequestMutation(
   const queryClient = useQueryClient();
 
   const { mutateAsync } = useMutation({
-    mutationFn: (input: CodexCreateStorageRequestInput) =>
-      CodexSdk.marketplace()
+    mutationFn: (input: ArchivistCreateStorageRequestInput) =>
+      ArchivistSdk.marketplace()
         .createStorageRequest(input)
         .then((s) => Promises.rejectOnError(s)),
     onSuccess: async () => {

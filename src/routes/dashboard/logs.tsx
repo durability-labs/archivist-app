@@ -34,7 +34,7 @@ export const LogsRoute = () => {
         <div>
           <h5>Log level</h5>
           <small>
-            Manage the type of logs being displayed on your CLI for Codex Node.
+            Manage the type of logs being displayed on your CLI for Archivist Node.
           </small>
           <LogLevel></LogLevel>
         </div>

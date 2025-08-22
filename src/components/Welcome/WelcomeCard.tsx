@@ -1,5 +1,5 @@
 import "./WelcomeCard.css";
-import { Alert } from "@codex-storage/marketplace-ui-components";
+import { Alert } from "@durability-labs/archivist-app-components";
 import { useEffect, useRef, useState } from "react";
 import { classnames } from "../../utils/classnames";
 import Logotype from "../../assets/icons/logotype.svg?react";
@@ -38,7 +38,7 @@ export function WelcomeCard() {
         <main>
           <WelcomeImage tiny={clientWidth <= 800}></WelcomeImage>
           <h6>
-            Begin your journey with Codex by uploading new files for testing.
+            Begin your journey with Archivist by uploading new files for testing.
           </h6>
           <p>
             Experience the power of our decentralized data storage platform and
@@ -51,7 +51,7 @@ export function WelcomeCard() {
             </Link>
             <a href={import.meta.env.VITE_DISCORD_LINK}>
               <DiscordIcon></DiscordIcon>
-              <span>Join Codex Discord</span>
+              <span>Join Archivist Discord</span>
             </a>
           </div>
         </main>

@@ -23,9 +23,9 @@ export const HelpRoute = () => {
       <div>
         <HelpIcon />
         <div>
-          <h2>What's Codex?</h2>
+          <h2>What's Archivist?</h2>
           <p>
-            Codex is a decentralised data storage platform that provides
+            Archivist is a decentralised data storage platform that provides
             exceptionally strong censorship resistance and durability
             guarantees. It serves as the storage layer of the Logos tech stack.
           </p>
@@ -37,7 +37,7 @@ export const HelpRoute = () => {
         <div>
           <h2>What is the purpose of this web application?</h2>
           <p>
-            This application allows you to interact with the Codex Marketplace
+            This application allows you to interact with the Archivist Marketplace
             network in a user-friendly manner.
           </p>
         </div>
@@ -46,9 +46,9 @@ export const HelpRoute = () => {
       <div>
         <HelpIcon />
         <div>
-          <h2>Can Codex handle big files ?</h2>
+          <h2>Can Archivist handle big files?</h2>
           <p>
-            Codex can handle very large files, which is its main purpose.
+            Archivist can handle very large files, which is its main purpose.
             However, for this UI, the files used should not be too large.
           </p>
         </div>
@@ -57,7 +57,7 @@ export const HelpRoute = () => {
       <div>
         <HelpIcon />
         <div>
-          <h2>Is it production ready ?</h2>
+          <h2>Is it production ready?</h2>
           <p>
             Not at all! This is a very early alpha version. You should expect to
             encounter bugs, but don't worry—feel free to reach out to us if you
@@ -69,14 +69,14 @@ export const HelpRoute = () => {
       <div>
         <HelpIcon />
         <div>
-          <h2>How can I reach you if I am stuck ?</h2>
+          <h2>How can I reach you if I am stuck?</h2>
           <p>
             Please create a new issue on our GitHub repository&nbsp;
             <a
-              href="https://github.com/codex-storage/codex-marketplace-ui"
+              href="https://github.com/durability-labs/archivist-app"
               className="help-link"
               target="_blank">
-              https://github.com/codex-storage/codex-marketplace-ui
+              https://github.com/durability-labs/archivist-app
             </a>
             .
           </p>
@@ -86,14 +86,14 @@ export const HelpRoute = () => {
       <div>
         <HelpIcon />
         <div>
-          <h2>How can I build and run Codex ?</h2>
+          <h2>How can I build and run Archivist?</h2>
           <p>
             For instructions, please visit{" "}
             <a
-              href="https://docs.codex.storage"
+              href="https://docs.archivist.storage"
               className="help-link"
               target="_blank">
-              https://docs.codex.storage
+              https://docs.archivist.storage
             </a>
             .
           </p>

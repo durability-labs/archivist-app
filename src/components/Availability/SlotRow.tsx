@@ -1,4 +1,4 @@
-import { Cell, Row } from "@codex-storage/marketplace-ui-components";
+import { Cell, Row } from "@durability-labs/archivist-app-components";
 import { Bytes } from "../../utils/bytes";
 import "./SlotRow.css";
 import { classnames } from "../../utils/classnames";
