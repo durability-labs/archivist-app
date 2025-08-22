@@ -15,13 +15,13 @@ import RefreshIcon from "../../assets/icons/refresh.svg?react";
 import TokensIcon from "../../assets/icons/tokens.svg?react";
 import FavoriteIcon from "../../assets/icons/favorite.svg?react";
 import ContactsIcon from "../../assets/icons/contacts.svg?react";
-import CodexTokenIcon from "../../assets/icons/codextoken.svg?react";
+import ArchivistTokenIcon from "../../assets/icons/archivisttoken.svg?react";
 import EthereumIcon from "../../assets/icons/ethereum.svg?react";
 import {
   ButtonIcon,
   TabProps,
   Tabs,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 
 export const WalletRoute = () => {
   const tabs: TabProps[] = [
@@ -83,10 +83,10 @@ export const WalletRoute = () => {
           <Tabs tabs={tabs} tabIndex={0} onTabChange={() => {}}></Tabs>
           <ul>
             <li>
-              <ButtonIcon Icon={CodexTokenIcon} disabled></ButtonIcon>
+              <ButtonIcon Icon={ArchivistTokenIcon} disabled></ButtonIcon>
               <div>
-                <small>Codex</small>
-                <p>123,223 CDX</p>
+                <small>Archivist</small>
+                <p>123,223 ARC</p>
               </div>
             </li>
             <li>

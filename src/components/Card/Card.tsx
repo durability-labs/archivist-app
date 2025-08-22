@@ -1,6 +1,6 @@
 import { ComponentType, ReactElement, ReactNode } from "react";
 import "./Card.css";
-import { Button } from "@codex-storage/marketplace-ui-components";
+import { Button } from "@durability-labs/archivist-app-components";
 import { ErrorBoundary } from "@sentry/react";
 import { ErrorPlaceholder } from "../ErrorPlaceholder/ErrorPlaceholder";
 

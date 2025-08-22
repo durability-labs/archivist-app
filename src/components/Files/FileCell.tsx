@@ -3,14 +3,14 @@ import {
   Cell,
   Toast,
   WebFileIcon,
-} from "@codex-storage/marketplace-ui-components";
-import { CodexDataContent } from "@codex-storage/sdk-js";
+} from "@durability-labs/archivist-app-components";
+import { ArchivistDataContent } from "@durability-labs/archivist-sdk-js";
 import { useState } from "react";
 import "./FileCell.css";
 import CopyIcon from "../../assets/icons/copy.svg?react";
 
 type Props = {
-  content: CodexDataContent;
+  content: ArchivistDataContent;
 };
 
 export function FileCell({ content }: Props) {

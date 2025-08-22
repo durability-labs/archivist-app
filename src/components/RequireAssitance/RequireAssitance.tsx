@@ -13,7 +13,7 @@ export function RequireAssitance() {
       <DiscordIcon></DiscordIcon>
 
       <div>
-        <h6>Join Codex Discord</h6>
+        <h6>Join Archivist Discord</h6>
         <small>Get direct access to the Core Team.</small>
       </div>
 

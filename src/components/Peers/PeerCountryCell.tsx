@@ -1,4 +1,4 @@
-import { Cell } from "@codex-storage/marketplace-ui-components";
+import { Cell } from "@durability-labs/archivist-app-components";
 import "./PeerCountryCell.css";
 import { PeerGeo, PeerNode, PeerUtils } from "./peers.utils";
 

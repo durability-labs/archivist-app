@@ -42,7 +42,7 @@ export const OnBoardingChecksRoute = () => {
       <>
         <section className="alpha">
           <div>
-            <AlphaIcon color="var(--codex-color-primary)" width={26} />
+            <AlphaIcon color="var(--archivist-color-primary)" width={26} />
           </div>
           <p>
             Connection /<br />

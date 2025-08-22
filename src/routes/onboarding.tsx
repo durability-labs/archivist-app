@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal } from "@codex-storage/marketplace-ui-components";
+import { Modal } from "@durability-labs/archivist-app-components";
 import { OnBoardingLayout } from "../components/OnBoarding/OnBoardingLayout";
 import AlphaIcon from "../assets/icons/alpha.svg?react";
 import AlphaText from "../assets/icons/alphatext.svg?react";
@@ -34,10 +34,10 @@ export function OnBoardingRoute() {
           <section className="main">
             <h1>
               Hello,
-              <br /> Welcome to <b>Codex</b> <b>Vault</b>
+              <br /> Welcome to <b>Archivist</b> <b>Vault</b>
             </h1>
             <p>
-              Codex is a durable, decentralised data storage protocol, created
+              Archivist is a durable, decentralised data storage protocol, created
               so the world community can preserve its most important knowledge
               without risk of censorship.
             </p>

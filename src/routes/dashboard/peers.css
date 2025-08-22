@@ -62,7 +62,7 @@
 
       li:not(:first-child)::before {
         content: " ";
-        border: 4px solid var(--codex-color-primary);
+        border: 4px solid var(--archivist-color-primary);
         border-radius: 50%;
         height: 8px;
         width: 8px;

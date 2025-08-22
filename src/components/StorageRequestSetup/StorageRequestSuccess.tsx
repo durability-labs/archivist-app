@@ -1,4 +1,4 @@
-import { Placeholder } from "@codex-storage/marketplace-ui-components";
+import { Placeholder } from "@durability-labs/archivist-app-components";
 import "./StorageRequestSuccess.css";
 import { StorageRequestComponentProps } from "./types";
 import { useEffect } from "react";

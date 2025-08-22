@@ -145,7 +145,7 @@ export function WalletCard({ tab }: Props) {
       <main>
         <section>
           <span>TOKEN</span>
-          <var>123,223 CDX</var>
+          <var>123,223 ARC</var>
         </section>
 
         <section>

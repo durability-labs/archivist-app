@@ -1,4 +1,4 @@
-import { InputGroup, Tooltip } from "@codex-storage/marketplace-ui-components";
+import { InputGroup, Tooltip } from "@durability-labs/archivist-app-components";
 import "../CardNumbers/CardNumbers.css";
 import "./Commitment.css";
 

@@ -1,5 +1,5 @@
-import { TabSortState } from "@codex-storage/marketplace-ui-components";
-import { CodexDataContent } from "@codex-storage/sdk-js";
+import { TabSortState } from "@durability-labs/archivist-app-components";
+import { ArchivistDataContent } from "@durability-labs/archivist-sdk-js";
 
 const archiveMimetypes = [
   "application/zip",
@@ -38,7 +38,7 @@ export const FilesUtils = {
     return "document";
   },
   sortByName:
-    (state: TabSortState) => (a: CodexDataContent, b: CodexDataContent) => {
+    (state: TabSortState) => (a: ArchivistDataContent, b: ArchivistDataContent) => {
       const {
         manifest: { filename: afilename },
       } = a;
@@ -55,12 +55,12 @@ export const FilesUtils = {
             .localeCompare((bfilename || "").toLocaleLowerCase());
     },
   sortBySize:
-    (state: TabSortState) => (a: CodexDataContent, b: CodexDataContent) =>
+    (state: TabSortState) => (a: ArchivistDataContent, b: ArchivistDataContent) =>
       state === "desc"
         ? b.manifest.datasetSize - a.manifest.datasetSize
         : a.manifest.datasetSize - b.manifest.datasetSize,
   sortByDate:
-    (state: TabSortState) => (a: CodexDataContent, b: CodexDataContent) => {
+    (state: TabSortState) => (a: ArchivistDataContent, b: ArchivistDataContent) => {
       const aUploadedAt = FilesUtils.getUploadedAt(a.cid);
       const bUploadedAt = FilesUtils.getUploadedAt(b.cid);
 
@@ -95,7 +95,7 @@ export const FilesUtils = {
       ? filters.filter((f) => f !== filter)
       : [...filters, filter],
   listInFolder(
-    files: CodexDataContent[],
+    files: ArchivistDataContent[],
     folders: [string, string[]][],
     index: number
   ) {
@@ -103,7 +103,7 @@ export const FilesUtils = {
       ? files
       : files.filter((file) => folders[index - 1][1].includes(file.cid));
   },
-  applyFilters(files: CodexDataContent[], filters: string[]) {
+  applyFilters(files: ArchivistDataContent[], filters: string[]) {
     return files.filter(
       (file) =>
         filters.length === 0 ||
@@ -129,7 +129,7 @@ export const FilesUtils = {
   },
 };
 
-export type CodexFileMetadata = {
+export type ArchivistFileMetadata = {
   type: string;
   name: string;
 };

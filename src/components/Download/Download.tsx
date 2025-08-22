@@ -1,12 +1,12 @@
-import { Button, Input } from "@codex-storage/marketplace-ui-components";
+import { Button, Input } from "@durability-labs/archivist-app-components";
 import "./Download.css";
 import { ChangeEvent, useState } from "react";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 
 export function Download() {
   const [cid, setCid] = useState("");
   const onDownload = () => {
-    const url = CodexSdk.url() + "/api/codex/v1/data/";
+    const url = ArchivistSdk.url() + "/api/archivist/v1/data/";
     window.open(url + cid + "/network/stream", "_target");
   };
 

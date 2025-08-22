@@ -1,4 +1,4 @@
-import { Placeholder } from "@codex-storage/marketplace-ui-components";
+import { Placeholder } from "@durability-labs/archivist-app-components";
 import { useRouteError } from "react-router-dom";
 import ErrorCircleIcon from "../../assets/icons/error-circle.svg?react";
 

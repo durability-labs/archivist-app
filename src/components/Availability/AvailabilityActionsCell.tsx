@@ -1,16 +1,16 @@
 import "./AvailabilityActionsCell.css";
-import { CodexAvailability } from "@codex-storage/sdk-js/async";
-import { ButtonIcon, Cell } from "@codex-storage/marketplace-ui-components";
+import { ArchivistAvailability } from "@durability-labs/archivist-sdk-js/async";
+import { ButtonIcon, Cell } from "@durability-labs/archivist-app-components";
 import EditIcon from "../../assets/icons/edit.svg?react";
 
 type Props = {
-  availability: CodexAvailability;
+  availability: ArchivistAvailability;
 };
 
 export function AvailabilityActionsCell({ availability }: Props) {
   const onEditClick = async () => {
     document.dispatchEvent(
-      new CustomEvent("codexavailabilityedit", { detail: availability })
+      new CustomEvent("archivistavailabilityedit", { detail: availability })
     );
   };
 

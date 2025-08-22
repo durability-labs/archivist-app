@@ -3,7 +3,7 @@ import {
   InputGroup,
   SpaceAllocation,
   Tooltip,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { ChangeEvent, useEffect, useState } from "react";
 import "./AvailabilityForm.css";
 import { AvailabilityComponentProps } from "./types";

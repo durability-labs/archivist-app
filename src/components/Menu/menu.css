@@ -126,7 +126,7 @@
     &::before {
       height: 20px;
       width: 8px;
-      background-color: var(--codex-color-primary);
+      background-color: var(--archivist-color-primary);
       position: absolute;
       content: " ";
       transition:
@@ -247,7 +247,7 @@
       }
 
       &.active:not([aria-disabled="true"]) span:first-child {
-        color: var(--codex-color-primary);
+        color: var(--archivist-color-primary);
       }
     }
   }

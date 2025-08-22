@@ -3,12 +3,12 @@ import {
   Button,
   Sheets,
   WebFileIcon,
-} from "@codex-storage/marketplace-ui-components";
-import { CodexDataContent, CodexPurchase } from "@codex-storage/sdk-js";
+} from "@durability-labs/archivist-app-components";
+import { ArchivistDataContent, ArchivistPurchase } from "@durability-labs/archivist-sdk-js";
 import { Bytes } from "../../utils/bytes";
 import { CidCopyButton } from "./CidCopyButton";
 import "./FileDetails.css";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 import { FilesUtils } from "./files.utils";
 import DownloadIcon from "../../assets/icons/download-file.svg?react";
 import FileDetailsIcon from "../../assets/icons/file-details.svg?react";
@@ -19,21 +19,21 @@ import { PurchaseHistory } from "./PurchaseHistory";
 import { WebStorage } from "../../utils/web-storage";
 
 type Props = {
-  details: CodexDataContent | null;
+  details: ArchivistDataContent | null;
   onClose: () => void;
 };
 
 export function FileDetails({ onClose, details }: Props) {
   const { data: purchases = [] } = useQuery({
     queryFn: () =>
-      CodexSdk.marketplace()
+      ArchivistSdk.marketplace()
         .purchases()
         .then(async (res) => {
           if (res.error) {
             return res;
           }
 
-          const all: CodexPurchase[] = [];
+          const all: ArchivistPurchase[] = [];
           for (const p of res.data) {
             const cid = await WebStorage.purchases.get(p.requestId);
             if (cid == details?.cid) {
@@ -70,7 +70,7 @@ export function FileDetails({ onClose, details }: Props) {
     throwOnError: true,
   });
 
-  const url = CodexSdk.url() + "/api/codex/v1/data/";
+  const url = ArchivistSdk.url() + "/api/archivist/v1/data/";
 
   const onDownload = () => window.open(url + details?.cid, "_target");
 

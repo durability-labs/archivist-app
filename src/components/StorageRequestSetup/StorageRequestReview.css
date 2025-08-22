@@ -52,9 +52,9 @@
     }
 
     > div:nth-child(n + 2) {
-      --codex-preset-border-color: rgb(73, 73, 73);
-      --codex-preset-color: rgba(150, 150, 150, 1);
-      border: 1px solid var(--codex-preset-border-color);
+      --archivist-preset-border-color: rgb(73, 73, 73);
+      --archivist-preset-color: rgba(150, 150, 150, 1);
+      border: 1px solid var(--archivist-preset-border-color);
       border-radius: 12px;
       padding: 16px;
       flex: 1;
@@ -72,19 +72,19 @@
       }
 
       &:hover {
-        box-shadow: 0 0 0 2px var(--codex-preset-border-color);
+        box-shadow: 0 0 0 2px var(--archivist-preset-border-color);
       }
 
       &[aria-selected] {
-        --codex-preset-border-color: var(--codex-color-primary);
-        --codex-preset-color: var(--codex-color-primary);
+        --archivist-preset-border-color: var(--archivist-color-primary);
+        --archivist-preset-color: var(--archivist-color-primary);
       }
 
       svg {
         position: absolute;
         right: -16px;
         top: -7px;
-        color: var(--codex-preset-color);
+        color: var(--archivist-preset-color);
       }
 
       span {
@@ -93,17 +93,17 @@
         font-weight: 400;
         line-height: 16px;
         text-align: left;
-        color: var(--codex-preset-color);
+        color: var(--archivist-preset-color);
 
         + span {
-          background: var(--codex-color-primary) 33;
+          background: var(--archivist-color-primary) 33;
           padding: 2px 8px;
           font-family: Inter;
           font-size: 11px;
           font-weight: 500;
           line-height: 12px;
           letter-spacing: 0.02em;
-          color: var(--codex-color-primary);
+          color: var(--archivist-color-primary);
           border-radius: 16px;
           margin-left: 4px;
         }

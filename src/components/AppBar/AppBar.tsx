@@ -3,7 +3,7 @@ import { classnames } from "../../utils/classnames";
 import { useNetwork } from "../../network/useNetwork";
 import { useQueryClient } from "@tanstack/react-query";
 import { ReactElement, useEffect } from "react";
-import { useCodexConnection } from "../../hooks/useCodexConnection";
+import { useArchivistConnection } from "../../hooks/useArchivistConnection";
 import { usePersistence } from "../../hooks/usePersistence";
 import DashboardIcon from "../../assets/icons/dashboard.svg?react";
 import PeersIcon from "../../assets/icons/peers.svg?react";
@@ -41,13 +41,13 @@ const icons: Record<string, ReactElement> = {
 };
 
 const descriptions: Record<string, string> = {
-  dashboard: "Get Overview of your Codex Vault.",
-  peers: "Monitor your Codex peer connections.",
-  settings: "Manage your Codex Vault.",
+  dashboard: "Get Overview of your Archivist Vault.",
+  peers: "Monitor your Archivist peer connections.",
+  settings: "Manage your Archivist Vault.",
   files: "Manage your files in your local vault.",
   logs: "Manage your logs and debug console.",
   availabilities: "Manage your host data.",
-  wallet: "Manage your Codex wallet.",
+  wallet: "Manage your Archivist wallet.",
   purchases: "Manage your storage requests.",
   help: "Quick help resources.",
   disclaimer: "Important information.",
@@ -56,8 +56,8 @@ const descriptions: Record<string, string> = {
 export function AppBar({ onIconClick, onExpanded }: Props) {
   const online = useNetwork();
   const queryClient = useQueryClient();
-  const codex = useCodexConnection();
-  const persistence = usePersistence(codex.enabled);
+  const archivist = useArchivistConnection();
+  const persistence = usePersistence(archivist.enabled);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -66,21 +66,21 @@ export function AppBar({ onIconClick, onExpanded }: Props) {
       type: "active",
       refetchType: "all",
     });
-  }, [queryClient, codex.enabled]);
+  }, [queryClient, archivist.enabled]);
 
-  const offline = !online || !codex.enabled;
+  const offline = !online || !archivist.enabled;
 
   const onNodeClick = () => navigate("/dashboard/settings");
 
   const title =
     location.pathname.split("/")[2] || location.pathname.split("/")[1];
-  const networkIconColor = online ? "#3EE089" : "var(--codex-color-error)";
+  const networkIconColor = online ? "#3EE089" : "var(--archivist-color-error)";
   const nodesIconColor =
-    codex.enabled === false
-      ? "var(--codex-color-error)"
+    archivist.enabled === false
+      ? "var(--archivist-color-error)"
       : persistence.enabled
         ? "#3EE089"
-        : "var(--codex-input-color-warning)";
+        : "var(--archivist-input-color-warning)";
 
   const icon = isMobile ? (
     <Logo onClick={() => onExpanded(true)} width={30}></Logo>

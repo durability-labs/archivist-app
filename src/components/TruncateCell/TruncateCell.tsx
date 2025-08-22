@@ -1,4 +1,4 @@
-import { Cell, Tooltip } from "@codex-storage/marketplace-ui-components";
+import { Cell, Tooltip } from "@durability-labs/archivist-app-components";
 import "./TruncateCell.css";
 
 type Props = {

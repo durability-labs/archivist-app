@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useDebug } from "../../hooks/useDebug";
 import { usePersistence } from "../../hooks/usePersistence";
 import { usePortForwarding } from "../../hooks/usePortForwarding";
-import { Input, Spinner } from "@codex-storage/marketplace-ui-components";
+import { Input, Spinner } from "@durability-labs/archivist-app-components";
 import { classnames } from "../../utils/classnames";
 import "./HealthChecks.css";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 import { HealthCheckUtils } from "./health-check.utils";
 import SuccessCircleIcon from "../../assets/icons/success-circle.svg?react";
 import ErrorCircleIcon from "../../assets/icons/error-circle.svg?react";
@@ -22,15 +22,15 @@ type Props = {
 const throwOnError = false;
 
 export function HealthChecks({ online, onStepValid }: Props) {
-  const codex = useDebug(throwOnError);
-  const portForwarding = usePortForwarding(codex.data);
-  const persistence = usePersistence(codex.isSuccess);
+  const archivist = useDebug(throwOnError);
+  const portForwarding = usePortForwarding(archivist.data);
+  const persistence = usePersistence(archivist.isSuccess);
   const [isAddressInvalid, setIsAddressInvalid] = useState(false);
   const [isPortInvalid, setIsPortInvalid] = useState(false);
   const [address, setAddress] = useState(
-    HealthCheckUtils.removePort(CodexSdk.url())
+    HealthCheckUtils.removePort(ArchivistSdk.url())
   );
-  const [port, setPort] = useState(HealthCheckUtils.getPort(CodexSdk.url()));
+  const [port, setPort] = useState(HealthCheckUtils.getPort(ArchivistSdk.url()));
   const queryClient = useQueryClient();
 
   useEffect(
@@ -38,12 +38,12 @@ export function HealthChecks({ online, onStepValid }: Props) {
       persistence.refetch();
       portForwarding.refetch();
 
-      onStepValid(codex.isSuccess);
+      onStepValid(archivist.isSuccess);
     },
     // We really do not want to add persistence and portForwarding as
     // dependencies because it will cause a re-render every time.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [persistence.refetch, onStepValid, portForwarding.refetch, codex.isSuccess]
+    [persistence.refetch, onStepValid, portForwarding.refetch, archivist.isSuccess]
   );
 
   const onAddressChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -80,9 +80,9 @@ export function HealthChecks({ online, onStepValid }: Props) {
       return;
     }
 
-    CodexSdk.updateURL(url)
+    ArchivistSdk.updateURL(url)
       .then(() => queryClient.invalidateQueries())
-      .then(() => codex.refetch());
+      .then(() => archivist.refetch());
   };
 
   return (
@@ -90,7 +90,7 @@ export function HealthChecks({ online, onStepValid }: Props) {
       <div
         className={classnames(
           ["address"],
-          ["address--fetching", portForwarding.isFetching || codex.isPending]
+          ["address--fetching", portForwarding.isFetching || archivist.isPending]
         )}>
         <div>
           <Input
@@ -151,15 +151,15 @@ export function HealthChecks({ online, onStepValid }: Props) {
         </li>
         <li>
           <span>
-            {codex.isFetching ? (
+            {archivist.isFetching ? (
               <Spinner></Spinner>
-            ) : codex.isSuccess ? (
+            ) : archivist.isSuccess ? (
               <SuccessCircleIcon width={16} height={16}></SuccessCircleIcon>
             ) : (
               <ErrorCircleIcon width={16} height={16} />
             )}
           </span>
-          Codex connection
+          Archivist connection
         </li>
         <li>
           <span>

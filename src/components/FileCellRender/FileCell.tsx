@@ -3,10 +3,10 @@ import {
   Cell,
   Tooltip,
   WebFileIcon,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import "./FileCell.css";
 import { WebStorage } from "../../utils/web-storage";
-import { CodexDataContent } from "@codex-storage/sdk-js";
+import { ArchivistDataContent } from "@durability-labs/archivist-sdk-js";
 import { FilesUtils } from "../Files/files.utils";
 
 type FileMetadata = {
@@ -19,7 +19,7 @@ type Props = {
   requestId: string;
   purchaseCid: string;
   index: number;
-  data: CodexDataContent[];
+  data: ArchivistDataContent[];
   onMetadata?: (requestId: string, metadata: FileMetadata) => void;
 };
 

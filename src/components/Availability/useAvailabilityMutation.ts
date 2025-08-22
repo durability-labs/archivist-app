@@ -6,9 +6,9 @@ import { Dispatch, useState } from "react";
 import {
   StepperAction,
   StepperState,
-} from "@codex-storage/marketplace-ui-components";
-import { CodexSdk } from "../../sdk/codex";
-import { CodexAvailabilityCreateResponse } from "@codex-storage/sdk-js";
+} from "@durability-labs/archivist-app-components";
+import { ArchivistSdk } from "../../sdk/archivist";
+import { ArchivistAvailabilityCreateResponse } from "@durability-labs/archivist-sdk-js";
 import { Times } from "../../utils/times";
 import { AvailabilityUtils } from "./availability.utils";
 
@@ -31,9 +31,9 @@ export function useAvailabilityMutation(
     }: AvailabilityState) => {
       const fn: (
         input: Omit<AvailabilityState, "totalSizeUnit" | "durationUnit">
-      ) => Promise<"" | CodexAvailabilityCreateResponse> = input.id
+      ) => Promise<"" | ArchivistAvailabilityCreateResponse> = input.id
         ? (input) => {
-            return CodexSdk.marketplace()
+            return ArchivistSdk.marketplace()
               .updateAvailability({
                 totalSize: input.totalSize,
                 duration: input.duration,
@@ -44,7 +44,7 @@ export function useAvailabilityMutation(
               .then((s) => Promises.rejectOnError(s));
           }
         : (input) =>
-            CodexSdk.marketplace()
+            ArchivistSdk.marketplace()
               .createAvailability(input)
               .then((s) => Promises.rejectOnError(s));
 

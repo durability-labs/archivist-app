@@ -49,8 +49,8 @@
   }
 
   div:nth-child(1) {
-    border-color: var(--codex-color-primary);
-    transform: rotate(calc(var(--codex-peers-degrees) * 1deg));
+    border-color: var(--archivist-color-primary);
+    transform: rotate(calc(var(--archivist-peers-degrees) * 1deg));
     background-color: transparent;
   }
 

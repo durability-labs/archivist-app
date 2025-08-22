@@ -1,4 +1,4 @@
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 import "./StorageRequestFileChooser.css";
 import { ChangeEvent, useEffect } from "react";
 import {
@@ -6,7 +6,7 @@ import {
   DropdownOption,
   Upload,
   WebFileIcon,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { useData } from "../../hooks/useData";
 import { StorageRequestComponentProps } from "./types";
 import { useQueryClient } from "@tanstack/react-query";
@@ -92,7 +92,7 @@ export function StorageRequestFileChooser({
         editable={false}
         multiple={false}
         onDeleteItem={onDelete}
-        codexData={CodexSdk.data()}
+        archivistData={ArchivistSdk.data()}
         successMessage={"Success, the CID has been copied to the field on top."}
       />
     </div>

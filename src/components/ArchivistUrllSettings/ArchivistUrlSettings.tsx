@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Button, Input, Toast } from "@codex-storage/marketplace-ui-components";
-import { CodexSdk } from "../../sdk/codex";
+import { Button, Input, Toast } from "@durability-labs/archivist-app-components";
+import { ArchivistSdk } from "../../sdk/archivist";
 
-export function CodexUrlSettings() {
+export function ArchivistUrlSettings() {
   const queryClient = useQueryClient();
-  const [url, setUrl] = useState(CodexSdk.url);
+  const [url, setUrl] = useState(ArchivistSdk.url);
   const [isInvalid, setIsInvalid] = useState(false);
   const [toast, setToast] = useState({ time: 0, message: "" });
   const { mutateAsync } = useMutation({
-    mutationFn: (url: string) => CodexSdk.updateURL(url),
+    mutationFn: (url: string) => ArchivistSdk.updateURL(url),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["spr"] });
 
@@ -36,7 +36,7 @@ export function CodexUrlSettings() {
       <div className="settings-input">
         <Input
           id="url"
-          label="Codex client node URL"
+          label="Archivist node URL"
           onChange={onChange}
           value={url}
           isInvalid={isInvalid}

@@ -1,4 +1,4 @@
-import { Spinner } from "@codex-storage/marketplace-ui-components";
+import { Spinner } from "@durability-labs/archivist-app-components";
 import { useDebug } from "../../hooks/useDebug";
 
 const throwOnError = true;

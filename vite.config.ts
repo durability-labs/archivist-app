@@ -41,8 +41,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "../sdk/codex": "../proxy",
-      "../../sdk/codex": "../../proxy",
+      "../sdk/archivist": "../proxy",
+      "../../sdk/archivist": "../../proxy",
       react: 'preact/compat',
       'react-dom': 'preact/compat'
     },

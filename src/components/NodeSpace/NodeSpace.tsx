@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../assets/loader.svg";
-import { CodexSdk } from "../../sdk/codex";
-import { SpaceAllocation } from "@codex-storage/marketplace-ui-components";
+import { ArchivistSdk } from "../../sdk/archivist";
+import { SpaceAllocation } from "@durability-labs/archivist-app-components";
 import { Promises } from "../../utils/promises";
 import "./NodeSpace.css";
 
@@ -15,7 +15,7 @@ const defaultSpace = {
 export function NodeSpace() {
   const { data: space, isPending } = useQuery({
     queryFn: () =>
-      CodexSdk.data()
+      ArchivistSdk.data()
         .space()
         .then((s) => Promises.rejectOnError(s)),
     queryKey: ["space"],

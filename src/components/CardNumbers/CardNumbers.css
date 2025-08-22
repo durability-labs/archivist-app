@@ -1,16 +1,16 @@
 .card-number {
-  --codex-card-number-label-color: rgb(123, 123, 123);
-  --codex-card-number-unit-color: rgba(150, 150, 150, 1);
+  --archivist-card-number-label-color: rgb(123, 123, 123);
+  --archivist-card-number-unit-color: rgba(150, 150, 150, 1);
 
   &[aria-invalid] {
-    --codex-card-number-label-color: var(-codex-color-error);
-    --codex-card-number-unit-color: var(-codex-color-error);
+    --archivist-card-number-label-color: var(-archivist-color-error);
+    --archivist-card-number-unit-color: var(-archivist-color-error);
   }
 
   position: relative;
 
   label {
-    color: var(--codex-card-number-label-color);
+    color: var(--archivist-card-number-label-color);
   }
 
   input {
@@ -30,7 +30,7 @@
   }
 
   svg {
-    color: var(--codex-card-number-unit-color);
+    color: var(--archivist-card-number-unit-color);
   }
 
   span {
@@ -39,7 +39,7 @@
     font-weight: 400;
     line-height: 16px;
     text-align: left;
-    color: var(--codex-card-number-unit-color);
+    color: var(--archivist-card-number-unit-color);
     position: absolute;
     top: 54px;
     right: 48px;

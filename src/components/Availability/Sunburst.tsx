@@ -1,4 +1,4 @@
-import { CodexNodeSpace } from "@codex-storage/sdk-js";
+import { ArchivistNodeSpace } from "@durability-labs/archivist-sdk-js";
 import { Times } from "../../utils/times";
 import { Strings } from "../../utils/strings";
 import { Bytes } from "../../utils/bytes";
@@ -14,7 +14,7 @@ import { AvailabilityUtils } from "./availability.utils";
 
 type Props = {
   availabilities: AvailabilityWithSlots[];
-  space: CodexNodeSpace;
+  space: ArchivistNodeSpace;
 };
 
 import { TooltipComponent } from "echarts/components";
@@ -193,7 +193,7 @@ export function Sunburst({ availabilities, space }: Props) {
     //     params.dataIndex === 0 ? null : availabilities[index - 1].id;
 
     //   document.dispatchEvent(
-    //     new CustomEvent("codexavailabilityid", {
+    //     new CustomEvent("archivistavailabilityid", {
     //       detail,
     //     })
     //   );

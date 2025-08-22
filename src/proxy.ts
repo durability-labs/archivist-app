@@ -1,16 +1,16 @@
 import {
-  CodexCreateStorageRequestInput,
-  CodexData,
-  CodexMarketplace,
+  ArchivistCreateStorageRequestInput,
+  ArchivistData,
+  ArchivistMarketplace,
   SafeValue,
-} from "@codex-storage/sdk-js";
-import { CodexSdk as Sdk } from "./sdk/codex";
+} from "@durability-labs/archivist-sdk-js";
+import { ArchivistSdk as Sdk } from "./sdk/archivist";
 import { WebStorage } from "./utils/web-storage";
 
-class CodexDataMock extends CodexData {}
+class ArchivistDataMock extends ArchivistData {}
 
-class CodexMarketplaceMock extends CodexMarketplace {
-  // override async purchases(): Promise<SafeValue<CodexPurchase[]>> {
+class ArchivistMarketplaceMock extends ArchivistMarketplace {
+  // override async purchases(): Promise<SafeValue<ArchivistPurchase[]>> {
   //   const res = await super.purchases()
 
   //   if (res.error) {
@@ -34,7 +34,7 @@ class CodexMarketplaceMock extends CodexMarketplace {
    * using a REST API call.
    */
   override async createStorageRequest(
-    input: CodexCreateStorageRequestInput
+    input: ArchivistCreateStorageRequestInput
   ): Promise<SafeValue<string>> {
     console.info(input);
     const res = await super.createStorageRequest(input);
@@ -52,7 +52,7 @@ class CodexMarketplaceMock extends CodexMarketplace {
   }
 
   // override createStorageRequest(
-  //   input: CodexCreateStorageRequestInput
+  //   input: ArchivistCreateStorageRequestInput
   // ): Promise<SafeValue<string>> {
   //   return Promise.resolve({
   //     error: true,
@@ -62,7 +62,7 @@ class CodexMarketplaceMock extends CodexMarketplace {
   //   });
   // }
   // override createAvailability(): Promise<
-  //   SafeValue<CodexAvailabilityCreateResponse>
+  //   SafeValue<ArchivistAvailabilityCreateResponse>
   // > {
   //   return Promise.resolve({
   //     error: true,
@@ -71,7 +71,7 @@ class CodexMarketplaceMock extends CodexMarketplace {
   //     },
   //   });
   // }
-  // override reservations(): Promise<SafeValue<CodexReservation[]>> {
+  // override reservations(): Promise<SafeValue<ArchivistReservation[]>> {
   //   return Promise.resolve({
   //     error: false,
   //     data: [
@@ -105,7 +105,7 @@ class CodexMarketplaceMock extends CodexMarketplace {
   //   });
   // }
 
-  // override reservations(): Promise<SafeValue<CodexReservation[]>> {
+  // override reservations(): Promise<SafeValue<ArchivistReservation[]>> {
   //   return Promise.resolve({
   //     error: false,
   //     data: [
@@ -134,8 +134,8 @@ class CodexMarketplaceMock extends CodexMarketplace {
   // }
 }
 
-export const CodexSdk = {
+export const ArchivistSdk = {
   ...Sdk,
-  marketplace: () => new CodexMarketplaceMock(CodexSdk.url()),
-  data: () => new CodexDataMock(CodexSdk.url()),
+  marketplace: () => new ArchivistMarketplaceMock(ArchivistSdk.url()),
+  data: () => new ArchivistDataMock(ArchivistSdk.url()),
 };

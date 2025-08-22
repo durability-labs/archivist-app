@@ -10,12 +10,12 @@ import {
   Row,
   Cell,
   TabSortState,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { FileDetails } from "./FileDetails.tsx";
 import { useData } from "../../hooks/useData.tsx";
 import { WebStorage } from "../../utils/web-storage.ts";
 import { classnames } from "../../utils/classnames.ts";
-import { CodexDataContent } from "@codex-storage/sdk-js";
+import { ArchivistDataContent } from "@durability-labs/archivist-sdk-js";
 import { FilesUtils } from "./files.utils.ts";
 import { FilterFilters } from "./FileFilters.tsx";
 import { FileCell } from "./FileCell.tsx";
@@ -24,7 +24,7 @@ import PlusIcon from "../../assets/icons/plus.svg?react";
 import AllFilesIcon from "../../assets/icons/all.svg?react";
 import FavoriteIcon from "../../assets/icons/favorite.svg?react";
 
-type SortFn = (a: CodexDataContent, b: CodexDataContent) => number;
+type SortFn = (a: ArchivistDataContent, b: ArchivistDataContent) => number;
 
 type Props = {
   limit?: number;
@@ -36,7 +36,7 @@ export function Files({ limit }: Props) {
   const [folder, setFolder] = useState("");
   const [folders, setFolders] = useState<[string, string[]][]>([]);
   const [error, setError] = useState("");
-  const [details, setDetails] = useState<CodexDataContent | null>(null);
+  const [details, setDetails] = useState<ArchivistDataContent | null>(null);
   const [sortFn, setSortFn] = useState<SortFn>(() =>
     FilesUtils.sortByDate("desc")
   );

@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import { CodexSdk } from "../sdk/codex";
-import { CodexDataResponse } from "@codex-storage/sdk-js";
+import { ArchivistSdk } from "../sdk/archivist";
+import { ArchivistDataResponse } from "@durability-labs/archivist-sdk-js";
 import { Promises } from "../utils/promises";
 import { FilesUtils } from "../components/Files/files.utils";
 
 export function useData() {
-  const { data = { content: [] } satisfies CodexDataResponse } =
-    useQuery<CodexDataResponse>({
+  const { data = { content: [] } satisfies ArchivistDataResponse } =
+    useQuery<ArchivistDataResponse>({
       queryFn: () =>
-        CodexSdk.data()
+        ArchivistSdk.data()
           .cids()
           .then((res) => Promises.rejectOnError(res)),
       queryKey: ["cids"],
 
-      initialData: { content: [] } satisfies CodexDataResponse,
+      initialData: { content: [] } satisfies ArchivistDataResponse,
 
       // No need to retry because if the connection to the node
       // is back again, all the queries will be invalidated.

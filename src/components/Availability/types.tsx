@@ -1,12 +1,12 @@
 import {
   StepperAction,
   StepperState,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import {
-  CodexAvailability,
-  CodexNodeSpace,
-  CodexReservation,
-} from "@codex-storage/sdk-js";
+  ArchivistAvailability,
+  ArchivistNodeSpace,
+  ArchivistReservation,
+} from "@durability-labs/archivist-sdk-js";
 import { Dispatch } from "react";
 
 export type AvailabilityState = {
@@ -23,14 +23,14 @@ export type AvailabilityState = {
 export type AvailabilityComponentProps = {
   dispatch: Dispatch<StepperAction>;
   state: StepperState;
-  space: CodexNodeSpace;
+  space: ArchivistNodeSpace;
   onAvailabilityChange: (data: Partial<AvailabilityState>) => void;
   availability: AvailabilityState;
   error: Error | null;
   editAvailabilityValue?: number;
 };
 
-export type AvailabilityWithSlots = CodexAvailability & {
+export type AvailabilityWithSlots = ArchivistAvailability & {
   name: string;
-  slots: CodexReservation[];
+  slots: ArchivistReservation[];
 };

@@ -4,26 +4,26 @@ import {
   Spinner,
   Table,
   TabSortState,
-} from "@codex-storage/marketplace-ui-components";
+} from "@durability-labs/archivist-app-components";
 import { Times } from "../../utils/times";
 import { useState } from "react";
 import { FileCell } from "../../components/FileCellRender/FileCell";
 import { useData } from "../../hooks/useData";
 import { useQuery } from "@tanstack/react-query";
-import { CodexSdk } from "../../sdk/codex";
+import { ArchivistSdk } from "../../sdk/archivist";
 import { Promises } from "../../utils/promises";
-import { CodexPurchase } from "@codex-storage/sdk-js";
+import { ArchivistPurchase } from "@durability-labs/archivist-sdk-js";
 import { TruncateCell } from "../TruncateCell/TruncateCell";
 import { CustomStateCellRender } from "../CustomStateCellRender/CustomStateCellRender";
 import { PurchaseUtils } from "./purchase.utils";
 
-type SortFn = (a: CodexPurchase, b: CodexPurchase) => number;
+type SortFn = (a: ArchivistPurchase, b: ArchivistPurchase) => number;
 
 export function PurchasesTable() {
   const content = useData();
   const { data, isPending } = useQuery({
     queryFn: () =>
-      CodexSdk.marketplace()
+      ArchivistSdk.marketplace()
         .purchases()
         .then((s) => Promises.rejectOnError(s)),
     queryKey: ["purchases"],
@@ -104,7 +104,7 @@ export function PurchasesTable() {
           <TruncateCell value={r.id} />,
           <Cell>{Times.pretty(duration)}</Cell>,
           <Cell>{ask.slots.toString()}</Cell>,
-          <Cell>{p.request.ask.pricePerBytePerSecond + " CDX"}</Cell>,
+          <Cell>{p.request.ask.pricePerBytePerSecond + " ARC"}</Cell>,
           <Cell>{pf.toString()}</Cell>,
           <CustomStateCellRender state={p.state} message={p.error} />,
         ]}></Row>
