@@ -22,12 +22,11 @@ export const DisclaimerRoute = () => (
     <br />
 
     <p>
-      By accessing and using this website, you agree that we, Logos Collective
-      Association and its affiliates, will not be liable for any direct,
-      indirect, incidental, or consequential damages arising from the use of, or
-      inability to use, this website. Any data, content, or interactions on this
-      site are non-binding and should not be considered final or actionable.
-      Your use of this website is at your sole risk.
+      By accessing and using this website, you agree that we, Durability labs/Archivist
+      and it's contributors, will not be liable for any direct, indirect, incidental, or
+      consequential damages arising from the use of, or inability to use, this website.
+      Any data, content, or interactions on this site are non-binding and should not be
+      considered final or actionable. Your use of this website is at your sole risk.
     </p>
   </div>
 );

@@ -27,7 +27,7 @@ export const HelpRoute = () => {
           <p>
             Archivist is a decentralised data storage platform that provides
             exceptionally strong censorship resistance and durability
-            guarantees. It serves as the storage layer of the Logos tech stack.
+            guarantees.
           </p>
         </div>
       </div>
