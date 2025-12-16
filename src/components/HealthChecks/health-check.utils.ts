@@ -1,6 +1,7 @@
 import { ArchivistDebugInfo, SafeValue, ArchivistError } from "@durability-labs/archivist-sdk-js"
 
-const DEFAULT_URL = "http://localhost:8080";
+// Empty string makes requests go through Vite proxy in dev mode
+const DEFAULT_URL = "";
 
 export const HealthCheckUtils = {
     removePort(url: string | undefined) {
