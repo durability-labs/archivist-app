@@ -1,13 +1,12 @@
 .app-bar {
   height: 80px;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(150, 150, 150, 0.2);
+  border-bottom: 1px solid var(--term-border);
   display: flex;
-  padding: 16px;
-  border-bottom: 1px solid rgba(150, 150, 150, 0.2);
+  padding: var(--space-4);
   box-sizing: border-box;
-  background-color: rgb(28, 28, 28);
-  border-right: 12px solid transparent;
+  background-color: var(--term-dark);
+  border-right: 4px solid transparent;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -18,33 +17,41 @@
     }
   }
 
+  /* Status indicator - phosphor green when online */
   &:not(.app-bar--offline):not(.app-bar--no-persistence) {
-    border-right-color: rgb(108, 204, 147);
+    border-right-color: var(--phosphor);
+    box-shadow: inset -4px 0 12px -4px var(--phosphor-glow);
   }
 
+  /* Error state - red when offline */
   &.app-bar--offline {
-    border-right-color: rgb(251, 55, 72);
+    border-right-color: var(--error);
+    box-shadow: inset -4px 0 12px -4px var(--error-glow);
   }
 
+  /* Warning state - amber when no persistence */
   &.app-bar--no-persistence:not(.app-bar--offline) {
-    border-right-color: rgb(251, 198, 75);
+    border-right-color: var(--amber);
+    box-shadow: inset -4px 0 12px -4px var(--amber-glow);
   }
 
   h1 {
-    font:
-      500 18px/24px "Inter",
-      sans-serif;
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-weight: var(--font-medium);
+    line-height: 24px;
     letter-spacing: -0.015em;
-    color: white;
+    color: var(--term-text-bright);
     text-transform: capitalize;
   }
 
   h2 {
-    font:
-      400 14px/20px "Inter",
-      sans-serif;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--font-normal);
+    line-height: 20px;
     letter-spacing: -0.006em;
-    color: rgba(150, 150, 150, 0.8);
+    color: var(--term-text-dim);
 
     @media (max-width: 800px) {
       & {
@@ -55,31 +62,46 @@
 
   > div {
     span {
-      background: rgb(20, 20, 20);
+      background: var(--term-black);
       height: 48px;
       width: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgb(53, 54, 57);
+      border: 1px solid var(--term-border);
       border-radius: 50%;
-      color: rgba(150, 150, 150, 1);
+      color: var(--ui-green);
+      transition: all var(--duration-normal) var(--ease-out);
+
+      &:hover {
+        border-color: var(--phosphor);
+        color: var(--phosphor);
+        box-shadow: 0 0 10px var(--phosphor-glow);
+      }
     }
   }
 
   aside {
     svg {
       padding: 10px;
-      background-color: rgb(20, 20, 20);
-      border-radius: 5px;
+      background-color: var(--term-black);
+      border-radius: var(--radius-sm);
+      color: var(--ui-green);
+      transition: all var(--duration-normal) var(--ease-out);
+
+      &:hover {
+        color: var(--phosphor);
+        filter: drop-shadow(0 0 6px var(--phosphor-glow));
+      }
     }
 
     span {
-      font:
-        500 14px/20px "Inter",
-        sans-serif;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      line-height: 20px;
       letter-spacing: -0.006em;
-      color: rgb(141, 141, 141);
+      color: var(--term-text-dim);
 
       @media (max-width: 999px) {
         & {
