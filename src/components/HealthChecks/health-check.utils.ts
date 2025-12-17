@@ -1,19 +1,25 @@
 import { ArchivistDebugInfo, SafeValue, ArchivistError } from "@durability-labs/archivist-sdk-js"
 
+// Empty string makes requests go through Vite proxy in dev mode
+const DEFAULT_URL = "";
+
 export const HealthCheckUtils = {
-    removePort(url: string) {
-        const parts = url.split(":")
+    removePort(url: string | undefined) {
+        const safeUrl = url || DEFAULT_URL;
+        const parts = safeUrl.split(":")
         return parts[0] + ":" + parts[1]
     },
 
     /*
     * Extract the port from a protocol + ip + port string
     */
-    getPort(url: string) {
-        return parseInt(url.split(":")[2] || "80", 10)
+    getPort(url: string | undefined) {
+        const safeUrl = url || DEFAULT_URL;
+        return parseInt(safeUrl.split(":")[2] || "80", 10)
     },
 
-    containsPort(url: string) {
+    containsPort(url: string | undefined) {
+        if (!url) return false;
         return url.split(":").length > 2
     },
 

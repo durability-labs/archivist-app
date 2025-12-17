@@ -1,13 +1,18 @@
 .card {
-  border: 1px solid rgba(150, 150, 150, 0.2);
-  border-radius: 16px;
-  padding: 16px;
-  background-color: rgb(35, 35, 35);
+  border: 1px solid var(--term-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background-color: var(--term-panel);
+  transition: all var(--duration-normal) var(--ease-out);
+
+  &:hover {
+    border-color: var(--ui-green);
+  }
 
   @media (max-width: 800px) {
     &,
     td:nth-child(2) {
-      padding: 8px;
+      padding: var(--space-2);
     }
   }
 
@@ -15,25 +20,32 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
 
     svg {
-      color: rgba(150, 150, 150, 1);
+      color: var(--ui-green);
+      transition: all var(--duration-normal) var(--ease-out);
+    }
+
+    &:hover svg {
+      color: var(--phosphor);
+      filter: drop-shadow(0 0 6px var(--phosphor-glow));
     }
 
     > div {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: var(--space-3);
     }
 
     h5 {
-      font-family: Inter;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
+      font-family: var(--font-mono);
+      font-size: var(--text-base);
+      font-weight: var(--font-medium);
+      line-height: var(--leading-normal);
       letter-spacing: -0.011em;
+      color: var(--term-text-bright);
     }
   }
 }
